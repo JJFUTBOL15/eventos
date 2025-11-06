@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JJFUTBOL - Transmisiones en Vivo</title>
+    <style>
+        :root {
+            --primary-color: #FFD700; /* Amarillo vibrante */
+            --secondary-color: #FFA500; /* Naranja cálido */
+            --accent-color: #27ae60;
+            --bg-light: #fff9e6;
+            --bg-card: #ffffff;
+            --text-dark: #333;
+            --text-light: #666;
+            --border-color: #eee;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header con logo */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #333;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .logo-container {
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-weight: bold;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Agenda Section */
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin: 40px 0 20px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--secondary-color);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .agenda-container {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .agenda-container iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: var(--radius);
+            transition: transform 0.3s ease;
+        }
+
+        .agenda-container:hover iframe {
+            transform: scale(1.005);
+        }
+
+        /* Carousel Section */
+        .carousel-section {
+            margin: 40px 0;
+        }
+
+        .carousel-title {
+            font-size: 1.6rem;
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            background: white;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--radius);
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .carousel-item img:hover {
+            transform: scale(1.02);
+        }
+
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+
+        .carousel-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .carousel-btn:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        /* Channels Section */
+        .channels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .channel-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .channel-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-color);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .channel-logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .channel-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .channel-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .channel-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: #333;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            background: #333;
+            color: white;
+            text-align: center;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            margin: 15px 0;
+        }
+
+        .social-btn {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 15px;
+            background: var(--primary-color);
+            color: #333;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .social-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .channels-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .channel-logo {
+                width: 80px;
+                height: 80px;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .carousel-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <img src="https://i.postimg.cc/mg6MVMjw/1762386751.png" alt="JJFUTBOL Logo" class="logo">
+        </div>
+        <h1>⚽ JJFUTBOL</h1>
+        <p>Transmisiones en vivo de los mejores partidos de fútbol, NBA y más. ¡Sin registros, sin publicidad!</p>
+    </header>
+
+    <!-- Agenda Section -->
+    <div class="container">
+        <h2 class="section-title">📅 Agenda de Partidos</h2>
+        <div class="agenda-container">
+            <iframe 
+                src="linkdelaagenda" 
+                width="100%" 
+                height="600" 
+                frameborder="0" 
+                style="border:none; border-radius:10px; overflow:hidden;">
+            </iframe>
+        </div>
+    </div>
+
+    <!-- Carousel Section -->
+    <div class="container carousel-section">
+        <h2 class="carousel-title">✨ Promociones Exclusivas</h2>
+        <div class="carousel-container">
+            <div class="carousel-inner" id="carouselInner">
+                <!-- Las imágenes se cargarán dinámicamente con JavaScript -->
+            </div>
+            <div class="carousel-controls">
+                <button class="carousel-btn" id="prevBtn">‹</button>
+                <button class="carousel-btn" id="nextBtn">›</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Channels Section -->
+    <div class="container">
+        <h2 class="section-title">📺 Canales Deportivos en Vivo</h2>
+        <div class="channels-grid">
+
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://via.placeholder.com/100?text=DSports" alt="DSports">
+                </div>
+                <h3 class="channel-name">DSports</h3>
+                <p class="channel-desc">Ver DSports online en vivo y en directo.</p>
+                <a href="#" class="btn">Ver Canal</a>
+            </div>
+
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://via.placeholder.com/100?text=DSports2" alt="DSports2">
+                </div>
+                <h3 class="channel-name">DSports2</h3>
+                <p class="channel-desc">Ver DSports2 online en vivo y en directo.</p>
+                <a href="#" class="btn">Ver Canal</a>
+            </div>
+
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://via.placeholder.com/100?text=DSports+" alt="DSports+">
+                </div>
+                <h3 class="channel-name">DSports+</h3>
+                <p class="channel-desc">Ver DSports+ online en vivo y en directo.</p>
+                <a href="#" class="btn">Ver Canal</a>
+            </div>
+
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://via.placeholder.com/100?text=ESPN1" alt="ESPN1">
+                </div>
+                <h3 class="channel-name">ESPN1</h3>
+                <p class="channel-desc">Ver ESPN1 online en vivo y en directo.</p>
+                <a href="#" class="btn">Ver Canal</a>
+            </div>
+
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://via.placeholder.com/100?text=ESPN2" alt="ESPN2">
+                </div>
+                <h3 class="channel-name">ESPN2</h3>
+                <p class="channel-desc">Ver ESPN2 online en vivo y en directo.</p>
+                <a href="#" class="btn">Ver Canal</a>
+            </div>
+
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://via.placeholder.com/100?text=ESPN3" alt="ESPN3">
+                </div>
+                <h3 class="channel-name">ESPN3</h3>
+                <p class="channel-desc">Ver ESPN3 online en vivo y en directo.</p>
+                <a href="#" class="btn">Ver Canal</a>
+            </div>
+
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://via.placeholder.com/100?text=FOX+Sports" alt="Fox Sports">
+                </div>
+                <h3 class="channel-name">Fox Sports</h3>
+                <p class="channel-desc">Ver Fox Sports online en vivo y en directo.</p>
+                <a href="#" class="btn">Ver Canal</a>
+            </div>
+
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://via.placeholder.com/100?text=FOX+Sports2" alt="Fox Sports 2">
+                </div>
+                <h3 class="channel-name">Fox Sports 2</h3>
+                <p class="channel-desc">Ver Fox Sports 2 online en vivo y en directo.</p>
+                <a href="#" class="btn">Ver Canal</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 JJFUTBOL. Todos los derechos reservados.</p>
+        <div class="social-links">
+            <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="social-btn">Telegram</a>
+            <a href="https://whatsapp.com/channel/0029Vacgezz9sBI3nZYNhb2o" target="_blank" class="social-btn">WhatsApp</a>
+        </div>
+    </footer>
+
+    <script>
+        // Datos del carrusel (reemplaza con tus propias imágenes y enlaces)
+        const carouselItems = [
+            {
+                image: "https://via.placeholder.com/800x300?text=Promoción+1",
+                link: "https://t.me/+EPyKMpHXlv5lMmYx"
+            },
+            {
+                image: "https://via.placeholder.com/800x300?text=Promoción+2",
+                link: "https://whatsapp.com/channel/0029Vacgezz9sBI3nZYNhb2o"
+            },
+            {
+                image: "https://via.placeholder.com/800x300?text=Promoción+3",
+                link: "https://t.me/+EPyKMpHXlv5lMmYx"
+            }
+        ];
+
+        // Inicializar el carrusel
+        const carouselInner = document.getElementById('carouselInner');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        let currentIndex = 0;
+
+        function renderCarousel() {
+            carouselInner.innerHTML = '';
+            carouselItems.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'carousel-item';
+                if (index === currentIndex) {
+                    div.style.display = 'block';
+                } else {
+                    div.style.display = 'none';
+                }
+                const img = document.createElement('img');
+                img.src = item.image;
+                img.alt = `Promoción ${index + 1}`;
+                img.onclick = () => window.open(item.link, '_blank');
+                div.appendChild(img);
+                carouselInner.appendChild(div);
+            });
+        }
+
+        function showNext() {
+            currentIndex = (currentIndex + 1) % carouselItems.length;
+            renderCarousel();
+        }
+
+        function showPrev() {
+            currentIndex = (currentIndex - 1 + carouselItems.length) % carouselItems.length;
+            renderCarousel();
+        }
+
+        // Event listeners
+        nextBtn.addEventListener('click', showNext);
+        prevBtn.addEventListener('click', showPrev);
+
+        // Auto-play every 5 seconds (opcional)
+        setInterval(showNext, 5000);
+
+        // Renderizar al cargar
+        renderCarousel();
+    </script>
+
+</body>
+</html>
