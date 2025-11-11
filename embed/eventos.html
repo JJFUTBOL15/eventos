@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JJFUTBOL - En Vivo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #000;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 15px 0;
+    }
+    #logo {
+      height: 50px;
+      margin-bottom: 10px;
+    }
+    h1 {
+      font-size: 28px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .social-carousel {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 20px 0;
+      flex-wrap: wrap;
+    }
+    .social-link {
+      text-align: center;
+      width: 120px;
+    }
+    .social-link img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ff6b00;
+      transition: transform 0.3s;
+    }
+    .social-link p {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #ff6b00;
+    }
+    .corner {
+      position: fixed;
+      font-size: 14px;
+      color: #ff6b00;
+      font-weight: bold;
+      z-index: 999;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    #top-left { top: 10px; left: 10px; }
+    #top-right { top: 10px; right: 10px; }
+    #bottom-left { bottom: 10px; left: 10px; }
+    #bottom-right { bottom: 10px; right: 10px; }
+    .viewer { width: 100%; max-width: 800px; margin: 20px auto; }
+    iframe { width: 100%; height: 600px; border: none; border-radius: 10px; display: block; }
+    @media (max-width: 600px) {
+      .social-link img { width: 60px; height: 60px; }
+      h1 { font-size: 22px; }
+      iframe { height: 400px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Esquinas CLICKEABLES -->
+  <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="corner" id="top-left">¡Únete al grupo!</a>
+  <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="corner" id="top-right">¡Únete al grupo!</a>
+  <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="corner" id="bottom-left">¡Únete al grupo!</a>
+  <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="corner" id="bottom-right">¡Únete al grupo!</a>
+
+  <!-- Logo y título -->
+  <header>
+    <a href="https://jjfutbol.lat/" target="_blank">
+      <img id="logo" src="https://i.postimg.cc/mg6MVMjw/1762386751.png" alt="JJFUTBOL Logo">
+    </a>
+    <h1>JJFUTBOL</h1>
+  </header>
+
+  <!-- Redes -->
+  <div class="social-carousel">
+    <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="social-link">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+      <p>Telegram</p>
+    </a>
+    <a href="https://whatsapp.com/channel/0029Vacgezz9sBI3nZYNhb2o" target="_blank" class="social-link">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+      <p>WhatsApp</p>
+    </a>
+  </div>
+
+  <!-- Reproductor -->
+  <div class="viewer">
+    <iframe id="stream" src="" frameborder="0" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const encoded = params.get('r');
+      if (encoded) {
+        // Decodifica Base64 (y URL encoding si aplica)
+        const decoded = atob(decodeURIComponent(encoded));
+        document.getElementById('stream').src = decoded;
+      } else {
+        document.body.innerHTML = '<p style="color:red;text-align:center;margin-top:20px;">Enlace no válido</p>';
+      }
+    } catch (e) {
+      document.body.innerHTML = '<p style="color:red;text-align:center;margin-top:20px;">Error al cargar el stream</p>';
+    }
+  </script>
+</body>
+</html>
