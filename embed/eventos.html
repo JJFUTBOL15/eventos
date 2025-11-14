@@ -16,9 +16,11 @@
       font-family: 'Arial', sans-serif;
       overflow-x: hidden;
     }
+    /* Encabezado con logo y título */
     header {
       text-align: center;
       padding: 15px 0;
+      position: relative;
     }
     #logo {
       height: 50px;
@@ -29,6 +31,7 @@
       letter-spacing: 2px;
       text-transform: uppercase;
     }
+    /* Redes */
     .social-carousel {
       display: flex;
       justify-content: center;
@@ -48,42 +51,55 @@
       border: 2px solid #ff6b00;
       transition: transform 0.3s;
     }
+    .social-link img:hover {
+      transform: scale(1.1);
+    }
     .social-link p {
       margin-top: 8px;
       font-size: 14px;
       color: #ff6b00;
     }
+    /* Viewer */
+    .viewer-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+    }
+    .viewer-container iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      display: block;
+    }
+    /* Esquinas */
     .corner {
       position: fixed;
       font-size: 14px;
       color: #ff6b00;
       font-weight: bold;
+      pointer-events: none;
       z-index: 999;
-      text-decoration: none;
-      cursor: pointer;
     }
     #top-left { top: 10px; left: 10px; }
     #top-right { top: 10px; right: 10px; }
     #bottom-left { bottom: 10px; left: 10px; }
     #bottom-right { bottom: 10px; right: 10px; }
-    .viewer { width: 100%; max-width: 800px; margin: 20px auto; }
-    iframe { width: 100%; height: 600px; border: none; border-radius: 10px; display: block; }
     @media (max-width: 600px) {
-      .social-link img { width: 60px; height: 60px; }
+      .viewer-container iframe { height: 400px; }
       h1 { font-size: 22px; }
-      iframe { height: 400px; }
     }
   </style>
 </head>
 <body>
+  <!-- Esquinas -->
+  <div class="corner" id="top-left">¡Únete al grupo!</div>
+  <div class="corner" id="top-right">¡Únete al grupo!</div>
+  <div class="corner" id="bottom-left">¡Únete al grupo!</div>
+  <div class="corner" id="bottom-right">¡Únete al grupo!</div>
 
-  <!-- Esquinas CLICKEABLES -->
-  <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="corner" id="top-left">¡Únete al grupo!</a>
-  <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="corner" id="top-right">¡Únete al grupo!</a>
-  <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="corner" id="bottom-left">¡Únete al grupo!</a>
-  <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="corner" id="bottom-right">¡Únete al grupo!</a>
-
-  <!-- Logo y título -->
+  <!-- Encabezado -->
   <header>
     <a href="https://jjfutbol.lat/" target="_blank">
       <img id="logo" src="https://i.postimg.cc/mg6MVMjw/1762386751.png" alt="JJFUTBOL Logo">
@@ -103,24 +119,24 @@
     </a>
   </div>
 
-  <!-- Reproductor -->
-  <div class="viewer">
-    <iframe id="stream" src="" frameborder="0" allowfullscreen></iframe>
+  <!-- Reproductor dinámico -->
+  <div class="viewer-container">
+    <iframe id="reproductor" src="" frameborder="0"></iframe>
   </div>
 
   <script>
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const encoded = params.get('r');
-      if (encoded) {
-        // Decodifica Base64 (y URL encoding si aplica)
-        const decoded = atob(decodeURIComponent(encoded));
-        document.getElementById('stream').src = decoded;
-      } else {
-        document.body.innerHTML = '<p style="color:red;text-align:center;margin-top:20px;">Enlace no válido</p>';
+    // Obtener parámetro 'r' de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const encodedUrl = urlParams.get('r');
+    if (encodedUrl) {
+      try {
+        const decodedUrl = atob(decodeURIComponent(encodedUrl));
+        document.getElementById('reproductor').src = decodedUrl;
+      } catch (e) {
+        document.body.innerHTML = "<h2 style='color:white;text-align:center;'>Enlace no válido</h2>";
       }
-    } catch (e) {
-      document.body.innerHTML = '<p style="color:red;text-align:center;margin-top:20px;">Error al cargar el stream</p>';
+    } else {
+      document.body.innerHTML = "<h2 style='color:white;text-align:center;'>Sin stream disponible</h2>";
     }
   </script>
 </body>
