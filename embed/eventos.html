@@ -4,101 +4,139 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>JJFUTBOL</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
-      background: #000;
+      background: linear-gradient(135deg, #0A0F2C 0%, #000000 100%);
       color: white;
-      font-family: 'Arial', sans-serif;
+      font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
-    }
-    /* Encabezado con logo y título */
-    header {
-      text-align: center;
-      padding: 15px 0;
+      min-height: 100vh;
       position: relative;
     }
+
+    /* Header estilizado */
+    header {
+      text-align: center;
+      padding: 30px 20px 20px;
+    }
+
     #logo {
-      height: 50px;
-      margin-bottom: 10px;
+      height: 60px;
+      margin: 0 auto 15px;
+      filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
     }
+
     h1 {
-      font-size: 28px;
-      letter-spacing: 2px;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
+      background: linear-gradient(to right, #D4AF37, #CC5500);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
-    /* Redes */
+
+    /* Redes en tarjetas flotantes */
     .social-carousel {
       display: flex;
       justify-content: center;
-      gap: 30px;
-      padding: 20px 0;
+      gap: 25px;
+      padding: 25px 15px;
       flex-wrap: wrap;
     }
+
     .social-link {
-      text-align: center;
-      width: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(20, 25, 45, 0.6);
+      border-radius: 16px;
+      padding: 15px;
+      width: 130px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(212, 175, 55, 0.2);
     }
+
+    .social-link:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgba(204, 85, 0, 0.3);
+    }
+
     .social-link img {
-      width: 80px;
-      height: 80px;
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid #ff6b00;
-      transition: transform 0.3s;
+      border: 2px solid #CC5500;
     }
-    .social-link img:hover {
-      transform: scale(1.1);
-    }
+
     .social-link p {
-      margin-top: 8px;
-      font-size: 14px;
-      color: #ff6b00;
+      margin-top: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #D4AF37;
     }
-    /* Viewer */
+
+    /* Reproductor con sombra y marco elegante */
     .viewer-container {
       width: 100%;
-      max-width: 800px;
-      margin: 20px auto;
+      max-width: 820px;
+      margin: 10px auto 40px;
+      padding: 0 15px;
     }
+
     .viewer-container iframe {
       width: 100%;
       height: 600px;
       border: none;
-      border-radius: 10px;
+      border-radius: 14px;
       overflow: hidden;
       display: block;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
     }
-    /* Esquinas */
-    .corner {
+
+    /* Botón flotante en esquina inferior derecha (más útil que texto repetido) */
+    .floating-notice {
       position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(to right, #CC5500, #D4AF37);
+      color: #0A0F2C;
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-weight: 700;
       font-size: 14px;
-      color: #ff6b00;
-      font-weight: bold;
-      pointer-events: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
       z-index: 999;
+      text-decoration: none;
+      animation: pulse 2s infinite;
     }
-    #top-left { top: 10px; left: 10px; }
-    #top-right { top: 10px; right: 10px; }
-    #bottom-left { bottom: 10px; left: 10px; }
-    #bottom-right { bottom: 10px; right: 10px; }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+    }
+
     /* Responsive */
     @media (max-width: 600px) {
-      .viewer-container iframe { height: 400px; }
-      h1 { font-size: 22px; }
+      .viewer-container iframe { height: 380px; }
+      h1 { font-size: 26px; }
+      .social-link { width: 110px; padding: 12px; }
+      #logo { height: 50px; }
     }
   </style>
 </head>
 <body>
-  <!-- Esquinas -->
-  <div class="corner" id="top-left">¡Únete al grupo!</div>
-  <div class="corner" id="top-right">¡Únete al grupo!</div>
-  <div class="corner" id="bottom-left">¡Únete al grupo!</div>
-  <div class="corner" id="bottom-right">¡Únete al grupo!</div>
 
   <!-- Encabezado -->
   <header>
@@ -108,7 +146,7 @@
     <h1>JJFUTBOL</h1>
   </header>
 
-  <!-- Redes sociales -->
+  <!-- Redes sociales (tarjetas modernas) -->
   <div class="social-carousel">
     <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="social-link">
       <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
@@ -120,27 +158,28 @@
     </a>
   </div>
 
-  <!-- Reproductor dinámico -->
+  <!-- Reproductor -->
   <div class="viewer-container">
     <iframe id="viewer" src="" frameborder="0" allowfullscreen></iframe>
   </div>
 
+  <!-- Botón flotante de llamado a acción -->
+  <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="floating-notice">¡Únete al grupo!</a>
+
   <script>
-    // Obtiene el parámetro 'r' de la URL
     const urlParams = new URLSearchParams(window.location.search);
     const encodedUrl = urlParams.get('r');
 
     if (encodedUrl) {
       try {
-        // Decodifica la URL en Base64
         const decodedUrl = atob(decodeURIComponent(encodedUrl));
         document.getElementById('viewer').src = decodedUrl;
       } catch (e) {
-        document.body.innerHTML = '<h2 style="color:white;text-align:center;margin-top:50px;">❌ Enlace no válido</h2>';
+        document.body.innerHTML = '<h2 style="color:white;text-align:center;margin-top:50px;font-family:Poppins,sans-serif;">❌ Enlace no válido</h2>';
         console.error("Error al decodificar URL:", e);
       }
     } else {
-      document.body.innerHTML = '<h2 style="color:white;text-align:center;margin-top:50px;">Sin stream disponible</h2>';
+      document.body.innerHTML = '<h2 style="color:white;text-align:center;margin-top:50px;font-family:Poppins,sans-serif;">Sin stream disponible</h2>';
     }
   </script>
 </body>
