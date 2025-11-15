@@ -53,7 +53,6 @@
       height: 24px;
       margin: 0 10px;
       border-radius: 50%;
-      object-fit: cover;
     }
     #menu .match {
       flex: 1;
@@ -83,10 +82,10 @@
     <ul id="menu"></ul>
   </div>
   <script>
-    // ✅ CONFIGURACIÓN FINAL: TU JSON LOCAL + TUS ENLACES
-    const AGENDA_URL = "https://a.ftvhd.com/diaries.json";
+    // ✅ CONFIGURACIÓN FINAL (TU JSON LOCAL + TUS ENLACES)
+    const AGENDA_URL = "https://a.ftvhd.com/diaries.json";                  // Tu JSON local
     const IMG_BASE   = "https://img.futbolonlinehd.com";
-    const SITE_BASE  = "https://jjfutbol15.vercel.app/";
+    const SITE_BASE  = "https://jjfutbol.lat/";     // Tus enlaces reales
 
     document.addEventListener("DOMContentLoaded", function () {
       obtenerAgenda();
@@ -103,6 +102,7 @@
       setInterval(upgrade, 60000);
     });
 
+    // --- Funciones de tu código original (sin cambios) ---
     function upgrade() {
       const menu  = document.getElementById("menu");
       const title = document.getElementById("title-agenda");
@@ -116,8 +116,8 @@
     }
 
     function formatLocalISODateToEs(dateStr) {
-      if (!dateStr) return new Date().toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
-      const [y, m, d] = dateStr.split("-").map(Number);
+      const [y, m, d] = (dateStr || "").split("-").map(Number);
+      if (!y || !m || !d) return null;
       const dt = new Date(y, m - 1, d);
       return dt.toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
     }
@@ -137,7 +137,7 @@
 
     function setAgendaTitle(result, el) {
       const dd = extractDiaryDate(result);
-      const text = dd ? formatLocalISODateToEs(dd) : formatLocalISODateToEs(null);
+      const text = dd ? formatLocalISODateToEs(dd) : new Date().toLocaleDateString("es-ES");
       if (el) el.innerHTML = "Agenda - " + text;
     }
 
@@ -146,10 +146,7 @@
         const r = await fetch(AGENDA_URL, { cache: "no-store" });
         const result = await r.json();
         renderAgenda(result, menu, title);
-      } catch (e) {
-        console.error("Error al refrescar agenda:", e);
-        if (title) title.innerHTML = "Agenda - Error";
-      }
+      } catch (e) { console.error("Error al refrescar agenda:", e); }
     }
 
     async function obtenerAgenda() {
@@ -159,17 +156,13 @@
         const r = await fetch(AGENDA_URL, { cache: "no-store" });
         const result = await r.json();
         renderAgenda(result, menu, title);
-      } catch (e) {
-        console.error("❌ Error al cargar la agenda:", e);
-        if (title) title.innerHTML = "Agenda - Sin conexión";
-        if (menu) menu.innerHTML = "";
-      }
+      } catch (e) { console.error("❌ Error al cargar la agenda:", e); }
     }
 
     function renderAgenda(result, menu, title) {
       if (!result || !result.data) {
         if (title) title.innerHTML = "Agenda - Sin datos";
-        if (menu) menu.innerHTML = "";
+        if (menu)  menu.innerHTML  = "";
         return;
       }
 
