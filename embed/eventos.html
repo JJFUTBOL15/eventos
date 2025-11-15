@@ -3,140 +3,222 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>JJFUTBOL - En Vivo</title>
+  <title>Agenda Deportiva</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
-      background: #000;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 15px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    #title-agenda {
+      text-align: center;
+      padding: 16px;
+      background: #e74c3c;
       color: white;
-      font-family: 'Arial', sans-serif;
-      overflow-x: hidden;
+      margin: 0;
+      font-size: 1.4em;
     }
-    /* Encabezado con logo y título */
-    header {
-      text-align: center;
-      padding: 15px 0;
-      position: relative;
+    #menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
-    #logo {
-      height: 50px;
-      margin-bottom: 10px;
+    #menu li {
+      border-bottom: 1px solid #eee;
     }
-    h1 {
-      font-size: 28px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    /* Redes */
-    .social-carousel {
+    #menu li > div {
       display: flex;
-      justify-content: center;
-      gap: 30px;
-      padding: 20px 0;
-      flex-wrap: wrap;
+      align-items: center;
+      padding: 14px;
+      cursor: pointer;
     }
-    .social-link {
-      text-align: center;
-      width: 120px;
+    #menu time {
+      width: 60px;
+      font-weight: bold;
+      color: #e74c3c;
     }
-    .social-link img {
-      width: 80px;
-      height: 80px;
+    #menu .flag {
+      width: 24px;
+      height: 24px;
+      margin: 0 10px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid #ff6b00;
-      transition: transform 0.3s;
     }
-    .social-link img:hover {
-      transform: scale(1.1);
+    #menu .match {
+      flex: 1;
+      font-size: 1.05em;
     }
-    .social-link p {
-      margin-top: 8px;
-      font-size: 14px;
-      color: #ff6b00;
+    #menu ul {
+      list-style: none;
+      padding: 0 14px 14px 74px;
+      margin: 0;
+      display: none;
     }
-    /* Viewer */
-    .viewer-container {
-      width: 100%;
-      max-width: 800px;
-      margin: 20px auto;
-    }
-    .viewer-container iframe {
-      width: 100%;
-      height: 600px;
-      border: none;
-      border-radius: 10px;
-      overflow: hidden;
+    .submenu-item {
       display: block;
-    }
-    /* Esquinas */
-    .corner {
-      position: fixed;
-      font-size: 14px;
-      color: #ff6b00;
+      padding: 6px 0;
+      color: #3498db;
+      text-decoration: none;
       font-weight: bold;
-      pointer-events: none;
-      z-index: 999;
     }
-    #top-left { top: 10px; left: 10px; }
-    #top-right { top: 10px; right: 10px; }
-    #bottom-left { bottom: 10px; left: 10px; }
-    #bottom-right { bottom: 10px; right: 10px; }
-    @media (max-width: 600px) {
-      .viewer-container iframe { height: 400px; }
-      h1 { font-size: 22px; }
+    .submenu-item:hover {
+      color: #e74c3c;
     }
   </style>
 </head>
 <body>
-  <!-- Esquinas -->
-  <div class="corner" id="top-left">¡Únete al grupo!</div>
-  <div class="corner" id="top-right">¡Únete al grupo!</div>
-  <div class="corner" id="bottom-left">¡Únete al grupo!</div>
-  <div class="corner" id="bottom-right">¡Únete al grupo!</div>
-
-  <!-- Encabezado -->
-  <header>
-    <a href="https://jjfutbol.lat/" target="_blank">
-      <img id="logo" src="https://i.postimg.cc/mg6MVMjw/1762386751.png" alt="JJFUTBOL Logo">
-    </a>
-    <h1>JJFUTBOL</h1>
-  </header>
-
-  <!-- Redes -->
-  <div class="social-carousel">
-    <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="social-link">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
-      <p>Telegram</p>
-    </a>
-    <a href="https://whatsapp.com/channel/0029Vacgezz9sBI3nZYNhb2o" target="_blank" class="social-link">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-      <p>WhatsApp</p>
-    </a>
+  <div class="container">
+    <h1 id="title-agenda">Agenda - Cargando...</h1>
+    <ul id="menu"></ul>
   </div>
-
-  <!-- Reproductor dinámico -->
-  <div class="viewer-container">
-    <iframe id="reproductor" src="" frameborder="0"></iframe>
-  </div>
-
   <script>
-    // Obtener parámetro 'r' de la URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const encodedUrl = urlParams.get('r');
-    if (encodedUrl) {
-      try {
-        const decodedUrl = atob(decodeURIComponent(encodedUrl));
-        document.getElementById('reproductor').src = decodedUrl;
-      } catch (e) {
-        document.body.innerHTML = "<h2 style='color:white;text-align:center;'>Enlace no válido</h2>";
+    // ✅ CONFIGURACIÓN FINAL: TU JSON LOCAL + TUS ENLACES
+    const AGENDA_URL = "https://a.ftvhd.com/diaries.json";
+    const IMG_BASE   = "https://img.futbolonlinehd.com";
+    const SITE_BASE  = "https://jjfutbol15.vercel.app/";
+
+    document.addEventListener("DOMContentLoaded", function () {
+      obtenerAgenda();
+      $(document).on("click", ".submenu-item", function (e) { e.stopPropagation(); });
+      $(document).on("click", ".toggle-submenu", function () {
+        const $submenu = $(this).closest("li").find("ul");
+        if (!$submenu.is(":visible")) {
+          $(".toggle-submenu").not(this).closest("li").find("ul").slideUp();
+          $submenu.slideDown();
+        } else {
+          $submenu.slideUp();
+        }
+      });
+      setInterval(upgrade, 60000);
+    });
+
+    function upgrade() {
+      const menu  = document.getElementById("menu");
+      const title = document.getElementById("title-agenda");
+      refrescarAgenda(menu, title);
+    }
+
+    function convertToUserTimeZone(utcHour) {
+      const DateTime = luxon.DateTime;
+      const utcDate  = DateTime.fromISO(utcHour, { zone: "America/Lima" });
+      return utcDate.toLocal().toFormat("HH:mm");
+    }
+
+    function formatLocalISODateToEs(dateStr) {
+      if (!dateStr) return new Date().toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
+      const [y, m, d] = dateStr.split("-").map(Number);
+      const dt = new Date(y, m - 1, d);
+      return dt.toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
+    }
+
+    function extractDiaryDate(result) {
+      const arr = (result && result.data) ? result.data : [];
+      const dates = arr.map(it => it?.attributes?.date_diary).filter(Boolean);
+      if (dates.length === 0) return null;
+      const counts = Object.create(null);
+      let best = dates[0], max = 0;
+      for (const d of dates) {
+        counts[d] = (counts[d] || 0) + 1;
+        if (counts[d] > max) { max = counts[d]; best = d; }
       }
-    } else {
-      document.body.innerHTML = "<h2 style='color:white;text-align:center;'>Sin stream disponible</h2>";
+      return best;
+    }
+
+    function setAgendaTitle(result, el) {
+      const dd = extractDiaryDate(result);
+      const text = dd ? formatLocalISODateToEs(dd) : formatLocalISODateToEs(null);
+      if (el) el.innerHTML = "Agenda - " + text;
+    }
+
+    async function refrescarAgenda(menu, title) {
+      try {
+        const r = await fetch(AGENDA_URL, { cache: "no-store" });
+        const result = await r.json();
+        renderAgenda(result, menu, title);
+      } catch (e) {
+        console.error("Error al refrescar agenda:", e);
+        if (title) title.innerHTML = "Agenda - Error";
+      }
+    }
+
+    async function obtenerAgenda() {
+      const menu  = document.getElementById("menu");
+      const title = document.getElementById("title-agenda");
+      try {
+        const r = await fetch(AGENDA_URL, { cache: "no-store" });
+        const result = await r.json();
+        renderAgenda(result, menu, title);
+      } catch (e) {
+        console.error("❌ Error al cargar la agenda:", e);
+        if (title) title.innerHTML = "Agenda - Sin conexión";
+        if (menu) menu.innerHTML = "";
+      }
+    }
+
+    function renderAgenda(result, menu, title) {
+      if (!result || !result.data) {
+        if (title) title.innerHTML = "Agenda - Sin datos";
+        if (menu) menu.innerHTML = "";
+        return;
+      }
+
+      setAgendaTitle(result, title);
+      const data = (result.data || []).slice().sort((a, b) => {
+        const A = (a?.attributes?.date_diary || "") + (a?.attributes?.diary_hour || "");
+        const B = (b?.attributes?.date_diary || "") + (b?.attributes?.diary_hour || "");
+        return A.localeCompare(B);
+      });
+
+      let html = "";
+      data.forEach((value) => {
+        const attr = value.attributes || {};
+        const embeds = (attr.embeds && attr.embeds.data) || [];
+        let imageUrl = `${IMG_BASE}/uploads/sin_imagen_d36205f0e8.png`;
+        const flag = attr.country?.data?.attributes?.image?.data?.attributes?.url;
+        if (flag) imageUrl = `${IMG_BASE}${flag}`;
+
+        html += `
+          <li class="toggle-submenu">
+            <div>
+              <time>${attr.diary_hour ? convertToUserTimeZone(attr.diary_hour) : "--:--"}</time>
+              <img class="flag" src="${imageUrl}" alt="Bandera">
+              <span class="match">${attr.diary_description || "Evento sin título"}</span>
+            </div>
+            <ul style="display:none;">
+              ${
+                embeds.map(embed => {
+                  if (!embed || !embed.attributes) return "";
+                  let urlComplete = (embed.attributes.embed_iframe || "").trim();
+                  if (urlComplete.startsWith("/")) {
+                    urlComplete = SITE_BASE + urlComplete;
+                  }
+                  if (!urlComplete) {
+                    urlComplete = SITE_BASE + "/embed/eventos.html?r=";
+                  }
+                  return `
+                    <li class="submenu">
+                      <a href="${urlComplete}" class="submenu-item" target="_blank">
+                        <i class="fa fa-play-circle"></i> ${embed.attributes.embed_name || "Ver enlace"}
+                      </a>
+                    </li>`;
+                }).join("")
+              }
+            </ul>
+          </li>`;
+      });
+
+      if (menu) menu.innerHTML = html;
     }
   </script>
 </body>
