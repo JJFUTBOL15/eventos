@@ -438,6 +438,32 @@
             box-shadow: 0 6px 18px rgba(212, 175, 55, 0.6);
         }
 
+        /* Etiquetas para nombres de búsqueda */
+        .search-tags-section {
+            margin-top: 50px;
+        }
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .tag {
+            background: rgba(20, 25, 55, 0.5);
+            color: var(--text-muted);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.92rem;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.25s ease;
+        }
+        .tag:hover {
+            background: rgba(212, 175, 55, 0.12);
+            color: var(--accent-gold);
+            border-color: var(--accent-gold);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .channels-grid {
@@ -446,12 +472,19 @@
             header h1 { font-size: 2.2rem; }
             .agenda-container iframe { height: 450px; }
             .telegram-btn { width: 100%; justify-content: center; }
+            .tag {
+                padding: 5px 14px;
+                font-size: 0.88rem;
+            }
         }
 
         @media (max-width: 480px) {
             .channels-grid { grid-template-columns: 1fr; }
             .section-title { font-size: 1.7rem; }
             .carousel-btn { width: 40px; height: 40px; font-size: 20px; }
+            .tag-list {
+                gap: 8px;
+            }
         }
     </style>
 </head>
@@ -566,6 +599,49 @@
         </div>
     </div>
 
+    <!-- 🔽 SECCIÓN DE NOMBRES BUSCADOS (al final, discreta) -->
+    <div class="container search-tags-section">
+        <h2 class="section-title">🔍 <span>Buscado por Usuarios</span></h2>
+        <div class="tag-list">
+            <span class="tag">pelota-libre</span>
+            <span class="tag">rojadirecta</span>
+            <span class="tag">jjfutbol</span>
+            <span class="tag">tvlibre</span>
+            <span class="tag">futbolparapobres</span>
+            <span class="tag">magistv</span>
+            <span class="tag">futbollibre</span>
+            <span class="tag">gostreameast</span>
+            <span class="tag">streamwest</span>
+            <span class="tag">sportsurge</span>
+            <span class="tag">totalsportek</span>
+            <span class="tag">viprow</span>
+            <span class="tag">crackstreams</span>
+            <span class="tag">weakstreams</span>
+            <span class="tag">methstreams</span>
+            <span class="tag">markkystreams</span>
+            <span class="tag">givemereddit</span>
+            <span class="tag">buffstreams</span>
+            <span class="tag">pirlotv</span>
+            <span class="tag">intergoles</span>
+            <span class="tag">elcronics</span>
+            <span class="tag">futemax</span>
+            <span class="tag">futbolhd</span>
+            <span class="tag">tvdeportes</span>
+            <span class="tag">verfutebool</span>
+            <span class="tag">pirlo</span>
+            <span class="tag">hd futbol</span>
+            <span class="tag">como ver futbol en vivo</span>
+            <span class="tag">barcelona en vivo</span>
+            <span class="tag">la liga en vivo</span>
+            <span class="tag">premier league en vivo</span>
+            <span class="tag">futbol en vivo 2025</span>
+            <span class="tag">futbol live gratis 2025, messi, ronaldo, lamine yamal, pedri, vini jr, mbappe,</span>
+        </div>
+        <p style="text-align: center; margin-top: 25px; color: var(--text-muted); font-size: 1.05rem;">
+            ¿Llegaste buscando alguno de estos nombres? Con <strong>JJFUTBOL</strong> obtienes fútbol en vivo estable, sin virus ni anuncios invasivos.
+        </p>
+    </div>
+
     <!-- Footer con Telegram y WhatsApp -->
     <footer>
         <p>© 2025 JJFUTBOL • Transmisiones Premium sin Límites</p>
@@ -625,3 +701,4 @@
 
 </body>
 </html>
+
