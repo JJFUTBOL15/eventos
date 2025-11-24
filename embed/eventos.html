@@ -332,7 +332,7 @@
     <iframe id="viewer" src="" frameborder="0" allowfullscreen></iframe>
   </div>
 
-  <!-- Enlaces + Telegram destacado -->
+  <!-- Sección enlaces + Telegram destacado -->
   <div class="links-section">
     <h3>📥 Optimiza tu experiencia</h3>
     <a href="https://brave.com/" target="_blank"><i class="fab fa-brave"></i> Descargar Brave</a>
@@ -365,15 +365,44 @@
     // Cargar stream
     const urlParams = new URLSearchParams(window.location.search);
     const encodedUrl = urlParams.get('r');
+    const viewerFrame = document.getElementById('viewer');
+
     if (encodedUrl) {
       try {
         const decodedUrl = atob(decodeURIComponent(encodedUrl));
-        document.getElementById('viewer').src = decodedUrl;
+        viewerFrame.src = decodedUrl;
+
+        // Insertar mensaje de soporte geográfico y recomendaciones
+        const vpnNotice = document.createElement('div');
+        vpnNotice.innerHTML = `
+          <div style="
+            max-width: 850px;
+            margin: 15px auto;
+            padding: 16px;
+            background: rgba(20, 25, 50, 0.75);
+            border-radius: 14px;
+            border-left: 4px solid #D4AF37;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #f0f0f0;
+            text-align: center;
+            font-family: 'Open Sans', sans-serif;
+          ">
+            <strong>¿La transmisión no carga?</strong><br>
+            Si estás en <strong>España u otro país</strong> y el stream no se reproduce,
+            <strong>prueba usar una VPN</strong> conectándote a <strong>Brasil, México o Estados Unidos</strong>
+            (por ejemplo con <em>TunnelBear</em> u otra VPN confiable).<br>
+            También asegúrate de usar el navegador <strong>Brave</strong> o tener instalado
+            <strong>uBlock Origin</strong> para evitar bloqueos por publicidad externa.<br>
+            <em>Estamos trabajando constantemente para mejorar la estabilidad y calidad de las transmisiones. ¡Gracias por tu apoyo!</em>
+          </div>
+        `;
+        viewerFrame.parentNode.insertAdjacentElement('afterend', vpnNotice);
       } catch (e) {
         document.body.innerHTML = '<h2 style="color:white;text-align:center;margin-top:50px;font-family:Poppins,sans-serif;">❌ Enlace no válido</h2>';
       }
     } else {
-      document.body.innerHTML = '<h2 style="color:white;text-align:center;margin-top:50px;font-family:Poppins,sans-serif;">Sin stream disponible, entra al grupo de telegram para añadir un canal o reportar algun canal, gracias por el apoyo</h2>';
+      document.body.innerHTML = '<h2 style="color:white;text-align:center;margin-top:50px;font-family:Poppins,sans-serif;">Sin stream disponible.<br>¡Entra al grupo de Telegram para añadir un canal o reportar problemas!</h2>';
     }
 
     // Mini juego de penalty
@@ -388,14 +417,12 @@
         const clickX = e.clientX - rect.left;
         const goalWidth = rect.width;
 
-        // Mover la pelota hacia donde se hizo clic (efecto de disparo)
         ball.style.left = `${clickX}px`;
         ball.style.bottom = '180px';
         ball.style.transform = 'scale(1.2)';
 
-        // Zonas de gol: izquierda (0-30%), centro (30-70%), derecha (70-100%)
         const percent = (clickX / goalWidth) * 100;
-        const isGoal = percent < 30 || percent > 70; // ¡El portero atrapa el centro!
+        const isGoal = percent < 30 || percent > 70;
 
         setTimeout(() => {
           if (isGoal) {
@@ -417,3 +444,4 @@
   </script>
 </body>
 </html>
+
