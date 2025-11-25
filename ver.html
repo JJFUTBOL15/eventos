@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YXSGBSY1DJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YXSGBSY1DJ');
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Ver canal en vivo | JJFUTBOL</title>
+  <meta name="description" content="Disfruta de tus canales deportivos favoritos en vivo por JJFUTBOL. Transmisiones premium con calidad garantizada." />
+  <meta name="keywords" content="JJFUTBOL, fútbol en vivo, canales deportivos, ver partidos gratis, Liga MX, Champions, NBA" />
+  <meta name="author" content="JJFUTBOL" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Ver canal en vivo | JJFUTBOL" />
+  <meta property="og:description" content="Canales deportivos en vivo sin interrupciones. ¡Entra ya y disfruta del partido!" />
+  <meta property="og:image" content="https://i.postimg.cc/mg6MVMjw/1762386751.png" />
+  <meta property="og:url" content="https://jjfutbol.pages.dev/ver.html" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Ver canal en vivo | JJFUTBOL" />
+  <meta name="twitter:description" content="Canales deportivos en vivo sin interrupciones. ¡Entra ya y disfruta del partido!" />
+  <meta name="twitter:image" content="https://i.postimg.cc/mg6MVMjw/1762386751.png" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-primary: #0A0F2C;
+      --bg-secondary: #0D123A;
+      --accent-gold: #D4AF37;
+      --accent-orange: #CC5500;
+      --text-light: #E0E6FF;
+      --text-muted: #A0AEC0;
+      --card-bg: rgba(20, 25, 55, 0.6);
+      --border-glow: rgba(212, 175, 55, 0.25);
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--bg-primary) 0%, #050816 100%);
+      color: var(--text-light);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.03) 0%, transparent 70%);
+      z-index: -1;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-glow);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .logo-btn img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-gold);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    }
+
+    .logo-btn span {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(to right, var(--accent-gold), #FFD700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    main {
+      flex: 1;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .logo-canal {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      margin: 20px auto;
+      filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.4));
+    }
+
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.2rem;
+      margin: 15px 0;
+      text-align: center;
+      background: linear-gradient(to right, var(--accent-gold), var(--accent-orange));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .iframe-container {
+      width: 100%;
+      margin: 25px 0;
+    }
+
+    iframe {
+      width: 100%;
+      max-width: 900px;
+      height: 520px;
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      display: block;
+      margin: 0 auto;
+      background: #000;
+    }
+
+    .boton {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(to right, var(--accent-orange), var(--accent-gold));
+      color: var(--bg-primary);
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      margin-top: 20px;
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .boton:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
+    }
+
+    footer {
+      background: rgba(10, 15, 44, 0.8);
+      color: var(--text-muted);
+      text-align: center;
+      padding: 25px;
+      margin-top: 40px;
+      border-top: 1px solid var(--border-glow);
+      font-size: 0.95rem;
+      backdrop-filter: blur(8px);
+    }
+
+    @media (max-width: 768px) {
+      iframe {
+        height: 400px;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      .logo-canal {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      iframe {
+        height: 280px;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      .boton {
+        padding: 12px 24px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="./" class="logo-btn">
+      <img src="https://i.postimg.cc/mg6MVMjw/1762386751.png" alt="JJFUTBOL Logo">
+      <span>JJFUTBOL</span>
+    </a>
+  </header>
+
+  <main>
+    <img id="logo" class="logo-canal" src="" alt="Logo del canal">
+    <h1 id="titulo">Cargando canal...</h1>
+
+    <div class="iframe-container">
+      <iframe id="canal-frame" allowfullscreen></iframe>
+    </div>
+
+    <a href="#" class="boton" onclick="location.reload(); return false;">
+      <i class="fas fa-redo"></i> Recargar Transmisión
+    </a>
+  </main>
+
+  <footer>
+    <p>© 2025 JJFUTBOL • Transmisiones Premium sin Límites</p>
+    <p style="margin-top: 10px; font-size: 0.9rem;">
+      JJFUTBOL no aloja ni transmite contenido. Todos los enlaces provienen de terceros.
+    </p>
+  </footer>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const canalParam = (params.get('canal') || '').trim().toLowerCase();
+
+    fetch('canales_con_logo.json')
+      .then(res => res.ok ? res.json() : Promise.reject('JSON no encontrado'))
+      .then(data => {
+        const canal = data.find(c => c.nombre.toLowerCase().trim() === canalParam);
+
+        if (!canal) {
+          document.getElementById('titulo').textContent = 'Canal no disponible';
+          document.getElementById('logo').style.display = 'none';
+          document.getElementById('canal-frame').style.display = 'none';
+          return;
+        }
+
+        document.getElementById('titulo').textContent = canal.nombre;
+        document.getElementById('logo').src = canal.logo;
+        document.getElementById('canal-frame').src = canal.iframe;
+      })
+      .catch(err => {
+        document.getElementById('titulo').textContent = 'Error al cargar el canal';
+        console.error(err);
+      });
+  </script>
+
+  <script>
+    setTimeout(function() {
+      gtag('event', 'usuario_mas_10_minutos', {
+        event_category: 'Tiempo en página',
+        event_label: window.location.pathname
+      });
+    }, 600000);
+  </script>
+</body>
+</html>
