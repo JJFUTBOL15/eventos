@@ -1,258 +1,788 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Agenda - JJFUTBOL</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #0f0f15;
-      margin: 0;
-      padding: 15px;
-      color: white;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: #1a1a25;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-      overflow: hidden;
-    }
-    #title-agenda {
-      text-align: center;
-      padding: 16px;
-      background: #1e3a8a;
-      color: white;
-      margin: 0;
-      font-size: 1.4em;
-    }
-    #menu {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    #menu li {
-      border-bottom: 1px solid #2c2c3a;
-    }
-    #menu li > div {
-      display: flex;
-      align-items: center;
-      padding: 14px;
-      cursor: pointer;
-    }
-    #menu time {
-      width: 60px;
-      font-weight: bold;
-      color: #4ade80;
-    }
-    #menu .flag {
-      width: 24px;
-      height: 24px;
-      margin: 0 10px;
-      border-radius: 50%;
-    }
-    #menu .match {
-      flex: 1;
-      font-size: 1.05em;
-    }
-    #menu ul {
-      list-style: none;
-      padding: 0 14px 14px 74px;
-      margin: 0;
-      display: none;
-    }
-    .submenu-item {
-      display: block;
-      padding: 6px 0;
-      color: #60a5fa;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .submenu-item:hover {
-      color: #4ade80;
-    }
-    .loading {
-      padding: 20px;
-      text-align: center;
-      color: #aaa;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JJFUTBOL - Futbol en vivo 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #0A0F2C;      /* Navy profundo */
+            --bg-secondary: #0D123A;
+            --accent-gold: #D4AF37;     /* Oro real */
+            --accent-orange: #CC5500;   /* Naranja quemado */
+            --text-light: #E0E6FF;
+            --text-muted: #A0AEC0;
+            --card-bg: rgba(20, 25, 55, 0.6);
+            --border-glow: rgba(212, 175, 55, 0.25);
+            --radius: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #050816 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Header premium */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glow);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--accent-gold), transparent);
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            border-radius: 50%;
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, var(--accent-gold), #FFD700);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto 15px;
+            font-size: 1.05rem;
+        }
+
+        .telegram-header {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(204, 85, 0, 0.2);
+            color: var(--accent-orange);
+            padding: 8px 22px;
+            border-radius: 30px;
+            font-weight: 600;
+            margin-top: 10px;
+            border: 1px solid rgba(204, 85, 0, 0.4);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .telegram-header:hover {
+            background: rgba(204, 85, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Section titles */
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            text-align: center;
+            margin: 50px 0 25px;
+            position: relative;
+        }
+
+        .section-title span {
+            background: linear-gradient(to right, var(--accent-gold), var(--accent-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 70px;
+            height: 4px;
+            background: var(--accent-gold);
+            margin: 12px auto;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Agenda */
+        .agenda-container {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 50px;
+            border: 1px solid var(--border-glow);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .agenda-container iframe {
+            width: 100%;
+            height: 620px;
+            border: none;
+            display: block;
+        }
+
+        /* Telegram CTA prominente */
+        .telegram-cta {
+            background: linear-gradient(135deg, rgba(20, 25, 55, 0.8), rgba(30, 35, 70, 0.9));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: var(--radius);
+            padding: 30px;
+            text-align: center;
+            margin: 35px 0;
+            backdrop-filter: blur(6px);
+        }
+
+        .telegram-cta h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--accent-gold);
+        }
+
+        .telegram-cta p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .telegram-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(to right, var(--accent-orange), var(--accent-gold));
+            color: var(--bg-primary);
+            font-weight: 700;
+            padding: 14px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s;
+        }
+
+        .telegram-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
+        }
+
+        /* Carousel */
+        .carousel-section {
+            margin: 50px 0;
+        }
+
+        .carousel-container {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border-glow);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            padding: 15px;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .carousel-item img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(204, 85, 0, 0.3);
+        }
+
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 20px;
+            pointer-events: none;
+        }
+
+        .carousel-btn {
+            pointer-events: auto;
+            background: rgba(20, 25, 55, 0.8);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .carousel-btn:hover {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            transform: scale(1.1);
+        }
+
+        /* Channels */
+        .channels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .channel-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 22px 15px;
+            text-align: center;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.35s ease;
+            backdrop-filter: blur(6px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .channel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-orange);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .channel-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .channel-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .channel-logo {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 35, 70, 0.4);
+            border-radius: 14px;
+        }
+
+        .channel-logo img {
+            max-width: 75%;
+            max-height: 75%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.3));
+        }
+
+        .channel-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .channel-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            min-height: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: linear-gradient(to right, var(--accent-orange), var(--accent-gold));
+            color: var(--bg-primary);
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(204, 85, 0, 0.3);
+            width: 100%;
+            max-width: 180px;
+            margin: 0 auto;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 6px 18px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 60px;
+            padding: 30px;
+            background: rgba(10, 15, 44, 0.7);
+            text-align: center;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-glow);
+            backdrop-filter: blur(8px);
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .social-links {
+            margin: 20px 0;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 12px;
+            padding: 12px 24px;
+            background: linear-gradient(to right, var(--accent-gold), #FFD700);
+            color: var(--bg-primary);
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(212, 175, 55, 0.6);
+        }
+
+        /* Etiquetas para nombres de búsqueda */
+        .search-tags-section {
+            margin-top: 50px;
+        }
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .tag {
+            background: rgba(20, 25, 55, 0.5);
+            color: var(--text-muted);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.92rem;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.25s ease;
+        }
+        .tag:hover {
+            background: rgba(212, 175, 55, 0.12);
+            color: var(--accent-gold);
+            border-color: var(--accent-gold);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .channels-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            header h1 { font-size: 2.2rem; }
+            .agenda-container iframe { height: 450px; }
+            .telegram-btn { width: 100%; justify-content: center; }
+            .tag {
+                padding: 5px 14px;
+                font-size: 0.88rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .channels-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 1.7rem; }
+            .carousel-btn { width: 40px; height: 40px; font-size: 20px; }
+            .tag-list {
+                gap: 8px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1 id="title-agenda">Agenda - Cargando...</h1>
-    <ul id="menu"></ul>
-  </div>
 
-  <script>
-    const FUENTES = [
-      {
-        url: "https://a.ftvhd.com/diaries.json",
-        imgBase: "https://img.futbolonlinehd.com",
-        siteBase: "https://jjfutbol.lat"
-      },
-      {
-        url: "https://golazoplay.com/agenda.json?v=1.0",
-        imgBase: "https://img.golazoplay.com",
-        siteBase: "https://jjfutbol.lat"
-      }
-    ];
+    <!-- Header con logo y Telegram -->
+    <header>
+        <img src="https://i.postimg.cc/mg6MVMjw/1762386751.png" alt="JJFUTBOL Logo" class="logo">
+        <h1>👑 <span>JJFUTBOL</span></h1>
+        <p>JJFUTBOL FUTBOL EN VIVO, LA LIGA, CHAMPIONS LEAGUE, PREMIER LEAGUE, NBA, MLS, TUDN, LIGA MX EN VIVO, MLB, NFL, FUTBOL EN VIVO GRATIS.</p>
+        <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="telegram-header">
+            <i class="fab fa-telegram-plane"></i> Únete al grupo de Telegram
+        </a>
+    </header>
 
-    document.addEventListener("DOMContentLoaded", function () {
-      cargarAgendasCombinadas();
-      $(document).on("click", ".submenu-item", function (e) { e.stopPropagation(); });
-      $(document).on("click", ".toggle-submenu", function () {
-        const $submenu = $(this).closest("li").find("ul");
-        if (!$submenu.is(":visible")) {
-          $(".toggle-submenu").not(this).closest("li").find("ul").slideUp();
-          $submenu.slideDown();
-        } else {
-          $submenu.slideUp();
-        }
-      });
-      setInterval(cargarAgendasCombinadas, 60000);
-    });
+    <!-- Agenda -->
+    <div class="container">
+        <h2 class="section-title">📅 <span>Agenda de Partidos</span></h2>
+        <div class="agenda-container">
+            <iframe src="https://futbol-online.vercel.app/" width="100%" height="620" frameborder="0"></iframe>
+        </div>
 
-    function convertToUserTimeZone(utcHour) {
-      if (!utcHour) return "--:--";
-      try {
-        const clean = utcHour.split(':').slice(0, 2).join(':');
-        const dt = luxon.DateTime.fromFormat(clean, "HH:mm", { zone: "America/Lima" });
-        return dt.toLocal().toFormat("HH:mm");
-      } catch (e) {
-        return "--:--";
-      }
-    }
+        <!-- Telegram CTA debajo del reproductor -->
+        <div class="telegram-cta">
+            <h3>🔔 ¿Quieres acceso exclusivo y enlaces directos?</h3>
+            <p>Únete al grupo oficial de Telegram para recibir actualizaciones en tiempo real, soporte y canales premium.</p>
+            <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="telegram-btn">
+                <i class="fab fa-telegram-plane"></i> Entrar al Grupo de Telegram
+            </a>
+        </div>
+    </div>
 
-    function formatDateSpanish(dateStr) {
-      const [y, m, d] = (dateStr || "").split("-").map(Number);
-      if (!y || !m || !d) return null;
-      const dt = new Date(y, m - 1, d);
-      return dt.toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
-    }
-
-    function extraerFechaMasComun(todosEventos) {
-      const dates = todosEventos.map(it => it?.attributes?.date_diary).filter(Boolean);
-      if (dates.length === 0) return new Date().toISOString().split('T')[0];
-      const counts = {};
-      let best = dates[0], max = 0;
-      for (const d of dates) {
-        counts[d] = (counts[d] || 0) + 1;
-        if (counts[d] > max) { max = counts[d]; best = d; }
-      }
-      return best;
-    }
-
-    function extraerParametroR(urlRelativa) {
-      try {
-        const partes = urlRelativa.split('?');
-        if (partes.length > 1) {
-          const params = new URLSearchParams(partes[1]);
-          return params.get("r");
-        }
-      } catch (e) {
-        console.warn("Error extrayendo parámetro r:", urlRelativa);
-      }
-      return null;
-    }
-
-    async function cargarAgendasCombinadas() {
-      const menu = document.getElementById("menu");
-      menu.innerHTML = '<li><div class="loading">Cargando agenda combinada...</div></li>';
-
-      let todosEventos = [];
-      for (const fuente of FUENTES) {
-        try {
-          const res = await fetch(fuente.url + "?t=" + Date.now());
-          const result = await res.json();
-          if (result?.data?.length) {
-            result.data.forEach(item => {
-              // Añadir metadatos de la fuente para imágenes y enlaces
-              item._imgBase = fuente.imgBase;
-              item._siteBase = fuente.siteBase;
-              todosEventos.push(item);
-            });
-          }
-        } catch (e) {
-          console.error(`Error en fuente ${fuente.url}:`, e);
-        }
-      }
-
-      if (todosEventos.length === 0) {
-        menu.innerHTML = '<li><div class="loading" style="color:red;">No se encontraron eventos.</div></li>';
-        document.getElementById("title-agenda").textContent = "Agenda - Sin datos";
-        return;
-      }
-
-      // Ordenar por hora
-      todosEventos.sort((a, b) => {
-        const A = (a.attributes?.date_diary || "") + (a.attributes?.diary_hour || "");
-        const B = (b.attributes?.date_diary || "") + (b.attributes?.diary_hour || "");
-        return A.localeCompare(B);
-      });
-
-      // Título único
-      const fechaTitulo = extraerFechaMasComun(todosEventos);
-      const titulo = formatDateSpanish(fechaTitulo) || new Date().toLocaleDateString("es-ES");
-      document.getElementById("title-agenda").textContent = "Agenda - " + titulo;
-
-      // Renderizar todos los eventos juntos
-      let html = "";
-      todosEventos.forEach(item => {
-        const attr = item.attributes || {};
-        const hora = convertToUserTimeZone(attr.diary_hour);
-        const nombre = attr.diary_description || "Evento sin título";
-        const flagUrl = attr.country?.data?.attributes?.image?.data?.attributes?.url;
-        const imageUrl = flagUrl ? item._imgBase + flagUrl : item._imgBase + "/uploads/sin_imagen_d36205f0e8.png";
-
-        let canalesHtml = '<ul style="display:none;">';
-        const embeds = attr.embeds?.data || [];
-        if (embeds.length > 0) {
-          embeds.forEach(embed => {
-            if (!embed?.attributes) return;
-            const nombreCanal = embed.attributes.embed_name || "Ver enlace";
-            const urlRelativa = (embed.attributes.embed_iframe || "").trim();
-            let urlFinal = "#";
-
-            const r = extraerParametroR(urlRelativa);
-            if (r) {
-              urlFinal = `${item._siteBase}/embed/eventos.html?r=${encodeURIComponent(r)}`;
-            } else if (urlRelativa.startsWith("/")) {
-              urlFinal = item._siteBase + urlRelativa;
-            } else if (urlRelativa.startsWith("http")) {
-              urlFinal = urlRelativa;
-            }
-
-            canalesHtml += `
-              <li class="submenu">
-                <a href="${urlFinal}" class="submenu-item" target="_blank">
-                  <i class="fa fa-play-circle"></i> ${nombreCanal}
-                </a>
-              </li>`;
-          });
-        } else {
-          canalesHtml += `<li class="submenu"><span class="submenu-item" style="color:#666;">Próximamente...</span></li>`;
-        }
-        canalesHtml += '</ul>';
-
-        html += `
-          <li class="toggle-submenu">
-            <div>
-              <time>${hora}</time>
-              <img class="flag" src="${imageUrl}" alt="Bandera">
-              <span class="match">${nombre}</span>
+    <!-- Carousel -->
+    <div class="container carousel-section">
+        <h2 class="section-title">✨ <span>Promociones Exclusivas</span></h2>
+        <div class="carousel-container">
+            <div class="carousel-inner" id="carouselInner"></div>
+            <div class="carousel-controls">
+                <button class="carousel-btn" id="prevBtn">‹</button>
+                <button class="carousel-btn" id="nextBtn">›</button>
             </div>
-            ${canalesHtml}
-          </li>`;
-      });
+        </div>
+    </div>
 
-      menu.innerHTML = html;
-    }
-  </script>
+    <!-- Canales Deportivos (ACTUALIZADO CON TU LISTA) -->
+    <div class="container">
+        <h2 class="section-title">📺 <span>Canales Deportivos</span></h2>
+        <div class="channels-grid">
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://img.golazoplay.com/uploads/espn_16110aaa3a.webp" alt="ESPN">
+                </div>
+                <h3 class="channel-name">ESPN</h3>
+                <p class="channel-desc">Cobertura deportiva premium en vivo.</p>
+                <a href="ver.html?canal=ESPN" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://img.golazoplay.com/uploads/espn_2_82441267e9.webp" alt="ESPN2">
+                </div>
+                <h3 class="channel-name">ESPN2</h3>
+                <p class="channel-desc">Más deportes, más acción.</p>
+                <a href="ver.html?canal=ESPN2" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://img.golazoplay.com/uploads/espn_3_0f4a5444d4.webp" alt="ESPN3">
+                </div>
+                <h3 class="channel-name">ESPN3</h3>
+                <p class="channel-desc">Eventos exclusivos y ligas internacionales.</p>
+                <a href="ver.html?canal=ESPN3" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="espnpremium_img.png" alt="ESPNPREMIUM">
+                </div>
+                <h3 class="channel-name">ESPNPREMIUM</h3>
+                <p class="channel-desc">Transmisiones premium sin interrupciones.</p>
+                <a href="ver.html?canal=ESPNPREMIUM" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://img.golazoplay.com/uploads/dsports_bea74cb844.webp" alt="Dsports">
+                </div>
+                <h3 class="channel-name">Dsports</h3>
+                <p class="channel-desc">Fútbol de elite y eventos deportivos.</p>
+                <a href="ver.html?canal=Dsports" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://img.golazoplay.com/uploads/dsports_2_3481b3d20c.webp" alt="Dsports2">
+                </div>
+                <h3 class="channel-name">Dsports2</h3>
+                <p class="channel-desc">Cobertura total de ligas europeas.</p>
+                <a href="ver.html?canal=Dsports2" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://img.golazoplay.com/uploads/dsports_plus_e24f78b7c0.webp" alt="Dsports+">
+                </div>
+                <h3 class="channel-name">Dsports+</h3>
+                <p class="channel-desc">Eventos especiales y playoffs.</p>
+                <a href="ver.html?canal=Dsports+" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://futbollibre-tv.su/img/logo-canal/Fox_Sports.png" alt="FOX SPORTS">
+                </div>
+                <h3 class="channel-name">FOX SPORTS</h3>
+                <p class="channel-desc">Fútbol, NFL, y más en HD.</p>
+                <a href="ver.html?canal=FOX%20SPORTS" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://futbollibre-tv.su/img/logo-canal/Fox_Sports_2.png" alt="FOXSPORTS 2">
+                </div>
+                <h3 class="channel-name">FOXSPORTS 2</h3>
+                <p class="channel-desc">Segunda señal con múltiples eventos.</p>
+                <a href="ver.html?canal=FOXSPORTS%202" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://futbollibre-tv.su/img/logo-canal/Fox_Sports_3.png" alt="FOXSPORTS 3">
+                </div>
+                <h3 class="channel-name">FOXSPORTS 3</h3>
+                <p class="channel-desc">Cobertura adicional de deportes.</p>
+                <a href="ver.html?canal=FOXSPORTS%203" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://futbollibre-tv.su/img/logo-canal/Fox_Sports.png" alt="FOXSPORTS MX">
+                </div>
+                <h3 class="channel-name">FOXSPORTS MX</h3>
+                <p class="channel-desc">Fútbol mexicano y eventos locales.</p>
+                <a href="ver.html?canal=FOXSPORTS%20MX" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Win_Sports_nuevo_logo.svg/1200px-Win_Sports_nuevo_logo.svg.png" alt="WinSports">
+                </div>
+                <h3 class="channel-name">WinSports</h3>
+                <p class="channel-desc">Fútbol colombiano en vivo.</p>
+                <a href="ver.html?canal=WinSports" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="win+img.png" alt="WINSPORTS +">
+                </div>
+                <h3 class="channel-name">WINSPORTS +</h3>
+                <p class="channel-desc">Más partidos, más ligas.</p>
+                <a href="ver.html?canal=WINSPORTS%20+" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/TyC_Sports_logo.svg/1024px-TyC_Sports_logo.svg.png" alt="TYCSPORTS">
+                </div>
+                <h3 class="channel-name">TYCSPORTS</h3>
+                <p class="channel-desc">Fútbol argentino y Sudamérica.</p>
+                <a href="ver.html?canal=TYCSPORTS" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://th.bing.com/th/id/R.cc2791914ba4c17c9863ef78ae7f3e3c?rik=%2fvvX%2bT4ZqgiD4w&riu=http%3a%2f%2fs3-eu-west-1.amazonaws.com%2fdazn-marketing%2fapp%2fuploads%2f2016%2f08%2f09120714%2fDAZN-Logo-RGB_WonB.png&ehk=%2f%2fT7Upyzm2ai20bJdhuu7TFVA6fOIctrMWHpbBICf0A%3d&risl=&pid=ImgRaw&r=0" alt="DAZN">
+                </div>
+                <h3 class="channel-name">DAZN</h3>
+                <p class="channel-desc">Boxeo, UFC y fútbol internacional.</p>
+                <a href="ver.html?canal=DAZN" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://futbollibre-tv.su/img/logo-canal/TUDN.webp" alt="TUDN USA">
+                </div>
+                <h3 class="channel-name">TUDN USA</h3>
+                <p class="channel-desc">Liga MX y selección mexicana.</p>
+                <a href="ver.html?canal=TUDN%20USA" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="tntsport.png" alt="TNTSPORTS">
+                </div>
+                <h3 class="channel-name">TNTSPORTS</h3>
+                <p class="channel-desc">Champions League y más.</p>
+                <a href="ver.html?canal=TNTSPORTS" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Telefe_(nuevo_logo).png" alt="TELEFE">
+                </div>
+                <h3 class="channel-name">TELEFE</h3>
+                <p class="channel-desc">Fútbol argentino y entretenimiento.</p>
+                <a href="ver.html?canal=TELEFE" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://vtv.com.uy/wp-content/uploads/2022/11/Logo.svg" alt="VTVPLUS">
+                </div>
+                <h3 class="channel-name">VTVPLUS</h3>
+                <p class="channel-desc">Deportes uruguayos en vivo.</p>
+                <a href="ver.html?canal=VTVPLUS" target="_blank" class="btn">Ver Canal</a>
+            </div>
+            <div class="channel-card">
+                <div class="channel-logo">
+                    <img src="https://simg.nicepng.com/png/small/5-52552_1-tvg-logo-http-gol-tv-logo-png.png" alt="GOLTV">
+                </div>
+                <h3 class="channel-name">GOLTV</h3>
+                <p class="channel-desc">Fútbol sudamericano en exclusiva.</p>
+                <a href="ver.html?canal=GOLTV" target="_blank" class="btn">Ver Canal</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔽 SECCIÓN DE NOMBRES BUSCADOS (al final, discreta) -->
+    <div class="container search-tags-section">
+        <h2 class="section-title">🔍 <span>Tags (ignorar)</span></h2>
+        <div class="tag-list">
+            <span class="tag">pelota-libre</span>
+            <span class="tag">rojadirecta</span>
+            <span class="tag">jjfutbol</span>
+            <span class="tag">tvlibre</span>
+            <span class="tag">futbolparapobres</span>
+            <span class="tag">magistv</span>
+            <span class="tag">futbollibre</span>
+            <span class="tag">gostreameast</span>
+            <span class="tag">streamwest</span>
+            <span class="tag">sportsurge</span>
+            <span class="tag">totalsportek</span>
+            <span class="tag">viprow</span>
+            <span class="tag">crackstreams</span>
+            <span class="tag">weakstreams</span>
+            <span class="tag">methstreams</span>
+            <span class="tag">markkystreams</span>
+            <span class="tag">givemereddit</span>
+            <span class="tag">buffstreams</span>
+            <span class="tag">pirlotv</span>
+            <span class="tag">intergoles</span>
+            <span class="tag">elcronics</span>
+            <span class="tag">futemax</span>
+            <span class="tag">futbolhd</span>
+            <span class="tag">tvdeportes</span>
+            <span class="tag">verfutebool</span>
+            <span class="tag">pirlo</span>
+            <span class="tag">hd futbol</span>
+            <span class="tag">como ver futbol en vivo</span>
+            <span class="tag">barcelona en vivo</span>
+            <span class="tag">la liga en vivo</span>
+            <span class="tag">premier league en vivo</span>
+            <span class="tag">futbol en vivo 2025</span>
+            <span class="tag">futbol live gratis 2025</span>
+        </div>
+        <p style="text-align: center; margin-top: 25px; color: var(--text-muted); font-size: 1.05rem;">
+            ¿ver futbol en vivo? <strong>JJFUTBOL</strong> ENTRA AL GRUPO DE TELEGRAM.
+        </p>
+    </div>
+
+    <!-- Footer con Telegram y WhatsApp -->
+    <footer>
+        <p>© 2025 JJFUTBOL • Transmisiones Premium sin Límites</p>
+        <div class="social-links">
+            <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="social-btn">
+                <i class="fab fa-telegram-plane"></i> Grupo de Telegram
+            </a>
+            <a href="https://whatsapp.com/channel/0029Vacgezz9sBI3nZYNhb2o" target="_blank" class="social-btn">
+                <i class="fab fa-whatsapp"></i> Canal de WhatsApp
+            </a>
+        </div>
+        <p style="margin-top: 15px;">
+            📌 Aviso Importante<br>
+            JJFUTBOL no es una página de transmisiones en vivo.<br>
+            JJFUTBOL es un servicio que comparte y facilita al usuario enlaces a plataformas externas donde se puede acceder a contenido deportivo.<br><br>
+            No alojamos, producimos ni distribuimos transmisiones propias. Únicamente proporcionamos orientación y acceso a sitios populares del ecosistema de streaming.<br>
+            El uso de dichos enlaces es responsabilidad exclusiva del usuario.
+        </p>
+    </footer>
+
+    <script>
+        const carouselItems = [
+            { image: "https://i.postimg.cc/8k0j2DM7/4927066489634884360.jpg", link: "https://t.me/+EPyKMpHXlv5lMmYx" },
+            { image: "https://i.postimg.cc/fWrJGZm9/4927066489634884361.jpg", link: "https://whatsapp.com/channel/0029Vacgezz9sBI3nZYNhb2o" },
+            { image: "https://i.postimg.cc/mZ5tvRC9/4927066489634884362.jpg", link: "https://t.me/+EPyKMpHXlv5lMmYx" }
+        ];
+
+        const carouselInner = document.getElementById('carouselInner');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentIndex = 0;
+
+        function renderCarousel() {
+            carouselInner.innerHTML = '';
+            carouselItems.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'carousel-item';
+                div.style.display = index === currentIndex ? 'block' : 'none';
+                const img = document.createElement('img');
+                img.src = item.image;
+                img.alt = `Promoción ${index + 1}`;
+                img.onclick = () => window.open(item.link, '_blank');
+                div.appendChild(img);
+                carouselInner.appendChild(div);
+            });
+        }
+
+        function showNext() {
+            currentIndex = (currentIndex + 1) % carouselItems.length;
+            renderCarousel();
+        }
+
+        function showPrev() {
+            currentIndex = (currentIndex - 1 + carouselItems.length) % carouselItems.length;
+            renderCarousel();
+        }
+
+        nextBtn.addEventListener('click', showNext);
+        prevBtn.addEventListener('click', showPrev);
+        setInterval(showNext, 6000);
+        renderCarousel();
+    </script>
 </body>
 </html>
 
