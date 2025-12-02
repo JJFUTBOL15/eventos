@@ -10,7 +10,7 @@
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:linear-gradient(135deg,#0A0F2C 0%,#000000 100%);color:white;font-family:'Open Sans',sans-serif;overflow-x:hidden;min-height:100vh;position:relative;}
     
-    /* Modal bienvenida */
+    /* Modal */
     .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,15,44,0.92);backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:center;z-index:1000;}
     .modal{background:rgba(15,20,40,0.85);border:1px solid rgba(212,175,55,0.4);border-radius:20px;padding:35px;max-width:520px;width:92%;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.7),inset 0 0 15px rgba(212,175,55,0.1);}
     .modal h2{color:#D4AF37;margin-bottom:20px;font-size:24px;display:flex;align-items:center;justify-content:center;gap:10px;}
@@ -38,15 +38,15 @@
     .telegram-cta a{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(to right,#0088cc,#00AA99);color:white;padding:12px 28px;border-radius:50px;font-weight:700;font-size:16px;animation:pulse 2s infinite;}
     @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,180,200,0.6);}70%{box-shadow:0 0 0 12px rgba(0,180,200,0);}100%{box-shadow:0 0 0 0 rgba(0,180,200,0);}}
 
-    /* CHAT FLOTANTE - JJFUTBOL */
-    #chatBtn{position:fixed;bottom:20px;right:20px;background:linear-gradient(135deg,#D4AF37,#FF8C00);color:#0A0F2C;padding:16px 20px;border-radius:50px;font-weight:bold;font-size:18px;box-shadow:0 6px 20px rgba(212,175,55,0.5);cursor:pointer;z-index:9998;transition:all .3s;border:none;}
-    #chatBtn:hover{transform:scale(1.1);box-shadow:0 10px 30px rgba(212,175,55,0.7);}
-    #chatBox{display:none;position:fixed;bottom:80px;right:20px;width:340px;height:520px;background:rgba(15,20,40,0.95);border:2px solid #D4AF37;border-radius:20px;box-shadow:0 15px 40px rgba(0,0,0,0.8);flex-direction:column;z-index:9999;overflow:hidden;}
+    /* CHAT FLOTANTE */
+    #chatBtn{position:fixed;bottom:20px;right:20px;background:linear-gradient(135deg,#D4AF37,#FF8C00);color:#0A0F2C;padding:16px 22px;border-radius:50px;font-weight:bold;font-size:17px;box-shadow:0 6px 20px rgba(212,175,55,0.5);cursor:pointer;z-index:9998;transition:all .3s;border:none;}
+    #chatBtn:hover{transform:scale(1.1);}
+    #chatBox{display:none;position:fixed;bottom:80px;right:20px;width:340px;height:520px;background:rgba(15,20,40,0.97);border:2px solid #D4AF37;border-radius:20px;box-shadow:0 15px 40px rgba(0,0,0,0.8);flex-direction:column;z-index:9999;overflow:hidden;}
     #chatHeader{background:linear-gradient(to right,#D4AF37,#FF8C00);color:#0A0F2C;padding:12px;text-align:center;font-weight:bold;font-size:17px;}
     #chatBody{flex:1;overflow-y:auto;padding:12px;background:#16202e;}
     #chatInput{display:flex;padding:10px;background:#0f1620;border-top:1px solid #D4AF37;}
     #chatInput input{flex:1;padding:12px;border:none;border-radius:10px;margin-right:6px;background:#223040;color:white;}
-    #chatInput button{background:#D4AF37;color:#0A0F2C;border:none;padding:12px 16px;border-radius:10px;font-weight:bold;}
+    #chatInput button{background:#D4AF37;color:#0A0F2C;border:none;padding:12px 16px;border-radius:10px;font-weight:bold;cursor:pointer;}
     .msg{margin:8px 0;padding:10px 14px;border-radius:15px;max-width:85%;word-wrap:break-word;}
     .yo{background:#D4AF37;color:#000;margin-left:auto;border-bottom-right-radius:4px;}
     .otro{background:#2c3e50;border-bottom-left-radius:4px;}
@@ -63,15 +63,14 @@
   <!-- Modal bienvenida -->
   <div class="modal-overlay" id="welcomeModal">
     <div class="modal">
-      <h2><i class="fas fa-exclamation-circle"></i> Información Importante</h2>
-      <p>Esta página (<strong>JJFUTBOL</strong>) <strong>NO tiene anuncios</strong>.<br>
-      El reproductor puede contener publicidad externa.</p>
-      <p>Recomendamos usar <strong>Brave</strong> o <strong>uBlock Origin</strong>.</p>
-      <button onclick="closeModal()"><i class="fas fa-check"></i> Aceptar y continuar</button>
+      <h2>Información Importante</h2>
+      <p>Esta página <strong>NO tiene anuncios</strong>. El reproductor puede tener publicidad externa.</p>
+      <p>Usa <strong>Brave</strong> o <strong>uBlock Origin</strong> para la mejor experiencia.</p>
+      <button onclick="closeModal()">Aceptar y continuar</button>
     </div>
   </div>
 
-  <!-- Contenido original -->
+  <!-- Contenido -->
   <header>
     <a href="https://jjfutbol.lat/" target="_blank">
       <img id="logo" src="https://i.postimg.cc/mg6MVMjw/1762386751.png" alt="JJFUTBOL Logo">
@@ -81,12 +80,10 @@
 
   <div class="social-carousel">
     <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="social-link">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
-      <p>Telegram</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram"><p>Telegram</p>
     </a>
     <a href="https://whatsapp.com/channel/0029Vacgezz9sBI3nZYNhb2o" target="_blank" class="social-link">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-      <p>WhatsApp</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp"><p>WhatsApp</p>
     </a>
   </div>
 
@@ -99,76 +96,78 @@
     <a href="https://brave.com/" target="_blank">Descargar Brave</a>
     <a href="https://ublockorigin.com/" target="_blank">uBlock Origin</a>
     <div class="telegram-cta">
-      <h3>¡Únete al grupo oficial de JJFUTBOL!</h3>
-      <p>Canales nuevos, soporte y más</p>
-      <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank">
-        <i class="fab fa-telegram-plane"></i> Entrar al grupo
-      </a>
+      <h3>¡Únete al grupo oficial!</h3>
+      <p>Canales nuevos y soporte 24/7</p>
+      <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank">Entrar al grupo</a>
     </div>
   </div>
 
-  <!-- BOTÓN Y CHAT FLOTANTE -->
+  <!-- CHAT FLOTANTE -->
   <button id="chatBtn">CHAT JJFUTBOL</button>
   <div id="chatBox">
     <div id="chatHeader">CHAT JJFUTBOL</div>
     <div id="chatBody">
       <div class="system-msg">
-        <b>Grupo oficial:</b> <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" style="color:#00AA99;">t.me/+EPyKMpHXlv5lMmYx</a>
+        Grupo oficial: <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" style="color:#00AA99;text-decoration:underline;">t.me/+EPyKMpHXlv5lMmYx</a>
       </div>
     </div>
     <div id="chatInput">
-      <input type="text" id="nick" placeholder="Tu nombre" value="Hincha${Math.floor(Math.random()*9999)}">
-      <input type="text" id="msg" placeholder="Escribe aquí...">
+      <input type="text" id="nick" placeholder="Nombre" value="Hincha${Math.floor(Math.random()*9999)}">
+      <input type="text" id="msg" placeholder="Mensaje...">
       <button onclick="enviar()">Enviar</button>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Cerrar modal
     function closeModal(){document.getElementById('welcomeModal').style.display='none';}
 
-    // Cargar stream
-    const urlParams = new URLSearchParams(window.location.search);
-    const encodedUrl = urlParams.get('r');
-    const viewerFrame = document.getElementById('viewer');
-    if(encodedUrl){
-      try{
-        viewerFrame.src = atob(decodeURIComponent(encodedUrl));
-      }catch(e){
-        document.body.innerHTML='<h2 style="color:white;text-align:center;margin-top:50px;">Enlace no válido</h2>';
-      }
+    // Stream
+    const urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('r')){
+      try{document.getElementById('viewer').src=atob(decodeURIComponent(urlParams.get('r')));}
+      catch(e){document.body.innerHTML='<h2 style="color:white;text-align:center;margin-top:50px;">Enlace no válido</h2>';}
     }
 
-    // === CHAT JJFUTBOL ===
-    const supabase = Supabase.createClient('https://grmwdtephrctiqobyrst.supabase.co','sb_publishable_0fkPn31836LpcgAWEMWxag_4jj4PFIUX');
-    const chatBody = document.getElementById('chatBody');
+    // === CHAT FUNCIONANDO ===
+    const supabase = Supabase.createClient(
+      'https://grmwdtephrctiqobyrst.supabase.co',
+      'sb_publishable_0fkPn31836LpcgAWEMWxag_4jj4PFIUX'
+    );
+
     const chatBox = document.getElementById('chatBox');
-    const chatBtn = document.getElementById('chatBtn');
+    document.getElementById('chatBtn').onclick = () => {
+      chatBox.style.display = (chatBox.style.display === 'flex') ? 'none' : 'flex';
+    };
 
-    chatBtn.onclick = () => chatBox.style.display = chatBox.style.display==='flex' ? 'none' : 'flex';
+    const chatBody = document.getElementById('chatBody');
 
-    supabase.channel('jjfutbol').on('postgres_changes',{event:'INSERT',schema:'public',table:'mensajes'},p=>addMsg(p.new)).subscribe();
+    supabase.channel('jjfutbol')
+      .on('postgres_changes', {event:'INSERT', schema:'public', table:'mensajes'}, payload => addMsg(payload.new))
+      .subscribe();
 
     async function cargar(){
-      const {data} = await supabase.from('mensajes').select().order('creado',true).limit(100);
+      const {data} = await supabase.from('mensajes').select().order('creado', true).limit(100);
       data.forEach(addMsg);
     }
+
     function addMsg(m){
-      const d=document.createElement('div');
-      d.className=`msg ${m.nick===document.getElementById('nick').value?'yo':'otro'}`;
-      d.innerHTML=`<b>${m.nick}:</b> ${m.texto}`;
-      chatBody.appendChild(d);
+      const div = document.createElement('div');
+      div.className = `msg ${m.nick === document.getElementById('nick').value ? 'yo' : 'otro'}`;
+      div.innerHTML = `<b>${m.nick}:</b> ${m.texto}`;
+      chatBody.appendChild(div);
       chatBody.scrollTop = chatBody.scrollHeight;
     }
-    window.enviar=async()=>{
-      const msg=document.getElementById('msg');
-      const nick=document.getElementById('nick');
-      if(!msg.value.trim())return;
-      await supabase.from('mensajes').insert({nick:nick.value.trim()||`Hincha${Math.random().toString(36).substr(2,4)}`,texto:msg.value.trim()});
-      msg.value='';
-    }
-    document.getElementById('msg').addEventListener('keypress',e=>e.key==='Enter'&&enviar());
+
+    window.enviar = async () => {
+      const msg = document.getElementById('msg');
+      const nick = document.getElementById('nick').value.trim() || 'Anónimo';
+      if (!msg.value.trim()) return;
+      await supabase.from('mensajes').insert({nick:nick, texto:msg.value.trim()});
+      msg.value = '';
+    };
+
+    document.getElementById('msg').addEventListener('keypress', e => {if(e.key==='Enter') enviar();});
     cargar();
   </script>
 </body>
