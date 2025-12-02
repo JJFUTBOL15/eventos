@@ -80,7 +80,7 @@
     /* Header */
     header {
       text-align: center;
-      padding: 35px 20px 25px;
+      padding: 35px 20px 20px;
     }
     #logo {
       height: 65px;
@@ -99,12 +99,32 @@
       color: transparent;
       text-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
+    /* Chat section */
+    .chat-section {
+      max-width: 850px;
+      margin: 0 auto 30px;
+      padding: 0 20px;
+      text-align: center;
+    }
+    .chat-section h2 {
+      font-family: 'Poppins', sans-serif;
+      color: #D4AF37;
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+    .chat-container {
+      background: rgba(15, 20, 40, 0.7);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+    }
     /* Redes */
     .social-carousel {
       display: flex;
       justify-content: center;
       gap: 30px;
-      padding: 25px 15px;
+      padding: 20px 15px 25px;
       flex-wrap: wrap;
     }
     .social-link {
@@ -141,7 +161,7 @@
     .viewer-container {
       width: 100%;
       max-width: 850px;
-      margin: 15px auto 25px;
+      margin: 0 auto 25px;
       padding: 0 20px;
     }
     .viewer-container iframe {
@@ -153,18 +173,6 @@
       display: block;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7),
                   inset 0 0 10px rgba(204, 85, 0, 0.1);
-    }
-    /* Chat container */
-    .chat-container {
-      max-width: 850px;
-      margin: 0 auto 30px;
-      padding: 0 20px;
-    }
-    .chat-container .minnit-chat-embed {
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
     }
     /* Sección enlaces */
     .links-section {
@@ -202,6 +210,9 @@
       border-radius: 16px;
       border: 1px solid rgba(64, 224, 208, 0.2);
     }
+    .telegram-cta h3, .telegram-cta p {
+      margin: 8px 0;
+    }
     .telegram-cta a {
       display: inline-flex;
       align-items: center;
@@ -219,6 +230,18 @@
       70% { box-shadow: 0 0 0 12px rgba(0, 180, 200, 0); }
       100% { box-shadow: 0 0 0 0 rgba(0, 180, 200, 0); }
     }
+    .donation-cta {
+      margin-top: 25px;
+      padding: 15px;
+      background: rgba(20, 25, 50, 0.5);
+      border-radius: 14px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+    .donation-cta h4 {
+      color: #D4AF37;
+      margin-bottom: 10px;
+      font-size: 17px;
+    }
     /* Responsive */
     @media (max-width: 600px) {
       .viewer-container iframe { height: 380px; }
@@ -226,7 +249,8 @@
       .modal { padding: 25px; }
       .modal h2 { font-size: 20px; }
       .links-section a { display: block; margin: 10px auto; width: 80%; }
-      .chat-container .minnit-chat-embed { height: 400px !important; }
+      .chat-container { height: 300px !important; }
+      .social-link { width: 120px; }
     }
   </style>
 </head>
@@ -249,6 +273,18 @@
     </a>
     <h1>JJFUTBOL</h1>
   </header>
+  <!-- Chat en vivo -->
+  <div class="chat-section">
+    <h2>💬 Chat en vivo – Únete a la comunidad</h2>
+    <div class="chat-container">
+      <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
+      <span class="minnit-chat-sembed"
+            data-chatname="https://organizations.minnit.chat/854924316996590/c/Main?embed"
+            data-style="width:100%; height:400px; max-height:90vh; border:none;"
+            data-version="1.55">
+      </span>
+    </div>
+  </div>
   <!-- Redes -->
   <div class="social-carousel">
     <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="social-link">
@@ -264,16 +300,7 @@
   <div class="viewer-container">
     <iframe id="viewer" src="" frameborder="0" allowfullscreen></iframe>
   </div>
-  <!-- Chat Minnit -->
-  <div class="chat-container">
-    <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
-    <span class="minnit-chat-sembed"
-          data-chatname="https://organizations.minnit.chat/854924316996590/c/Main?embed"
-          data-style="width:90%; height:500px; max-height:90vh; border:none;"
-          data-version="1.55">
-    </span>
-  </div>
-  <!-- Sección enlaces + Telegram destacado -->
+  <!-- Sección enlaces + Telegram + Donaciones -->
   <div class="links-section">
     <h3>Optimiza tu experiencia</h3>
     <a href="https://brave.com/" target="_blank"><i class="fab fa-brave"></i> Descargar Brave</a>
@@ -283,6 +310,14 @@
       <p>Actualizaciones en vivo, canales nuevos y soporte exclusivo.</p>
       <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank">
         <i class="fab fa-telegram-plane"></i> Únete al grupo ahora
+      </a>
+    </div>
+    <!-- Donación -->
+    <div class="donation-cta">
+      <h4>☕ ¿Te gusta JJFUTBOL? ¡Apóyanos!</h4>
+      <p>Tu ayuda mantiene el sitio libre de anuncios y con streams estables.</p>
+      <a href="https://buymeacoffee.com/jjfutbol" target="_blank">
+        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height:45px;">
       </a>
     </div>
   </div>
