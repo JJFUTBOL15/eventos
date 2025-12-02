@@ -207,50 +207,6 @@
       70% { box-shadow: 0 0 0 12px rgba(0, 180, 200, 0); }
       100% { box-shadow: 0 0 0 0 rgba(0, 180, 200, 0); }
     }
-    /* Mini juego */
-    .mini-game {
-      max-width: 500px;
-      margin: 40px auto;
-      padding: 25px;
-      background: rgba(15, 20, 40, 0.6);
-      border-radius: 20px;
-      text-align: center;
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      backdrop-filter: blur(6px);
-    }
-    .mini-game h3 {
-      font-family: 'Poppins', sans-serif;
-      color: #D4AF37;
-      margin-bottom: 15px;
-      font-size: 20px;
-    }
-    #goal {
-      width: 100%;
-      height: 200px;
-      background: linear-gradient(to bottom, #2e8b57, #3cb371);
-      border-radius: 12px;
-      position: relative;
-      overflow: hidden;
-      margin: 15px 0;
-      cursor: pointer;
-    }
-    #ball {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40px;
-      height: 40px;
-      background: white;
-      border-radius: 50%;
-      transition: all 0.6s cubic-bezier(0.2, 0.8, 0.4, 1);
-    }
-    #score {
-      font-size: 18px;
-      font-weight: 700;
-      color: #FF8C00;
-      margin-top: 10px;
-    }
     /* Responsive */
     @media (max-width: 600px) {
       .viewer-container iframe { height: 380px; }
@@ -258,8 +214,6 @@
       .modal { padding: 25px; }
       .modal h2 { font-size: 20px; }
       .links-section a { display: block; margin: 10px auto; width: 80%; }
-      #ball { width: 30px; height: 30px; }
-      #goal { height: 160px; }
     }
   </style>
 </head>
@@ -267,12 +221,12 @@
   <!-- Modal de bienvenida -->
   <div class="modal-overlay" id="welcomeModal">
     <div class="modal">
-      <h2><i class="fas fa-exclamation-circle"></i> Información Importante</h2>
+      <h2>Información Importante</h2>
       <p>Esta página (<strong>JJFUTBOL</strong>) <strong>NO tiene anuncios</strong>.<br>
       Sin embargo, el reproductor de transmisión (streaming) <strong>puede contener publicidad</strong> debido a fuentes externas.</p>
       <p>Recomendamos:<br>
       Usar el navegador <strong>Brave</strong> o instalar un bloqueador como <strong>uBlock Origin</strong>.</p>
-      <button onclick="closeModal()"><i class="fas fa-check"></i> Aceptar y continuar</button>
+      <button onclick="closeModal()">Aceptar y continuar</button>
     </div>
   </div>
   <!-- Encabezado -->
@@ -300,24 +254,17 @@
   <!-- Sección enlaces + Telegram destacado -->
   <div class="links-section">
     <h3>Optimiza tu experiencia</h3>
-    <a href="https://brave.com/" target="_blank"><i class="fab fa-brave"></i> Descargar Brave</a>
+    <a href="https://brave.com/" target="_blank">Descargar Brave</a>
     <a href="https://ublockorigin.com/" target="_blank">Instalar uBlock Origin</a>
     <div class="telegram-cta">
       <h3>¡Únete al grupo oficial de JJFUTBOL!</h3>
       <p>Actualizaciones en vivo, canales nuevos y soporte exclusivo.</p>
       <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank">
-        <i class="fab fa-telegram-plane"></i> Únete al grupo ahora
+        Únete al grupo ahora
       </a>
     </div>
   </div>
-  <!-- Mini juego interactivo -->
-  <div class="mini-game">
-    <h3>¡Penalty Shootout! - JJFUTBOL</h3>
-    <div id="goal">
-      <div id="ball"></div>
-    </div>
-    <div id="score">Goles: <span id="goals">0</span></div>
-  </div>
+
   <script>
     // Cerrar modal
     function closeModal() {
@@ -363,38 +310,6 @@
     } else {
       document.body.innerHTML = '<h2 style="color:white;text-align:center;margin-top:50px;font-family:Poppins,sans-serif;">Sin stream disponible.<br>¡Entra al grupo de Telegram para añadir un canal o reportar problemas!</h2>';
     }
-    // Mini juego de penalty
-    document.addEventListener('DOMContentLoaded', () => {
-      const goal = document.getElementById('goal');
-      const ball = document.getElementById('ball');
-      const goalsEl = document.getElementById('goals');
-      let goals = 0;
-      goal.addEventListener('click', (e) => {
-        const rect = goal.getBoundingClientRect();
-        const clickX = e.clientX - rect.left;
-        const goalWidth = rect.width;
-        ball.style.left = `${clickX}px`;
-        ball.style.bottom = '180px';
-        ball.style.transform = 'scale(1.2)';
-        const percent = (clickX / goalWidth) * 100;
-        const isGoal = percent < 30 || percent > 70;
-        setTimeout(() => {
-          if (isGoal) {
-            goals++;
-            goalsEl.textContent = goals;
-            ball.style.backgroundColor = '#D4AF37';
-          } else {
-            ball.style.backgroundColor = '#ff4d4d';
-          }
-          setTimeout(() => {
-            ball.style.bottom = '20px';
-            ball.style.left = '50%';
-            ball.style.transform = 'translateX(-50%) scale(1)';
-            ball.style.backgroundColor = 'white';
-          }, 800);
-        }, 600);
-      });
-    });
   </script>
 </body>
 </html>
