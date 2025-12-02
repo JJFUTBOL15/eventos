@@ -8,72 +8,104 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:linear-gradient(135deg,#0A0F2C 0%,#000000 100%);color:white;font-family:'Open Sans',sans-serif;overflow-x:hidden;min-height:100vh;position:relative;}
-    
+    body{
+      background: linear-gradient(135deg,#0A0F2C 0%,#000000 100%);
+      color:white;font-family:'Open Sans',sans-serif;overflow-x:hidden;min-height:100vh;position:relative;
+    }
+
+    /* Animación del logo (la que tenías antes) */
+    #logo{animation: float 6s ease-in-out infinite;}
+    @keyframes float{
+      0%,100%{transform:translateY(0);}
+      50%{transform:translateY(-20px);}
+    }
+
     /* Modal */
-    .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,15,44,0.92);backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:center;z-index:1000;}
-    .modal{background:rgba(15,20,40,0.85);border:1px solid rgba(212,175,55,0.4);border-radius:20px;padding:35px;max-width:520px;width:92%;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.7),inset 0 0 15px rgba(212,175,55,0.1);}
-    .modal h2{color:#D4AF37;margin-bottom:20px;font-size:24px;display:flex;align-items:center;justify-content:center;gap:10px;}
-    .modal button{background:linear-gradient(to right,#CC5500,#D4AF37);color:#0A0F2C;border:none;padding:12px 30px;border-radius:50px;font-weight:700;cursor:pointer;transition:all .3s;box-shadow:0 4px 15px rgba(204,85,0,0.3);}
-    .modal button:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(204,85,0,0.5);}
+    .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,15,44,0.95);backdrop-filter:blur(10px);display:flex;justify-content:center;align-items:center;z-index:1000;}
+    .modal{background:rgba(15,20,40,0.9);border:2px solid #D4AF37;border-radius:20px;padding:35px;max-width:520px;width:92%;text-align:center;box-shadow:0 0 40px rgba(212,175,55,0.4);}
+    .modal h2{color:#D4AF37;font-size:26px;margin-bottom:20px;}
+    .modal button{background:linear-gradient(to right,#CC5500,#D4AF37);color:#000;padding:14px 35px;border:none;border-radius:50px;font-weight:700;cursor:pointer;transition:.3s;}
+    .modal button:hover{transform:scale(1.05);box-shadow:0 8px 25px rgba(212,175,55,0.6);}
 
-    header{text-align:center;padding:35px 20px 25px;}
-    #logo{height:65px;margin:0 auto 18px;filter:drop-shadow(0 0 12px rgba(212,175,55,0.5));}
-    h1{font-family:'Poppins',sans-serif;font-size:36px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:linear-gradient(to right,#D4AF37,#FF8C00);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 2px 6px rgba(0,0,0,0.2);}
+    header{text-align:center;padding:40px 20px 30px;}
+    #logo{height:70px;margin-bottom:20px;filter:drop-shadow(0 0 20px rgba(212,175,55,0.6));}
+    h1{font-family:'Poppins',sans-serif;font-size:38px;background:linear-gradient(to right,#D4AF37,#FF8C00);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 3px 10px rgba(0,0,0,0.5);animation:glow 3s ease-in-out infinite alternate;}
+    @keyframes glow{from{text-shadow:0 0 20px #D4AF37;}to{text-shadow:0 0 30px #FF8C00, 0 0 40px #D4AF37;}}
 
-    .social-carousel{display:flex;justify-content:center;gap:30px;padding:25px 15px;flex-wrap:wrap;}
-    .social-link{display:flex;flex-direction:column;align-items:center;background:rgba(20,25,50,0.65);border-radius:18px;padding:18px 15px;width:135px;transition:all .35s;backdrop-filter:blur(8px);border:1px solid rgba(212,175,55,0.15);}
-    .social-link:hover{transform:translateY(-8px);background:rgba(30,35,60,0.8);box-shadow:0 8px 25px rgba(204,85,0,0.35);}
-    .social-link img{width:75px;height:75px;border-radius:50%;object-fit:cover;border:2px solid #D4AF37;}
-    .social-link p{margin-top:12px;font-size:15px;font-weight:700;color:#D4AF37;}
+    .social-carousel{display:flex;justify-content:center;gap:35px;padding:30px 15px;flex-wrap:wrap;}
+    .social-link{transition:all .4s;}
+    .social-link:hover{transform:translateY(-12px) scale(1.08);}
 
-    .viewer-container{width:100%;max-width:850px;margin:15px auto 35px;padding:0 20px;}
-    .viewer-container iframe{width:100%;height:620px;border:none;border-radius:18px;overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,0.7),inset 0 0 10px rgba(204,85,0,0.1);}
+    .viewer-container iframe{height:620px;border-radius:20px;box-shadow:0 15px 40px rgba(0,0,0,0.8);}
+    .links-section a{transition:all .3s;}
+    .links-section a:hover{transform:translateY(-4px);box-shadow:0 8px 20px rgba(204,85,0,0.4);}
+    .telegram-cta a{animation:pulse 2s infinite;}
+    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,170,153,0.7);}70%{box-shadow:0 0 0 15px rgba(0,170,153,0);}100%{box-shadow:0 0 0 0 rgba(0,170,153,0);}}
 
-    .links-section{max-width:850px;margin:0 auto 40px;padding:0 25px;text-align:center;}
-    .links-section h3{font-family:'Poppins',sans-serif;color:#D4AF37;margin:25px 0 15px;font-size:20px;}
-    .links-section a{display:inline-block;margin:8px 10px;padding:10px 20px;background:rgba(20,25,50,0.7);color:#FF8C00;text-decoration:none;border-radius:12px;font-weight:600;transition:all .3s;border:1px solid rgba(204,85,0,0.3);}
-    .links-section a:hover{background:rgba(204,85,0,0.2);transform:translateY(-2px);}
-    .telegram-cta{margin-top:30px;padding:20px;background:rgba(0,0,0,0.3);border-radius:16px;border:1px solid rgba(64,224,208,0.2);}
-    .telegram-cta a{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(to right,#0088cc,#00AA99);color:white;padding:12px 28px;border-radius:50px;font-weight:700;font-size:16px;animation:pulse 2s infinite;}
-    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,180,200,0.6);}70%{box-shadow:0 0 0 12px rgba(0,180,200,0);}100%{box-shadow:0 0 0 0 rgba(0,180,200,0);}}
+    /* CHAT JJFUTBOL - ANIMADO Y HERMOSO */
+    #chatBtn{
+      position:fixed;bottom:25px;right:25px;
+      background:linear-gradient(135deg,#D4AF37,#FF8C00);
+      color:#000;font-weight:bold;font-size:17px;
+      padding:18px 24px;border-radius:50px;
+      border:none;cursor:pointer;z-index:9998;
+      box-shadow:0 8px 25px rgba(212,175,55,0.6);
+      transition:all .4s;
+    }
+    #chatBtn:hover{transform:scale(1.15) rotate(5deg);box-shadow:0 12px 35px rgba(212,175,55,0.8);}
 
-    /* CHAT FLOTANTE */
-    #chatBtn{position:fixed;bottom:20px;right:20px;background:linear-gradient(135deg,#D4AF37,#FF8C00);color:#0A0F2C;padding:16px 22px;border-radius:50px;font-weight:bold;font-size:17px;box-shadow:0 6px 20px rgba(212,175,55,0.5);cursor:pointer;z-index:9998;transition:all .3s;border:none;}
-    #chatBtn:hover{transform:scale(1.1);}
-    #chatBox{display:none;position:fixed;bottom:80px;right:20px;width:340px;height:520px;background:rgba(15,20,40,0.97);border:2px solid #D4AF37;border-radius:20px;box-shadow:0 15px 40px rgba(0,0,0,0.8);flex-direction:column;z-index:9999;overflow:hidden;}
-    #chatHeader{background:linear-gradient(to right,#D4AF37,#FF8C00);color:#0A0F2C;padding:12px;text-align:center;font-weight:bold;font-size:17px;}
-    #chatBody{flex:1;overflow-y:auto;padding:12px;background:#16202e;}
-    #chatInput{display:flex;padding:10px;background:#0f1620;border-top:1px solid #D4AF37;}
-    #chatInput input{flex:1;padding:12px;border:none;border-radius:10px;margin-right:6px;background:#223040;color:white;}
-    #chatInput button{background:#D4AF37;color:#0A0F2C;border:none;padding:12px 16px;border-radius:10px;font-weight:bold;cursor:pointer;}
-    .msg{margin:8px 0;padding:10px 14px;border-radius:15px;max-width:85%;word-wrap:break-word;}
+    #chatBox{
+      position:fixed;bottom:90px;right:25px;width:360px;height:560px;
+      background:rgba(10,15,35,0.97);border:3px solid #D4AF37;border-radius:22px;
+      box-shadow:0 20px 50px rgba(0,0,0,0.9);
+      flex-direction:column;z-index:9999;overflow:hidden;
+      transform:scale(0.8) translateY(100px);
+      opacity:0;transition:all .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    #chatBox.open{
+      transform:scale(1) translateY(0);
+      opacity:1;
+    }
+    #chatHeader{
+      background:linear-gradient(to right,#D4AF37,#FF8C00);
+      color:#000;padding:14px;font-weight:bold;text-align:center;font-size:18px;
+    }
+    #chatBody{flex:1;overflow-y:auto;padding:15px;background:#0f1625;}
+    #chatInput{display:flex;padding:12px;background:#0a0f25;border-top:2px solid #D4AF37;}
+    #chatInput input{
+      flex:1;padding:14px;border-radius:12px;border:none;background:#1a233;color:white;margin-right:8px;
+    }
+    #chatInput button{
+      background:#D4AF37;color:#000;padding:14px 20px;border-radius:12px;border:none;font-weight:bold;cursor:pointer;transition:.3s;
+    }
+    #chatInput button:hover{background:#FF8C00;}
+
+    .msg{margin:10px 0;padding:12px 16px;border-radius:18px;max-width:82%;word-wrap:break-word;}
     .yo{background:#D4AF37;color:#000;margin-left:auto;border-bottom-right-radius:4px;}
     .otro{background:#2c3e50;border-bottom-left-radius:4px;}
-    .system-msg{background:rgba(212,175,55,0.2);color:#D4AF37;text-align:center;font-size:13px;padding:8px;border-radius:12px;margin:10px auto;}
+    .system-msg{background:rgba(212,175,55,0.15);color:#D4AF37;text-align:center;padding:10px;border-radius:15px;font-size:14px;}
 
     @media (max-width:600px){
       .viewer-container iframe{height:380px;}
-      #chatBox{width:96%;right:2%;left:2%;}
+      #chatBox{width:94%;right:3%;left:3%;height:520px;}
     }
   </style>
 </head>
 <body>
 
-  <!-- Modal bienvenida -->
+  <!-- Modal -->
   <div class="modal-overlay" id="welcomeModal">
     <div class="modal">
       <h2>Información Importante</h2>
-      <p>Esta página <strong>NO tiene anuncios</strong>. El reproductor puede tener publicidad externa.</p>
-      <p>Usa <strong>Brave</strong> o <strong>uBlock Origin</strong> para la mejor experiencia.</p>
-      <button onclick="closeModal()">Aceptar y continuar</button>
+      <p>Esta página <strong>NO tiene anuncios propios</strong>.<br>El reproductor puede tener publicidad externa.</p>
+      <p>Recomendamos <strong>Brave Browser</strong> + <strong>uBlock Origin</strong>.</p>
+      <button onclick="document.getElementById('welcomeModal').style.display='none'">Aceptar y continuar</button>
     </div>
   </div>
 
-  <!-- Contenido -->
   <header>
     <a href="https://jjfutbol.lat/" target="_blank">
-      <img id="logo" src="https://i.postimg.cc/mg6MVMjw/1762386751.png" alt="JJFUTBOL Logo">
+      <img id="logo" src="https://i.postimg.cc/mg6MVMjw/1762386751.png" alt="JJFUTBOL">
     </a>
     <h1>JJFUTBOL</h1>
   </header>
@@ -96,78 +128,70 @@
     <a href="https://brave.com/" target="_blank">Descargar Brave</a>
     <a href="https://ublockorigin.com/" target="_blank">uBlock Origin</a>
     <div class="telegram-cta">
-      <h3>¡Únete al grupo oficial!</h3>
-      <p>Canales nuevos y soporte 24/7</p>
-      <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank">Entrar al grupo</a>
+      <h3>¡Únete al grupo oficial de JJFUTBOL!</h3>
+      <p>Canales en vivo · Soporte 24/7 · Sin publicidad</p>
+      <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank">Entrar ahora</a>
     </div>
   </div>
 
-  <!-- CHAT FLOTANTE -->
+  <!-- CHAT ANIMADO -->
   <button id="chatBtn">CHAT JJFUTBOL</button>
   <div id="chatBox">
     <div id="chatHeader">CHAT JJFUTBOL</div>
     <div id="chatBody">
       <div class="system-msg">
-        Grupo oficial: <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" style="color:#00AA99;text-decoration:underline;">t.me/+EPyKMpHXlv5lMmYx</a>
+        Grupo oficial → <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" style="color:#00FFAA;font-weight:bold;">t.me/+EPyKMpHXlv5lMmYx</a>
       </div>
     </div>
     <div id="chatInput">
-      <input type="text" id="nick" placeholder="Nombre" value="Hincha${Math.floor(Math.random()*9999)}">
-      <input type="text" id="msg" placeholder="Mensaje...">
+      <input type="text" id="nick" placeholder="Tu nombre" value="Hincha${Math.floor(Math.random()*9999)}">
+      <input type="text" id="msg" placeholder="Escribe aquí...">
       <button onclick="enviar()">Enviar</button>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    function closeModal(){document.getElementById('welcomeModal').style.display='none';}
-
     // Stream
-    const urlParams=new URLSearchParams(window.location.search);
-    if(urlParams.get('r')){
-      try{document.getElementById('viewer').src=atob(decodeURIComponent(urlParams.get('r')));}
-      catch(e){document.body.innerHTML='<h2 style="color:white;text-align:center;margin-top:50px;">Enlace no válido</h2>';}
-    }
+    const params = new URLSearchParams(location.search);
+    if(params.get('r')) {
+      try{document.getElementById('viewer').src = atob(decodeURIComponent(params.get('r')));}catch(e){}}
 
-    // === CHAT FUNCIONANDO ===
-    const supabase = Supabase.createClient(
-      'https://grmwdtephrctiqobyrst.supabase.co',
-      'sb_publishable_0fkPn31836LpcgAWEMWxag_4jj4PFIUX'
-    );
-
+    // CHAT CON ANIMACIÓN
+    const supabase = Supabase.createClient('https://grmwdtephrctiqobyrst.supabase.co','sb_publishable_0fkPn31836LpcgAWEMWxag_4jj4PFIUX');
     const chatBox = document.getElementById('chatBox');
-    document.getElementById('chatBtn').onclick = () => {
-      chatBox.style.display = (chatBox.style.display === 'flex') ? 'none' : 'flex';
-    };
-
     const chatBody = document.getElementById('chatBody');
 
-    supabase.channel('jjfutbol')
-      .on('postgres_changes', {event:'INSERT', schema:'public', table:'mensajes'}, payload => addMsg(payload.new))
+    document.getElementById('chatBtn').onclick = () => {
+      chatBox.classList.toggle('open');
+    };
+
+    supabase.channel('jjfutbol-chat')
+      .on('postgres_changes', {event:'INSERT', schema:'public', table:'mensajes'}, p => addMsg(p.new))
       .subscribe();
 
     async function cargar(){
-      const {data} = await supabase.from('mensajes').select().order('creado', true).limit(100);
-      data.forEach(addMsg);
+      const {data} = await supabase.from('mensajes').select().order('creado',true).limit(100);
+      data?.forEach(addMsg);
     }
 
     function addMsg(m){
-      const div = document.createElement('div');
-      div.className = `msg ${m.nick === document.getElementById('nick').value ? 'yo' : 'otro'}`;
-      div.innerHTML = `<b>${m.nick}:</b> ${m.texto}`;
-      chatBody.appendChild(div);
+      const d = document.createElement('div');
+      d.className = `msg ${m.nick === document.getElementById('nick').value ? 'yo' : 'otro'}`;
+      d.innerHTML = `<b>${m.nick}:</b> ${m.texto}`;
+      chatBody.appendChild(d);
       chatBody.scrollTop = chatBody.scrollHeight;
     }
 
     window.enviar = async () => {
       const msg = document.getElementById('msg');
       const nick = document.getElementById('nick').value.trim() || 'Anónimo';
-      if (!msg.value.trim()) return;
-      await supabase.from('mensajes').insert({nick:nick, texto:msg.value.trim()});
+      if(!msg.value.trim()) return;
+      await supabase.from('mensajes').insert({nick, texto:msg.value.trim()});
       msg.value = '';
     };
 
-    document.getElementById('msg').addEventListener('keypress', e => {if(e.key==='Enter') enviar();});
+    document.getElementById('msg').addEventListener('keypress', e => e.key==='Enter' && enviar());
     cargar();
   </script>
 </body>
