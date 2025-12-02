@@ -99,25 +99,25 @@
       color: transparent;
       text-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
-    /* Chat section */
-    .chat-section {
+    /* Donación arriba */
+    .donation-top {
       max-width: 850px;
       margin: 0 auto 30px;
       padding: 0 20px;
       text-align: center;
     }
-    .chat-section h2 {
-      font-family: 'Poppins', sans-serif;
-      color: #D4AF37;
-      margin-bottom: 15px;
-      font-size: 20px;
-    }
-    .chat-container {
-      background: rgba(15, 20, 40, 0.7);
+    .donation-top .donation-box {
+      background: rgba(20, 25, 50, 0.5);
       border: 1px solid rgba(212, 175, 55, 0.2);
-      border-radius: 18px;
-      padding: 12px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+      border-radius: 14px;
+      padding: 15px;
+      display: inline-block;
+    }
+    .donation-top h3 {
+      color: #D4AF37;
+      font-family: 'Poppins', sans-serif;
+      margin-bottom: 10px;
+      font-size: 18px;
     }
     /* Redes */
     .social-carousel {
@@ -177,7 +177,7 @@
     /* Sección enlaces */
     .links-section {
       max-width: 850px;
-      margin: 0 auto 40px;
+      margin: 0 auto 30px;
       padding: 0 25px;
       text-align: center;
     }
@@ -230,17 +230,25 @@
       70% { box-shadow: 0 0 0 12px rgba(0, 180, 200, 0); }
       100% { box-shadow: 0 0 0 0 rgba(0, 180, 200, 0); }
     }
-    .donation-cta {
-      margin-top: 25px;
-      padding: 15px;
-      background: rgba(20, 25, 50, 0.5);
-      border-radius: 14px;
-      border: 1px solid rgba(212, 175, 55, 0.2);
+    /* Chat abajo */
+    .chat-section-bottom {
+      max-width: 850px;
+      margin: 0 auto 40px;
+      padding: 0 20px;
+      text-align: center;
     }
-    .donation-cta h4 {
+    .chat-section-bottom h3 {
+      font-family: 'Poppins', sans-serif;
       color: #D4AF37;
-      margin-bottom: 10px;
-      font-size: 17px;
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+    .chat-container-bottom {
+      background: rgba(15, 20, 40, 0.7);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
     }
     /* Responsive */
     @media (max-width: 600px) {
@@ -249,7 +257,7 @@
       .modal { padding: 25px; }
       .modal h2 { font-size: 20px; }
       .links-section a { display: block; margin: 10px auto; width: 80%; }
-      .chat-container { height: 300px !important; }
+      .chat-container-bottom { height: 300px !important; }
       .social-link { width: 120px; }
     }
   </style>
@@ -273,16 +281,13 @@
     </a>
     <h1>JJFUTBOL</h1>
   </header>
-  <!-- Chat en vivo -->
-  <div class="chat-section">
-    <h2>💬 Chat en vivo – Únete a la comunidad</h2>
-    <div class="chat-container">
-      <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
-      <span class="minnit-chat-sembed"
-            data-chatname="https://organizations.minnit.chat/854924316996590/c/Main?embed"
-            data-style="width:100%; height:400px; max-height:90vh; border:none;"
-            data-version="1.55">
-      </span>
+  <!-- DONACIÓN ARRIBA -->
+  <div class="donation-top">
+    <div class="donation-box">
+      <h3>☕ ¿Te gusta JJFUTBOL? ¡Apóyanos!</h3>
+      <a href="https://buymeacoffee.com/jjfutbol" target="_blank">
+        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height:45px;">
+      </a>
     </div>
   </div>
   <!-- Redes -->
@@ -300,7 +305,7 @@
   <div class="viewer-container">
     <iframe id="viewer" src="" frameborder="0" allowfullscreen></iframe>
   </div>
-  <!-- Sección enlaces + Telegram + Donaciones -->
+  <!-- Sección enlaces + Telegram -->
   <div class="links-section">
     <h3>Optimiza tu experiencia</h3>
     <a href="https://brave.com/" target="_blank"><i class="fab fa-brave"></i> Descargar Brave</a>
@@ -312,13 +317,17 @@
         <i class="fab fa-telegram-plane"></i> Únete al grupo ahora
       </a>
     </div>
-    <!-- Donación -->
-    <div class="donation-cta">
-      <h4>☕ ¿Te gusta JJFUTBOL? ¡Apóyanos!</h4>
-      <p>Tu ayuda mantiene el sitio libre de anuncios y con streams estables.</p>
-      <a href="https://buymeacoffee.com/jjfutbol" target="_blank">
-        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height:45px;">
-      </a>
+  </div>
+  <!-- CHAT ABAJO (último antes del script) -->
+  <div class="chat-section-bottom">
+    <h3>💬 Chat en vivo – Únete a la comunidad</h3>
+    <div class="chat-container-bottom">
+      <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
+      <span class="minnit-chat-sembed"
+            data-chatname="https://organizations.minnit.chat/854924316996590/c/Main?embed"
+            data-style="width:100%; height:400px; max-height:90vh; border:none;"
+            data-version="1.55">
+      </span>
     </div>
   </div>
 
