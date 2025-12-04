@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JJFUTBOL</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: linear-gradient(135deg, #0A0F2C 0%, #000000 100%);
+      color: white;
+      font-family: 'Open Sans', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 15, 44, 0.92);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal {
+      background: rgba(15, 20, 40, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 20px;
+      padding: 35px;
+      max-width: 520px;
+      width: 92%;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7),
+                  inset 0 0 15px rgba(212, 175, 55, 0.1);
+    }
+    .modal h2 {
+      color: #D4AF37;
+      margin-bottom: 20px;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .modal p {
+      margin-bottom: 20px;
+      line-height: 1.7;
+      font-size: 15px;
+      color: #f0f0f0;
+    }
+    .modal button {
+      background: linear-gradient(to right, #CC5500, #D4AF37);
+      color: #0A0F2C;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(204, 85, 0, 0.3);
+    }
+    .modal button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(204, 85, 0, 0.5);
+    }
+    /* Header */
+    header {
+      text-align: center;
+      padding: 35px 20px 20px;
+    }
+    #logo {
+      height: 65px;
+      margin: 0 auto 18px;
+      filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.5));
+    }
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(to right, #D4AF37, #FF8C00);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    /* Donación arriba */
+    .donation-top {
+      max-width: 850px;
+      margin: 0 auto 30px;
+      padding: 0 20px;
+      text-align: center;
+    }
+    .donation-top .donation-box {
+      background: rgba(20, 25, 50, 0.5);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 14px;
+      padding: 15px;
+      display: inline-block;
+    }
+    .donation-top h3 {
+      color: #D4AF37;
+      font-family: 'Poppins', sans-serif;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    /* Redes */
+    .social-carousel {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 20px 15px 25px;
+      flex-wrap: wrap;
+    }
+    .social-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(20, 25, 50, 0.65);
+      border-radius: 18px;
+      padding: 18px 15px;
+      width: 135px;
+      transition: all 0.35s ease;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+    }
+    .social-link:hover {
+      transform: translateY(-8px);
+      background: rgba(30, 35, 60, 0.8);
+      box-shadow: 0 8px 25px rgba(204, 85, 0, 0.35);
+    }
+    .social-link img {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #D4AF37;
+    }
+    .social-link p {
+      margin-top: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #D4AF37;
+    }
+    /* Reproductor */
+    .viewer-container {
+      width: 100%;
+      max-width: 850px;
+      margin: 0 auto 25px;
+      padding: 0 20px;
+    }
+    .viewer-container iframe {
+      width: 100%;
+      height: 620px;
+      border: none;
+      border-radius: 18px;
+      overflow: hidden;
+      display: block;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7),
+                  inset 0 0 10px rgba(204, 85, 0, 0.1);
+    }
+    /* Sección enlaces */
+    .links-section {
+      max-width: 850px;
+      margin: 0 auto 30px;
+      padding: 0 25px;
+      text-align: center;
+    }
+    .links-section h3 {
+      font-family: 'Poppins', sans-serif;
+      color: #D4AF37;
+      margin: 25px 0 15px;
+      font-size: 20px;
+    }
+    .links-section a {
+      display: inline-block;
+      margin: 8px 10px;
+      padding: 10px 20px;
+      background: rgba(20, 25, 50, 0.7);
+      color: #FF8C00;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(204, 85, 0, 0.3);
+    }
+    .links-section a:hover {
+      background: rgba(204, 85, 0, 0.2);
+      transform: translateY(-2px);
+    }
+    .telegram-cta {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 16px;
+      border: 1px solid rgba(64, 224, 208, 0.2);
+    }
+    .telegram-cta h3, .telegram-cta p {
+      margin: 8px 0;
+    }
+    .telegram-cta a {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(to right, #0088cc, #00AA99);
+      color: white;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 16px;
+      animation: pulse-telegram 2s infinite;
+    }
+    @keyframes pulse-telegram {
+      0% { box-shadow: 0 0 0 0 rgba(0, 180, 200, 0.6); }
+      70% { box-shadow: 0 0 0 12px rgba(0, 180, 200, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 180, 200, 0); }
+    }
+    /* Chat abajo */
+    .chat-section-bottom {
+      max-width: 850px;
+      margin: 0 auto 40px;
+      padding: 0 20px;
+      text-align: center;
+    }
+    .chat-section-bottom h3 {
+      font-family: 'Poppins', sans-serif;
+      color: #D4AF37;
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+    .chat-container-bottom {
+      background: rgba(15, 20, 40, 0.7);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .viewer-container iframe { height: 380px; }
+      h1 { font-size: 28px; }
+      .modal { padding: 25px; }
+      .modal h2 { font-size: 20px; }
+      .links-section a { display: block; margin: 10px auto; width: 80%; }
+      .chat-container-bottom { height: 300px !important; }
+      .social-link { width: 120px; }
+    }
+  </style>
+</head>
+<body>
+<!-- Modal de bienvenida -->
+<div class="modal-overlay" id="welcomeModal">
+  <div class="modal">
+    <h2><i class="fas fa-exclamation-circle"></i> Información Importante</h2>
+    <p>Esta página (<strong>JJFUTBOL</strong>) <strong>NO tiene anuncios propios</strong>.<br>
+    Sin embargo, el reproductor de transmisión (streaming) <strong>puede contener publicidad</strong> provista por fuentes externas.</p>
+    <p>Para una mejor experiencia, te recomendamos:<br>
+    🔒 Usar una <strong>VPN o DNS privado</strong> (como <strong>1.1.1.1 de Cloudflare</strong>)<br>
+    📲 <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" style="color: #D4AF37; text-decoration: underline; font-weight: bold;">Únete al grupo de Telegram</a> para enlaces directos y soporte en vivo.</p>
+    <button onclick="closeModal()"><i class="fas fa-check"></i> Aceptar y continuar</button>
+  </div>
+  </div>
+ <!-- Encabezado -->
+<header>
+  <a href="https://jjfutbol.lat/" target="_blank">
+    <img id="logo" src="https://raw.githubusercontent.com/JJFUTBOL15/eventos/main/1762386751.png" alt="JJFUTBOL Logo">
+  </a>
+  <h1>JJFUTBOL</h1>
+</header>
+  <!-- DONACIÓN ARRIBA -->
+  <div class="donation-top">
+    <div class="donation-box">
+      <h3>☕ ¿Te gusta JJFUTBOL? ¡Apóyanos!</h3>
+      <a href="https://buymeacoffee.com/jjfutbol" target="_blank">
+        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height:45px;">
+      </a>
+    </div>
+  </div>
+  <!-- Redes -->
+  <div class="social-carousel">
+    <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" class="social-link">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+      <p>Telegram</p>
+    </a>
+    <a href="https://whatsapp.com/channel/0029Vacgezz9sBI3nZYNhb2o" target="_blank" class="social-link">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+      <p>WhatsApp</p>
+    </a>
+  </div>
+  <!-- Reproductor -->
+  <div class="viewer-container">
+    <iframe id="viewer" src="" frameborder="0" allowfullscreen></iframe>
+  </div>
+    </div>
+  <!-- CHAT ABAJO (último antes del script) -->
+<div class="chat-section-bottom">
+  <h3>💬 Chat en vivo – Únete a la comunidad</h3>
+  <div class="chat-container-bottom" style="max-width: 800px; margin: 0 auto;">
+    <iframe
+      src="https://www3.cbox.ws/box/?boxid=3550648&boxtag=KQBTQs"
+      width="100%"
+      height="400"
+      frameborder="0"
+      scrolling="auto"
+      allowtransparency="true"
+      style="border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 16px; background: rgba(20, 25, 55, 0.4);"
+    ></iframe>
+  </div>
+</div>
+  </div>
+
+  <script>
+    // Cerrar modal
+    function closeModal() {
+      document.getElementById('welcomeModal').style.display = 'none';
+    }
+    // Cargar stream
+    const urlParams = new URLSearchParams(window.location.search);
+    const encodedUrl = urlParams.get('r');
+    const viewerFrame = document.getElementById('viewer');
+    if (encodedUrl) {
+      try {
+        const decodedUrl = atob(decodeURIComponent(encodedUrl));
+        viewerFrame.src = decodedUrl;
+        // Insertar aviso de VPN
+        const vpnNotice = document.createElement('div');
+        vpnNotice.innerHTML = `
+          <div style="
+            max-width: 850px;
+            margin: 15px auto;
+            padding: 16px;
+            background: rgba(20, 25, 50, 0.75);
+            border-radius: 14px;
+            border-left: 4px solid #D4AF37;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #f0f0f0;
+            text-align: center;
+            font-family: 'Open Sans', sans-serif;
+          ">
+          <strong>¿La transmisión no carga?</strong><br>
+Si estás en <strong>España u otro país</strong> y el stream no se reproduce,
+<strong>prueba usar una VPN o un DNS privado</strong> conectándote a <strong>Brasil, México o Estados Unidos</strong>.<br>
+Te recomendamos usar <a href="https://1.1.1.1/" target="_blank" style="color: #D4AF37; text-decoration: underline; font-weight: bold;">1.1.1.1 de Cloudflare</a> para mayor privacidad y evitar bloqueos.<br>
+También puedes <a href="https://t.me/+EPyKMpHXlv5lMmYx" target="_blank" style="color: #D4AF37; text-decoration: underline; font-weight: bold;">unirte a nuestro grupo de Telegram</a> para recibir enlaces alternativos y soporte en vivo.<br>
+<em>Estamos trabajando constantemente para mejorar la estabilidad y calidad de las transmisiones. ¡Gracias por tu apoyo!</em>
+</div>
+    </div>
+</div>
+       `;
+        viewerFrame.parentNode.insertAdjacentElement('afterend', vpnNotice);
+      } catch (e) {
+        document.body.innerHTML = '<h2 style="color:white;text-align:center;margin-top:50px;font-family:Poppins,sans-serif;">Enlace no válido</h2>';
+      }
+    } else {
+      document.body.innerHTML = '<h2 style="color:white;text-align:center;margin-top:50px;font-family:Poppins,sans-serif;">Sin stream disponible.<br>¡Entra al grupo de Telegram para añadir un canal o reportar problemas!</h2>';
+    }
+  </script>
+</body>
+</html>
