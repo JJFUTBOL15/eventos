@@ -33,8 +33,12 @@
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
+    const type = urlParams.get('type');
+
     if (id) {
-      document.getElementById('player').src = `https://www.noctiflix.lat/p/player.html?id=${id}`;
+      // Usa player.html para películas y series
+      const embedUrl = `https://www.noctiflix.lat/p/player.html?id=${id}`;
+      document.getElementById('player').src = embedUrl;
     } else {
       document.body.innerHTML = '<h1 style="color:white;text-align:center;margin-top:20vh;">ID no válido</h1>';
     }
