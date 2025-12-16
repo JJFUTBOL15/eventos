@@ -1,187 +1,107 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+const API_KEY = "936410eebae74f9895643e085cc4a740";
+const BASE_URL = "https://api.themoviedb.org/3";
+const IMG_BASE = "https://image.tmdb.org/t/p/w1280";
+
+window.onload = async () => {
+  await loadTrendingCarousel();
+  await loadMoviesSection();
+  await loadSeriesSection();
+};
+
+async function loadTrendingCarousel() {
+  try {
+    const url = `${BASE_URL}/trending/movie/day?api_key=${API_KEY}&language=es-ES`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const carousel = document.getElementById("trendingCarousel");
+    carousel.innerHTML = "";
+
+    (data.results || []).slice(0, 3).forEach(movie => {
+      const slide = document.createElement("div");
+      slide.className = "hero-slide";
+      slide.style.backgroundImage = `url(${IMG_BASE}${movie.backdrop_path})`;
+
+      slide.innerHTML = `
+        <div class="hero-content">
+          <h1 class="hero-title">${movie.title}</h1>
+          <p class="hero-desc">${movie.overview.substring(0, 150)}...</p>
+          <div class="hero-btns">
+            <button class="hero-btn btn-play" onclick="goToPlayer(${movie.id}, 'movie')">▶ Ver ahora</button>
+            <button class="hero-btn btn-info" onclick="showInfo(${movie.id})">+ Info</button>
+          </div>
+        </div>
+      `;
+      carousel.appendChild(slide);
+    });
+  } catch (err) {
+    console.error("Error en carrusel", err);
+  }
 }
 
-body {
-  background: #0f0f1b;
-  color: white;
-  font-family: 'Segoe UI', sans-serif;
+async function loadMoviesSection() {
+  try {
+    const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=es-ES&sort_by=popularity.desc&page=1`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const slider = document.getElementById("movieSlider");
+    slider.innerHTML = "";
+
+    (data.results || []).slice(0, 15).forEach(movie => {
+      const card = document.createElement("div");
+      card.className = "movie-card";
+      card.onclick = () => goToPlayer(movie.id, 'movie');
+
+      const poster = movie.poster_path ? IMG_BASE + movie.poster_path : "https://via.placeholder.com/200x280/222/aaa?text=—";
+
+      card.innerHTML = `
+        <img class="poster" src="${poster}" alt="${movie.title}" loading="lazy" />
+        <div class="card-title">${movie.title}</div>
+      `;
+      slider.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Error en películas", err);
+  }
 }
 
-/* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px;
-  background: rgba(0,0,0,0.7);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
+async function loadSeriesSection() {
+  try {
+    const url = `${BASE_URL}/discover/tv?api_key=${API_KEY}&language=es-ES&sort_by=popularity.desc&page=1`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const slider = document.getElementById("seriesSlider");
+    slider.innerHTML = "";
+
+    (data.results || []).slice(0, 15).forEach(show => {
+      const card = document.createElement("div");
+      card.className = "show-card";
+      card.onclick = () => goToPlayer(show.id, 'tv');
+
+      const poster = show.poster_path ? IMG_BASE + show.poster_path : "https://via.placeholder.com/200x280/222/aaa?text=—";
+
+      card.innerHTML = `
+        <img class="poster" src="${poster}" alt="${show.name}" loading="lazy" />
+        <div class="card-title">${show.name}</div>
+      `;
+      slider.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Error en series", err);
+  }
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #ff4d4d;
+function goToPlayer(id, type) {
+  if (type === 'movie') {
+    window.location.href = `https://www.noctiflix.lat/p/mov.html?m=${id}`;
+  } else {
+    // Para series, usa temporada 1, episodio 1
+    window.location.href = `https://www.noctiflix.lat/p/sris.html?serie=${id}/1/1`;
+  }
 }
 
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 25px;
-}
-
-.nav-links a {
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 4px;
-}
-
-.nav-links a.active {
-  background: #ff4d4d;
-  color: black;
-}
-
-.search-box {
-  display: flex;
-  gap: 5px;
-}
-
-.search-box input {
-  padding: 5px 10px;
-  border-radius: 20px;
-  border: none;
-  background: #222;
-  color: white;
-}
-
-.search-box button {
-  background: #ff4d4d;
-  color: black;
-  border: none;
-  padding: 5px 15px;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-/* Hero Carousel */
-.hero-carousel {
-  height: 60vh;
-  margin-top: 70px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-slide {
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: flex-end;
-  padding: 40px;
-  color: white;
-  transition: opacity 0.5s ease;
-}
-
-.hero-content {
-  max-width: 500px;
-}
-
-.hero-title {
-  font-size: 40px;
-  margin-bottom: 15px;
-}
-
-.hero-desc {
-  font-size: 16px;
-  margin-bottom: 20px;
-  line-height: 1.4;
-}
-
-.hero-btns {
-  display: flex;
-  gap: 15px;
-}
-
-.hero-btn {
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn-play {
-  background: white;
-  color: black;
-}
-
-.btn-info {
-  background: rgba(255,255,255,0.3);
-  color: white;
-}
-
-/* Secciones */
-.section {
-  padding: 40px 30px;
-}
-
-.section h2 {
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #ff6b6b;
-}
-
-.category-slider {
-  display: flex;
-  gap: 15px;
-  overflow-x: auto;
-  padding: 10px 0;
-  scrollbar-width: thin;
-}
-
-.category-slider::-webkit-scrollbar {
-  height: 6px;
-}
-
-.category-slider::-webkit-scrollbar-thumb {
-  background: #ff4d4d;
-  border-radius: 3px;
-}
-
-.movie-card, .show-card {
-  min-width: 200px;
-  background: #161625;
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-
-.movie-card:hover, .show-card:hover {
-  transform: scale(1.05);
-}
-
-.poster {
-  width: 100%;
-  height: 280px;
-  object-fit: cover;
-}
-
-.card-title {
-  padding: 10px;
-  font-size: 14px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+function showInfo(id) {
+  alert(`ID: ${id} - Información detallada no implementada`);
 }
