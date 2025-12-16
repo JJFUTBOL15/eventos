@@ -310,3 +310,44 @@ body {
   line-height: 1.6;
   font-size: 16px;
 }
+/* Temporadas y episodios */
+.seasons-section {
+  padding: 30px 30px 50px;
+  background: #0f0f1b;
+}
+
+.seasons-section h2 {
+  color: #ff6b6b;
+  margin-bottom: 20px;
+}
+
+.seasons-grid, .episodes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.season-card, .episode-card {
+  background: #161625;
+  border-radius: 8px;
+  padding: 15px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.season-card:hover, .episode-card:hover {
+  transform: translateY(-3px);
+  background: #1e1e2f;
+}
+
+.season-number, .episode-number {
+  font-weight: bold;
+  font-size: 16px;
+  color: #ff4d4d;
+  margin-bottom: 5px;
+}
+
+.episode-title {
+  font-size: 14px;
+  color: #fff;
+}
