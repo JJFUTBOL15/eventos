@@ -12,43 +12,58 @@ window.onload = async () => {
   updateMyListCount();
 };
 
-// Cargar carrusel de películas de 2025 (aleatorias)
+// Cargar carrusel de películas de 2025 (40 aleatorias) y rotar cada 4 segundos
 async function loadTrendingCarousel() {
   try {
-    // Obtenemos películas de 2025, ordenadas por popularidad
     const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=es-ES&primary_release_year=2025&sort_by=popularity.desc&page=1`;
     const res = await fetch(url);
     const data = await res.json();
 
-    // Mezclamos aleatoriamente y tomamos 40
-    const shuffled = [...data.results].sort(() => 0.5 - Math.random()).slice(0, 40);
-
+    const allMovies = [...(data.results || [])].sort(() => 0.5 - Math.random()).slice(0, 40);
     const carousel = document.getElementById("trendingCarousel");
-    carousel.innerHTML = "";
 
-    shuffled.forEach(movie => {
+    if (allMovies.length === 0) {
+      carousel.innerHTML = `<div class="hero-slide"><div class="hero-content"><h1>No hay películas de 2025</h1></div></div>`;
+      return;
+    }
+
+    let currentIndex = 0;
+
+    function showMovie(index) {
+      const movie = allMovies[index];
       const slide = document.createElement("div");
       slide.className = "hero-slide";
-      slide.style.backgroundImage = `url(${IMG_BASE}${movie.backdrop_path})`;
+      slide.style.backgroundImage = movie.backdrop_path ? `url(${IMG_BASE}${movie.backdrop_path})` : "linear-gradient(to right, #222, #444)";
 
       slide.innerHTML = `
         <div class="hero-content">
           <h1 class="hero-title">${movie.title}</h1>
-          <p class="hero-desc">${movie.overview.substring(0, 150)}...</p>
+          <p class="hero-desc">${movie.overview ? movie.overview.substring(0, 150) + "..." : "Sinopsis no disponible."}</p>
           <div class="hero-btns">
             <button class="hero-btn btn-play" onclick="goToDetails(${movie.id}, 'movie')">▶ Ver ahora</button>
             <button class="hero-btn btn-info" onclick="goToDetails(${movie.id}, 'movie')">+ Info</button>
           </div>
         </div>
       `;
+
+      carousel.innerHTML = "";
       carousel.appendChild(slide);
-    });
+    }
+
+    showMovie(currentIndex);
+
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % allMovies.length;
+      showMovie(currentIndex);
+    }, 4000);
+
   } catch (err) {
     console.error("Error en carrusel", err);
+    document.getElementById("trendingCarousel").innerHTML = `<div class="hero-slide"><div class="hero-content"><h1>Error al cargar películas</h1></div></div>`;
   }
 }
 
-// Cargar secciones por género + Recién Añadidas
+// Cargar secciones: géneros + Recién Añadidas
 async function loadSections() {
   const genres = [
     { id: 28, name: "Acción" },
@@ -61,7 +76,7 @@ async function loadSections() {
     { id: 53, name: "Thriller" },
     { id: 10751, name: "Familia" },
     { id: 10759, name: "Acción & Aventura" },
-    { id: "recent", name: "Recién Añadidas" } // Nueva sección
+    { id: "recent", name: "Recién Añadidas" }
   ];
 
   const container = document.getElementById("sectionsContainer");
@@ -69,29 +84,21 @@ async function loadSections() {
   for (const genre of genres) {
     const section = document.createElement("section");
     section.className = "section";
-    
-    if (genre.id === "recent") {
-      section.innerHTML = `
-        <h2>${genre.name}</h2>
-        <div class="category-slider" id="slider-recent"></div>
-      `;
-    } else {
-      section.innerHTML = `
-        <h2>${genre.name}</h2>
-        <div class="category-slider" id="slider-${genre.id}"></div>
-      `;
-    }
+    section.innerHTML = `
+      <h2>${genre.name}</h2>
+      <div class="category-slider" id="slider-${genre.id === 'recent' ? 'recent' : genre.id}"></div>
+    `;
     container.appendChild(section);
 
     if (genre.id === "recent") {
-      await loadRecentMovies(`slider-recent`);
+      await loadRecentMovies("slider-recent");
     } else {
       await loadMoviesByGenre(genre.id, `slider-${genre.id}`);
     }
   }
 }
 
-// Cargar películas por género (hasta 40)
+// Cargar películas por género (40 por sección)
 async function loadMoviesByGenre(genreId, sliderId) {
   try {
     const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&language=es-ES&sort_by=popularity.desc&page=1`;
@@ -101,7 +108,6 @@ async function loadMoviesByGenre(genreId, sliderId) {
     const slider = document.getElementById(sliderId);
     slider.innerHTML = "";
 
-    // Mostrar hasta 40 películas
     (data.results || []).slice(0, 40).forEach(movie => {
       const card = document.createElement("div");
       card.className = "movie-card";
@@ -124,10 +130,9 @@ async function loadMoviesByGenre(genreId, sliderId) {
   }
 }
 
-// Cargar películas recientemente añadidas (más recientes)
+// Cargar películas recién añadidas (más recientes, hasta 40)
 async function loadRecentMovies(sliderId) {
   try {
-    // Películas más recientes (por fecha de lanzamiento)
     const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=es-ES&sort_by=release_date.desc&page=1`;
     const res = await fetch(url);
     const data = await res.json();
@@ -135,7 +140,6 @@ async function loadRecentMovies(sliderId) {
     const slider = document.getElementById(sliderId);
     slider.innerHTML = "";
 
-    // Mostrar hasta 40 películas más recientes
     (data.results || []).slice(0, 40).forEach(movie => {
       const card = document.createElement("div");
       card.className = "movie-card";
@@ -158,7 +162,7 @@ async function loadRecentMovies(sliderId) {
   }
 }
 
-// Búsqueda
+// Configurar búsqueda
 function setupSearch() {
   const searchInput = document.getElementById("searchInput");
   const searchBtn = document.getElementById("searchBtn");
@@ -196,22 +200,35 @@ function toggleFavorite(e, id, type) {
 
   localStorage.setItem("myList", JSON.stringify(myList));
   updateMyListCount();
-  // Actualizar botón
+
+  // Actualizar botón visual en todas las tarjetas con ese ID
+  const buttons = document.querySelectorAll(`.favorite-btn`);
+  buttons.forEach(btn => {
+    const card = btn.closest('.movie-card, .show-card');
+    if (card) {
+      const cardId = /* no podemos saberlo fácilmente, pero sí en detalles */ null;
+    }
+  });
+
+  // Solo actualizamos el botón clickeado
   const btn = e.target;
   btn.textContent = myList.some(item => item.id === id && item.type === type) ? "❤️" : "♡";
 }
 
+// Actualizar contador de Mi Lista
 function updateMyListCount() {
-  const myListLink = document.getElementById("myListLink");
-  myListLink.textContent = `Mi Lista (${myList.length})`;
+  const link = document.getElementById("myListLink");
+  if (link) {
+    link.textContent = `Mi Lista (${myList.length})`;
+  }
 }
 
 // Evento para Mi Lista
-document.getElementById("myListLink").onclick = (e) => {
+document.getElementById("myListLink")?.addEventListener("click", (e) => {
   e.preventDefault();
   if (myList.length === 0) {
     alert("Tu lista está vacía.");
     return;
   }
   window.location.href = `mylist.html`;
-};
+});
