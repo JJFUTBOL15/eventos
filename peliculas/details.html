@@ -15,29 +15,26 @@
   </header>
 
   <main class="details-page">
-    <div class="details-container">
-      <!-- Imagen vertical (cartel) -->
-      <div class="details-poster" id="detailsPoster"></div>
-
-      <!-- Información y botones -->
-      <div class="details-info">
+    <!-- Imagen completa con botones encima -->
+    <div class="details-banner" id="detailsBanner">
+      <div class="banner-overlay">
         <h1 id="detailsTitle"></h1>
         <div class="details-meta">
           <span id="detailsYear"></span> • 
           <span id="detailsGenres"></span> • 
           <span id="detailsRuntime"></span>
         </div>
-
-        <!-- Botones encima de la sinopsis -->
         <div class="details-actions">
           <button id="playBtn" class="btn-play">▶ Ver ahora</button>
           <button id="favoriteBtn" class="btn-info">♡ Añadir a Mi Lista</button>
           <a href="https://t.me/+6MfwQuRHO_Q3NTIx" target="_blank" class="telegram-btn">💬 Telegram</a>
         </div>
-
-        <!-- Sinopsis debajo de los botones -->
-        <p id="detailsOverview"></p>
       </div>
+    </div>
+
+    <!-- Sinopsis debajo de la imagen -->
+    <div class="details-overview-container">
+      <p id="detailsOverview"></p>
     </div>
   </main>
 
@@ -54,9 +51,9 @@
         const res = await fetch(url);
         const data = await res.json();
 
-        // Mostrar poster grande (vertical)
-        const posterUrl = data.poster_path ? IMG_BASE + data.poster_path : "https://via.placeholder.com/400x600/222/aaa?text=Sin+imagen";
-        document.getElementById("detailsPoster").style.backgroundImage = `url(${posterUrl})`;
+        // Mostrar banner completo
+        const bannerUrl = data.backdrop_path ? IMG_BASE + data.backdrop_path : "https://via.placeholder.com/1920x800/222/aaa?text=Sin+imagen";
+        document.getElementById("detailsBanner").style.backgroundImage = `url(${bannerUrl})`;
 
         // Título
         document.getElementById("detailsTitle").textContent = data.title || data.name;
