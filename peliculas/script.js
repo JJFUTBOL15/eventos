@@ -2,14 +2,12 @@ const API_KEY = "936410eebae74f9895643e085cc4a740";
 const BASE_URL = "https://api.themoviedb.org/3";
 const IMG_BASE = "https://image.tmdb.org/t/p/w1280";
 
-// Cargar al inicio
 window.onload = async () => {
   await loadTrendingCarousel();
   await loadMoviesSection();
   await loadSeriesSection();
 };
 
-// Carrusel de tendencias
 async function loadTrendingCarousel() {
   try {
     const url = `${BASE_URL}/trending/movie/day?api_key=${API_KEY}&language=es-ES`;
@@ -41,7 +39,6 @@ async function loadTrendingCarousel() {
   }
 }
 
-// Sección de películas
 async function loadMoviesSection() {
   try {
     const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=es-ES&sort_by=popularity.desc&page=1`;
@@ -71,7 +68,6 @@ async function loadMoviesSection() {
   }
 }
 
-// Sección de series
 async function loadSeriesSection() {
   try {
     const url = `${BASE_URL}/discover/tv?api_key=${API_KEY}&language=es-ES&sort_by=popularity.desc&page=1`;
@@ -101,16 +97,15 @@ async function loadSeriesSection() {
   }
 }
 
-// 🔥 FUNCIÓN CLAVE: redirige directamente a NoctiFlix
+// 🔥 REDIRECCIÓN DIRECTA A NOCTIFLIX (¡ESTO HACE QUE FUNCIONE!)
 function goToPlayer(id, type) {
   if (type === 'movie') {
     window.location.href = `https://www.noctiflix.lat/p/mov.html?m=${id}`;
   } else {
-    // Serie: temporada 1, episodio 1
     window.location.href = `https://www.noctiflix.lat/p/sris.html?serie=${id}/1/1`;
   }
 }
 
 function showInfo(id) {
-  alert(`ID: ${id} - Información detallada no implementada`);
+  alert(`ID: ${id} - Información detallada`);
 }
