@@ -1,0 +1,61 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0f0f1b;
+  color: #fff;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+header h1 {
+  color: #ff4d4d;
+}
+
+#searchInput {
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  width: 250px;
+  background: #1e1e2f;
+  color: white;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+}
+
+.movie-card {
+  background: #1e1e2f;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+}
+
+.movie-poster {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.movie-title {
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+}
