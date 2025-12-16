@@ -5,57 +5,65 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background: #0f0f1b;
+  background: #0b0b16;
   color: #fff;
+  font-family: 'Segoe UI', sans-serif;
   padding: 20px;
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  text-align: center;
   margin-bottom: 30px;
 }
 
 header h1 {
-  color: #ff4d4d;
+  font-size: 32px;
+  background: linear-gradient(90deg, #ff4d4d, #ff9e4d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-#searchInput {
-  padding: 10px;
-  border-radius: 20px;
-  border: none;
-  width: 250px;
-  background: #1e1e2f;
-  color: white;
+.genre-section {
+  margin-bottom: 40px;
 }
 
-.grid {
+.genre-title {
+  font-size: 22px;
+  margin-bottom: 16px;
+  color: #ff6b6b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.movies-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
 }
 
 .movie-card {
-  background: #1e1e2f;
+  background: #161625;
   border-radius: 10px;
   overflow: hidden;
-  transition: transform 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
 }
 
 .movie-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  box-shadow: 0 6px 18px rgba(255, 77, 77, 0.4);
 }
 
 .movie-poster {
   width: 100%;
-  height: 240px;
+  height: 220px;
   object-fit: cover;
 }
 
 .movie-title {
   padding: 10px;
-  font-size: 14px;
+  font-size: 13px;
   text-align: center;
+  line-height: 1.3;
 }
