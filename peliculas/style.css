@@ -10,8 +10,8 @@ body {
   font-family: 'Segoe UI', sans-serif;
 }
 
-/* Navbar */
-.navbar {
+/* Header */
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,10 +30,30 @@ body {
   color: #ff4d4d;
 }
 
-.nav-links {
+.search-container {
   display: flex;
-  list-style: none;
-  gap: 25px;
+  gap: 10px;
+  flex-grow: 1;
+  max-width: 500px;
+  margin: 0 20px;
+}
+
+#searchInput {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  background: #222;
+  color: white;
+}
+
+#searchBtn {
+  background: #ff4d4d;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
 }
 
 .nav-links a {
@@ -44,31 +64,10 @@ body {
   border-radius: 4px;
 }
 
-.nav-links a.active {
-  background: #ff4d4d;
-  color: black;
-}
-
-.search-box {
-  display: flex;
-  gap: 5px;
-}
-
-.search-box input {
+#myListLink {
+  background: #333;
   padding: 5px 10px;
-  border-radius: 20px;
-  border: none;
-  background: #222;
-  color: white;
-}
-
-.search-box button {
-  background: #ff4d4d;
-  color: black;
-  border: none;
-  padding: 5px 15px;
-  border-radius: 20px;
-  cursor: pointer;
+  border-radius: 4px;
 }
 
 /* Hero Carousel */
@@ -138,6 +137,14 @@ body {
   font-size: 28px;
   margin-bottom: 20px;
   color: #ff6b6b;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section h2::after {
+  content: ">";
+  font-size: 18px;
 }
 
 .category-slider {
@@ -164,6 +171,7 @@ body {
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.3s;
+  position: relative;
 }
 
 .movie-card:hover, .show-card:hover {
@@ -183,4 +191,33 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff4d4d;
+  font-size: 16px;
+}
+
+.favorite-btn:hover {
+  background: rgba(255,77,77,0.3);
+}
+
+/* Footer */
+.footer {
+  padding: 20px;
+  text-align: center;
+  background: #111;
+  margin-top: 30px;
 }
