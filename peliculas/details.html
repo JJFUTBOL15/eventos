@@ -32,10 +32,13 @@
       </div>
     </div>
 
-    <!-- Sinopsis debajo de la imagen -->
+    <!-- Sinopsis -->
     <div class="details-overview-container">
       <p id="detailsOverview"></p>
     </div>
+
+    <!-- Temporadas (solo para series) -->
+    <div id="seasonsSection" class="seasons-section"></div>
   </main>
 
   <script src="script.js"></script>
@@ -44,6 +47,8 @@
     const id = urlParams.get('id');
     const type = urlParams.get('type');
 
+    let totalSeasons = 0;
+
     // Cargar detalles
     async function loadDetails() {
       try {
@@ -51,7 +56,7 @@
         const res = await fetch(url);
         const data = await res.json();
 
-        // Mostrar banner completo
+        // Mostrar banner
         const bannerUrl = data.backdrop_path ? IMG_BASE + data.backdrop_path : "https://via.placeholder.com/1920x800/222/aaa?text=Sin+imagen";
         document.getElementById("detailsBanner").style.backgroundImage = `url(${bannerUrl})`;
 
@@ -59,15 +64,25 @@
         document.getElementById("detailsTitle").textContent = data.title || data.name;
 
         // Metadatos
-        document.getElementById("detailsYear").textContent = data.release_date?.substring(0,4) || data.first_air_date?.substring(0,4) || "???";
-        document.getElementById("detailsGenres").textContent = data.genres.map(g => g.name).join(", ") || "—";
-        document.getElementById("detailsRuntime").textContent = `${data.runtime || data.episode_run_time?.[0] || 0} min`;
+        if (type === 'movie') {
+          document.getElementById("detailsYear").textContent = data.release_date?.substring(0,4) || "???";
+          document.getElementById("detailsRuntime").textContent = `${data.runtime || 0} min`;
+        } else {
+          document.getElementById("detailsYear").textContent = `${data.first_air_date?.substring(0,4) || "???"} - ${data.last_air_date?.substring(0,4) || "???"}`;
+          document.getElementById("detailsRuntime").textContent = data.number_of_episodes ? `${data.number_of_episodes} episodios` : "";
+          totalSeasons = data.number_of_seasons || 0;
+        }
 
-        // Sinopsis
+        document.getElementById("detailsGenres").textContent = data.genres.map(g => g.name).join(", ") || "—";
         document.getElementById("detailsOverview").textContent = data.overview;
 
         // Configurar botones
-        document.getElementById("playBtn").onclick = () => window.location.href = `watch.html?id=${id}&type=${type}`;
+        if (type === 'movie') {
+          document.getElementById("playBtn").onclick = () => window.location.href = `watch.html?id=${id}&type=movie`;
+        } else {
+          // Para series, el botón "Ver ahora" reproduce S1E1
+          document.getElementById("playBtn").onclick = () => window.location.href = `watch.html?id=${id}/1/1&type=tv`;
+        }
 
         const favoriteBtn = document.getElementById("favoriteBtn");
         const isFavorite = myList.some(item => item.id === id && item.type === type);
@@ -76,9 +91,69 @@
           toggleFavorite(null, id, type);
           favoriteBtn.textContent = myList.some(item => item.id === id && item.type === type) ? "❤️ Añadido" : "♡ Añadir a Mi Lista";
         };
+
+        // Si es serie, cargar temporadas
+        if (type === 'tv') {
+          loadSeasons(id);
+        }
       } catch (err) {
         console.error("Error al cargar detalles", err);
         document.body.innerHTML = "<h1>Error al cargar los detalles.</h1>";
+      }
+    }
+
+    // Cargar temporadas
+    async function loadSeasons(showId) {
+      const seasonsSection = document.getElementById("seasonsSection");
+      seasonsSection.innerHTML = "<h2>Temporadas</h2>";
+
+      const grid = document.createElement("div");
+      grid.className = "seasons-grid";
+
+      for (let seasonNumber = 1; seasonNumber <= totalSeasons; seasonNumber++) {
+        const seasonCard = document.createElement("div");
+        seasonCard.className = "season-card";
+        seasonCard.onclick = () => loadEpisodes(showId, seasonNumber);
+
+        seasonCard.innerHTML = `
+          <div class="season-number">Temporada ${seasonNumber}</div>
+        `;
+        grid.appendChild(seasonCard);
+      }
+
+      seasonsSection.appendChild(grid);
+    }
+
+    // Cargar episodios de una temporada
+    async function loadEpisodes(showId, seasonNumber) {
+      try {
+        const url = `${BASE_URL}/tv/${showId}/season/${seasonNumber}?api_key=${API_KEY}&language=es-ES`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        const seasonsSection = document.getElementById("seasonsSection");
+        seasonsSection.innerHTML = `<h2>Temporada ${seasonNumber}: ${data.name || ''}</h2>`;
+
+        const grid = document.createElement("div");
+        grid.className = "episodes-grid";
+
+        data.episodes.forEach(episode => {
+          const epCard = document.createElement("div");
+          epCard.className = "episode-card";
+          epCard.onclick = () => {
+            window.location.href = `watch.html?id=${showId}/${seasonNumber}/${episode.episode_number}&type=tv`;
+          };
+
+          epCard.innerHTML = `
+            <div class="episode-number">E${episode.episode_number}</div>
+            <div class="episode-title">${episode.name}</div>
+          `;
+          grid.appendChild(epCard);
+        });
+
+        seasonsSection.appendChild(grid);
+      } catch (err) {
+        console.error("Error al cargar episodios", err);
       }
     }
 
