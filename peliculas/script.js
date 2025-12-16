@@ -27,7 +27,7 @@ async function loadTrendingCarousel() {
           <h1 class="hero-title">${movie.title}</h1>
           <p class="hero-desc">${movie.overview.substring(0, 150)}...</p>
           <div class="hero-btns">
-            <button class="hero-btn btn-play" onclick="goToPlayer(${movie.id}, 'movie')">▶ Ver ahora</button>
+            <button class="hero-btn btn-play" onclick="goToWatch(${movie.id}, 'movie')">▶ Ver ahora</button>
             <button class="hero-btn btn-info" onclick="showInfo(${movie.id})">+ Info</button>
           </div>
         </div>
@@ -51,7 +51,7 @@ async function loadMoviesSection() {
     (data.results || []).slice(0, 15).forEach(movie => {
       const card = document.createElement("div");
       card.className = "movie-card";
-      card.onclick = () => goToPlayer(movie.id, 'movie');
+      card.onclick = () => goToWatch(movie.id, 'movie');
 
       const poster = movie.poster_path
         ? IMG_BASE + movie.poster_path
@@ -80,7 +80,7 @@ async function loadSeriesSection() {
     (data.results || []).slice(0, 15).forEach(show => {
       const card = document.createElement("div");
       card.className = "show-card";
-      card.onclick = () => goToPlayer(show.id, 'tv');
+      card.onclick = () => goToWatch(show.id, 'tv');
 
       const poster = show.poster_path
         ? IMG_BASE + show.poster_path
@@ -97,13 +97,8 @@ async function loadSeriesSection() {
   }
 }
 
-// 🔥 REDIRECCIÓN DIRECTA A NOCTIFLIX (¡ESTO HACE QUE FUNCIONE!)
-function goToPlayer(id, type) {
-  if (type === 'movie') {
-    window.location.href = `https://www.noctiflix.lat/p/mov.html?m=${id}`;
-  } else {
-    window.location.href = `https://www.noctiflix.lat/p/sris.html?serie=${id}/1/1`;
-  }
+function goToWatch(id, type) {
+  window.location.href = `watch.html?id=${id}&type=${type}`;
 }
 
 function showInfo(id) {
