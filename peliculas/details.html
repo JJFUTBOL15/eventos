@@ -15,18 +15,25 @@
   </header>
 
   <main class="details-page">
-    <div class="details-banner" id="detailsBanner"></div>
-    <div class="details-content">
-      <h1 id="detailsTitle"></h1>
-      <div class="details-meta">
-        <span id="detailsYear"></span> • 
-        <span id="detailsGenres"></span> • 
-        <span id="detailsRuntime"></span>
-      </div>
-      <p id="detailsOverview"></p>
-      <div class="details-actions">
-        <button id="playBtn" class="btn-play">▶ Ver ahora</button>
-        <button id="favoriteBtn" class="btn-info">♡ Añadir a Mi Lista</button>
+    <div class="details-container">
+      <!-- Imagen grande -->
+      <div class="details-poster" id="detailsPoster"></div>
+
+      <!-- Información -->
+      <div class="details-info">
+        <h1 id="detailsTitle"></h1>
+        <div class="details-meta">
+          <span id="detailsYear"></span> • 
+          <span id="detailsGenres"></span> • 
+          <span id="detailsRuntime"></span>
+        </div>
+        <p id="detailsOverview"></p>
+
+        <div class="details-actions">
+          <button id="playBtn" class="btn-play">▶ Ver ahora</button>
+          <button id="favoriteBtn" class="btn-info">♡ Añadir a Mi Lista</button>
+          <a href="https://t.me/+6MfwQuRHO_Q3NTIx" target="_blank" class="telegram-btn">💬 Telegram</a>
+        </div>
       </div>
     </div>
   </main>
@@ -44,11 +51,19 @@
         const res = await fetch(url);
         const data = await res.json();
 
-        document.getElementById("detailsBanner").style.backgroundImage = `url(${IMG_BASE}${data.backdrop_path})`;
+        // Mostrar poster grande
+        const posterUrl = data.poster_path ? IMG_BASE + data.poster_path : "https://via.placeholder.com/400x600/222/aaa?text=Sin+imagen";
+        document.getElementById("detailsPoster").style.backgroundImage = `url(${posterUrl})`;
+
+        // Título
         document.getElementById("detailsTitle").textContent = data.title || data.name;
+
+        // Metadatos
         document.getElementById("detailsYear").textContent = data.release_date?.substring(0,4) || data.first_air_date?.substring(0,4) || "???";
         document.getElementById("detailsGenres").textContent = data.genres.map(g => g.name).join(", ") || "—";
         document.getElementById("detailsRuntime").textContent = `${data.runtime || data.episode_run_time?.[0] || 0} min`;
+
+        // Sinopsis
         document.getElementById("detailsOverview").textContent = data.overview;
 
         // Configurar botones
