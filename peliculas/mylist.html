@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JJMOVIES - Mi Lista</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo">JJMOVIES</div>
+    <div class="nav-links">
+      <a href="index.html">← Volver</a>
+    </div>
+  </header>
+
+  <main class="mylist-page">
+    <h1>Mi Lista</h1>
+    <div id="myListContainer" class="category-slider"></div>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    const myListContainer = document.getElementById("myListContainer");
+    myListContainer.innerHTML = "";
+
+    if (myList.length === 0) {
+      myListContainer.innerHTML = "<p>Tu lista está vacía. ¡Añade películas y series!</p>";
+    } else {
+      myList.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "movie-card";
+        card.onclick = () => window.location.href = `details.html?id=${item.id}&type=${item.type}`;
+
+        // Obtener datos básicos (título, poster)
+        fetch(`${BASE_URL}/${item.type}/${item.id}?api_key=${API_KEY}&language=es-ES`)
+          .then(res => res.json())
+          .then(data => {
+            const poster = data.poster_path ? IMG_BASE + data.poster_path : "https://via.placeholder.com/200x280/222/aaa?text=—";
+            card.innerHTML = `
+              <img class="poster" src="${poster}" alt="${data.title || data.name}" loading="lazy" />
+              <div class="card-title">${data.title || data.name}</div>
+              <button class="favorite-btn" onclick="toggleFavorite(event, ${item.id}, '${item.type}')">❤️</button>
+            `;
+          })
+          .catch(err => {
+            card.innerHTML = `<div class="card-title">Error al cargar</div>`;
+          });
+
+        myListContainer.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>
