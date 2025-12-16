@@ -29,7 +29,7 @@ async function loadTrendingCarousel() {
           <h1 class="hero-title">${movie.title}</h1>
           <p class="hero-desc">${movie.overview.substring(0, 150)}...</p>
           <div class="hero-btns">
-            <button class="hero-btn btn-play" onclick="playMovie(${movie.id})">▶ Ver ahora</button>
+            <button class="hero-btn btn-play" onclick="goToPlayer(${movie.id}, 'movie')">▶ Ver ahora</button>
             <button class="hero-btn btn-info" onclick="showInfo(${movie.id})">+ Info</button>
           </div>
         </div>
@@ -54,9 +54,11 @@ async function loadMoviesSection() {
     (data.results || []).slice(0, 15).forEach(movie => {
       const card = document.createElement("div");
       card.className = "movie-card";
-      card.onclick = () => window.location.href = `watch.html?id=${movie.id}&type=movie`;
+      card.onclick = () => goToPlayer(movie.id, 'movie');
 
-      const poster = movie.poster_path ? IMG_BASE + movie.poster_path : "https://via.placeholder.com/200x280/222/aaa?text=—";
+      const poster = movie.poster_path
+        ? IMG_BASE + movie.poster_path
+        : "https://via.placeholder.com/200x280/222/aaa?text=—";
 
       card.innerHTML = `
         <img class="poster" src="${poster}" alt="${movie.title}" loading="lazy" />
@@ -82,9 +84,11 @@ async function loadSeriesSection() {
     (data.results || []).slice(0, 15).forEach(show => {
       const card = document.createElement("div");
       card.className = "show-card";
-      card.onclick = () => window.location.href = `watch.html?id=${show.id}&type=tv`;
+      card.onclick = () => goToPlayer(show.id, 'tv');
 
-      const poster = show.poster_path ? IMG_BASE + show.poster_path : "https://via.placeholder.com/200x280/222/aaa?text=—";
+      const poster = show.poster_path
+        ? IMG_BASE + show.poster_path
+        : "https://via.placeholder.com/200x280/222/aaa?text=—";
 
       card.innerHTML = `
         <img class="poster" src="${poster}" alt="${show.name}" loading="lazy" />
@@ -97,8 +101,14 @@ async function loadSeriesSection() {
   }
 }
 
-function playMovie(id) {
-  window.location.href = `watch.html?id=${id}&type=movie`;
+// 🔥 FUNCIÓN CLAVE: redirige directamente a NoctiFlix
+function goToPlayer(id, type) {
+  if (type === 'movie') {
+    window.location.href = `https://www.noctiflix.lat/p/mov.html?m=${id}`;
+  } else {
+    // Serie: temporada 1, episodio 1
+    window.location.href = `https://www.noctiflix.lat/p/sris.html?serie=${id}/1/1`;
+  }
 }
 
 function showInfo(id) {
