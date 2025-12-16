@@ -221,3 +221,91 @@ body {
   background: #111;
   margin-top: 30px;
 }
+/* Página de detalles */
+.details-page {
+  padding: 40px 30px;
+  background: #0b0b16;
+}
+
+.details-container {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.details-poster {
+  width: 400px;
+  height: 600px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.details-info {
+  flex-grow: 1;
+}
+
+.details-info h1 {
+  font-size: 32px;
+  margin-bottom: 15px;
+  color: #ff6b6b;
+}
+
+.details-meta {
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.details-overview {
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.details-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.btn-play {
+  background: white;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-info {
+  background: rgba(255,255,255,0.3);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.telegram-btn {
+  background: #4da6ff;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.3s;
+}
+
+.telegram-btn:hover {
+  background: #3a90e7;
+}
