@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JJMOVIES - Detalles</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo">JJMOVIES</div>
+    <div class="nav-links">
+      <a href="index.html">← Volver</a>
+    </div>
+  </header>
+
+  <main class="details-page">
+    <div class="details-banner" id="detailsBanner"></div>
+    <div class="details-content">
+      <h1 id="detailsTitle"></h1>
+      <div class="details-meta">
+        <span id="detailsYear"></span> • 
+        <span id="detailsGenres"></span> • 
+        <span id="detailsRuntime"></span>
+      </div>
+      <p id="detailsOverview"></p>
+      <div class="details-actions">
+        <button id="playBtn" class="btn-play">▶ Ver ahora</button>
+        <button id="favoriteBtn" class="btn-info">♡ Añadir a Mi Lista</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    const type = urlParams.get('type');
+
+    // Cargar detalles
+    async function loadDetails() {
+      try {
+        const url = `${BASE_URL}/${type}/${id}?api_key=${API_KEY}&language=es-ES`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        document.getElementById("detailsBanner").style.backgroundImage = `url(${IMG_BASE}${data.backdrop_path})`;
+        document.getElementById("detailsTitle").textContent = data.title || data.name;
+        document.getElementById("detailsYear").textContent = data.release_date?.substring(0,4) || data.first_air_date?.substring(0,4) || "???";
+        document.getElementById("detailsGenres").textContent = data.genres.map(g => g.name).join(", ") || "—";
+        document.getElementById("detailsRuntime").textContent = `${data.runtime || data.episode_run_time?.[0] || 0} min`;
+        document.getElementById("detailsOverview").textContent = data.overview;
+
+        // Configurar botones
+        document.getElementById("playBtn").onclick = () => window.location.href = `watch.html?id=${id}&type=${type}`;
+
+        const favoriteBtn = document.getElementById("favoriteBtn");
+        const isFavorite = myList.some(item => item.id === id && item.type === type);
+        favoriteBtn.textContent = isFavorite ? "❤️ Añadido" : "♡ Añadir a Mi Lista";
+        favoriteBtn.onclick = () => {
+          toggleFavorite(null, id, type);
+          favoriteBtn.textContent = myList.some(item => item.id === id && item.type === type) ? "❤️ Añadido" : "♡ Añadir a Mi Lista";
+        };
+      } catch (err) {
+        console.error("Error al cargar detalles", err);
+        document.body.innerHTML = "<h1>Error al cargar los detalles.</h1>";
+      }
+    }
+
+    if (id && type) {
+      loadDetails();
+    } else {
+      document.body.innerHTML = "<h1>ID o tipo no válido.</h1>";
+    }
+  </script>
+</body>
+</html>
