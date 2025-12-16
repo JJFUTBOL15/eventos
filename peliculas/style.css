@@ -17,12 +17,65 @@ header {
 }
 
 header h1 {
-  font-size: 32px;
+  font-size: 36px;
   background: linear-gradient(90deg, #ff4d4d, #ff9e4d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+.section-title {
+  font-size: 24px;
+  margin: 25px 0 15px;
+  color: #ff6b6b;
+}
+
+/* Carrusel destacado */
+.carousel {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px 0;
+  scrollbar-width: thin;
+}
+
+.carousel::-webkit-scrollbar {
+  height: 6px;
+}
+
+.carousel::-webkit-scrollbar-thumb {
+  background: #ff4d4d;
+  border-radius: 3px;
+}
+
+.highlight-card {
+  min-width: 180px;
+  background: #161625;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.highlight-card:hover {
+  transform: scale(1.05);
+}
+
+.highlight-poster {
+  width: 100%;
+  height: 270px;
+  object-fit: cover;
+}
+
+.highlight-title {
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Secciones normales */
 .genre-section {
   margin-bottom: 40px;
 }
@@ -31,38 +84,35 @@ header h1 {
   font-size: 22px;
   margin-bottom: 16px;
   color: #ff6b6b;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
-.movies-grid {
+.movies-grid, .shows-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 18px;
 }
 
-.movie-card {
+.movie-card, .show-card {
   background: #161625;
   border-radius: 10px;
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s;
   cursor: pointer;
 }
 
-.movie-card:hover {
+.movie-card:hover, .show-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 6px 18px rgba(255, 77, 77, 0.4);
 }
 
-.movie-poster {
+.movie-poster, .show-poster {
   width: 100%;
-  height: 220px;
+  height: 200px;
   object-fit: cover;
 }
 
-.movie-title {
-  padding: 10px;
+.movie-title, .show-title {
+  padding: 8px;
   font-size: 13px;
   text-align: center;
   line-height: 1.3;
