@@ -12,17 +12,21 @@ window.onload = async () => {
   updateMyListCount();
 };
 
-// Cargar carrusel de estrenos 2025
+// Cargar carrusel de películas de 2025 (aleatorias)
 async function loadTrendingCarousel() {
   try {
+    // Obtenemos películas de 2025, ordenadas por popularidad
     const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=es-ES&primary_release_year=2025&sort_by=popularity.desc&page=1`;
     const res = await fetch(url);
     const data = await res.json();
 
+    // Mezclamos aleatoriamente y tomamos 40
+    const shuffled = [...data.results].sort(() => 0.5 - Math.random()).slice(0, 40);
+
     const carousel = document.getElementById("trendingCarousel");
     carousel.innerHTML = "";
 
-    (data.results || []).slice(0, 3).forEach(movie => {
+    shuffled.forEach(movie => {
       const slide = document.createElement("div");
       slide.className = "hero-slide";
       slide.style.backgroundImage = `url(${IMG_BASE}${movie.backdrop_path})`;
@@ -44,7 +48,7 @@ async function loadTrendingCarousel() {
   }
 }
 
-// Cargar secciones por género
+// Cargar secciones por género + Recién Añadidas
 async function loadSections() {
   const genres = [
     { id: 28, name: "Acción" },
@@ -56,7 +60,8 @@ async function loadSections() {
     { id: 16, name: "Animación" },
     { id: 53, name: "Thriller" },
     { id: 10751, name: "Familia" },
-    { id: 10759, name: "Acción & Aventura" }
+    { id: 10759, name: "Acción & Aventura" },
+    { id: "recent", name: "Recién Añadidas" } // Nueva sección
   ];
 
   const container = document.getElementById("sectionsContainer");
@@ -64,16 +69,29 @@ async function loadSections() {
   for (const genre of genres) {
     const section = document.createElement("section");
     section.className = "section";
-    section.innerHTML = `
-      <h2>${genre.name}</h2>
-      <div class="category-slider" id="slider-${genre.id}"></div>
-    `;
+    
+    if (genre.id === "recent") {
+      section.innerHTML = `
+        <h2>${genre.name}</h2>
+        <div class="category-slider" id="slider-recent"></div>
+      `;
+    } else {
+      section.innerHTML = `
+        <h2>${genre.name}</h2>
+        <div class="category-slider" id="slider-${genre.id}"></div>
+      `;
+    }
     container.appendChild(section);
 
-    await loadMoviesByGenre(genre.id, `slider-${genre.id}`);
+    if (genre.id === "recent") {
+      await loadRecentMovies(`slider-recent`);
+    } else {
+      await loadMoviesByGenre(genre.id, `slider-${genre.id}`);
+    }
   }
 }
 
+// Cargar películas por género (hasta 40)
 async function loadMoviesByGenre(genreId, sliderId) {
   try {
     const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&language=es-ES&sort_by=popularity.desc&page=1`;
@@ -83,7 +101,8 @@ async function loadMoviesByGenre(genreId, sliderId) {
     const slider = document.getElementById(sliderId);
     slider.innerHTML = "";
 
-    (data.results || []).slice(0, 20).forEach(movie => {
+    // Mostrar hasta 40 películas
+    (data.results || []).slice(0, 40).forEach(movie => {
       const card = document.createElement("div");
       card.className = "movie-card";
       card.onclick = () => goToDetails(movie.id, 'movie');
@@ -102,6 +121,40 @@ async function loadMoviesByGenre(genreId, sliderId) {
     });
   } catch (err) {
     console.error("Error al cargar género", genreId, err);
+  }
+}
+
+// Cargar películas recientemente añadidas (más recientes)
+async function loadRecentMovies(sliderId) {
+  try {
+    // Películas más recientes (por fecha de lanzamiento)
+    const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=es-ES&sort_by=release_date.desc&page=1`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const slider = document.getElementById(sliderId);
+    slider.innerHTML = "";
+
+    // Mostrar hasta 40 películas más recientes
+    (data.results || []).slice(0, 40).forEach(movie => {
+      const card = document.createElement("div");
+      card.className = "movie-card";
+      card.onclick = () => goToDetails(movie.id, 'movie');
+
+      const poster = movie.poster_path ? IMG_BASE + movie.poster_path : "https://via.placeholder.com/200x280/222/aaa?text=—";
+      const isFavorite = myList.some(item => item.id === movie.id && item.type === 'movie');
+
+      card.innerHTML = `
+        <img class="poster" src="${poster}" alt="${movie.title}" loading="lazy" />
+        <div class="card-title">${movie.title}</div>
+        <button class="favorite-btn" onclick="toggleFavorite(event, ${movie.id}, 'movie')">
+          ${isFavorite ? "❤️" : "♡"}
+        </button>
+      `;
+      slider.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Error al cargar películas recientes", err);
   }
 }
 
