@@ -1,92 +1,278 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Agenda - JJFUTBOL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Agenda Premium - JJFUTBOL</title>
+  
+  <!-- Librerías Externas -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+  <!-- Fuente Google: Outfit (Moderna y Deportiva) -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <!-- Iconos FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
+    :root {
+      --bg-dark: #09090b;
+      --card-bg: rgba(30, 30, 40, 0.6);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #3b82f6;
+      --accent-glow: rgba(59, 130, 246, 0.5);
+      --text-main: #ffffff;
+      --text-muted: #9ca3af;
+      --success: #10b981;
+      --gradient-btn: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #0f0f15;
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
       margin: 0;
-      padding: 15px;
-      color: white;
+      padding: 20px 10px;
+      color: var(--text-main);
+      min-height: 100vh;
     }
+
     .container {
-      max-width: 800px;
+      max-width: 700px;
       margin: 0 auto;
-      background: #1a1a25;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-      overflow: hidden;
+      padding-bottom: 40px;
     }
-    #title-agenda {
+
+    header {
       text-align: center;
-      padding: 16px;
-      background: #1e3a8a;
-      color: white;
-      margin: 0;
-      font-size: 1.4em;
+      margin-bottom: 30px;
+      position: relative;
     }
+
+    h1#title-agenda {
+      font-weight: 800;
+      font-size: 1.8rem;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: linear-gradient(to right, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--accent);
+      margin-top: 5px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
     #menu {
       list-style: none;
       padding: 0;
       margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
-    #menu li {
-      border-bottom: 1px solid #2c2c3a;
+
+    .match-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeInUp 0.5s forwards;
     }
-    #menu li > div {
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .match-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px var(--accent-glow);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .card-header {
+      padding: 18px;
       display: flex;
       align-items: center;
-      padding: 14px;
-      cursor: pointer;
+      justify-content: space-between;
+      position: relative;
+      z-index: 2;
     }
-    #menu time {
-      width: 60px;
-      font-weight: bold;
-      color: #4ade80;
-    }
-    #menu .flag {
-      width: 24px;
-      height: 24px;
-      margin: 0 10px;
-      border-radius: 50%;
-    }
-    #menu .match {
-      flex: 1;
-      font-size: 1.05em;
-    }
-    #menu ul {
-      list-style: none;
-      padding: 0 14px 14px 74px;
-      margin: 0;
-      display: none;
-    }
-    .submenu-item {
-      display: block;
-      padding: 6px 0;
-      color: #60a5fa;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .submenu-item:hover {
-      color: #4ade80;
-    }
-    .loading {
-      padding: 20px;
+
+    .time-badge {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      color: var(--success);
+      font-size: 0.95rem;
+      min-width: 65px;
       text-align: center;
-      color: #aaa;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .match-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      margin: 0 15px;
+    }
+
+    .league-flag {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 12px;
+      border: 2px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .match-title {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.3;
+      color: #e2e8f0;
+    }
+
+    .toggle-icon {
+      color: var(--text-muted);
+      transition: transform 0.4s ease;
+      font-size: 0.9rem;
+    }
+
+    .match-card.active .toggle-icon {
+      transform: rotate(180deg);
+      color: var(--accent);
+    }
+
+    .match-card.active {
+      background: linear-gradient(180deg, rgba(40,40,55,0.8) 0%, rgba(30,30,40,0.9) 100%);
+      border-color: var(--accent);
+    }
+
+    .channels-container {
+      display: none;
+      padding: 0 15px 15px 15px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      background: rgba(0,0,0,0.2);
+    }
+
+    .channels-list {
+      list-style: none;
+      padding: 10px 0 0 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+    }
+
+    .channel-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 15px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .channel-btn:hover {
+      background: var(--gradient-btn);
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .channel-btn i {
+      font-size: 0.8rem;
+    }
+
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 0;
+      color: var(--text-muted);
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255,255,255,0.1);
+      border-left-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+
+    @keyframes spin { 
+      100% { transform: rotate(360deg); } 
+    }
+
+    .no-events {
+      text-align: center;
+      padding: 40px;
+      background: rgba(255,0,0,0.1);
+      border-radius: 12px;
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.2);
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark); 
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155; 
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent); 
     }
   </style>
 </head>
 <body>
+
   <div class="container">
-    <h1 id="title-agenda">Agenda - Cargando...</h1>
-    <ul id="menu"></ul>
+    <header>
+      <div class="subtitle">JJFUTBOL</div>
+      <h1 id="title-agenda">CARGANDO...</h1>
+    </header>
+    
+    <ul id="menu">
+      <!-- El contenido se inyecta aquí -->
+    </ul>
   </div>
 
   <script>
@@ -105,16 +291,21 @@
 
     document.addEventListener("DOMContentLoaded", function () {
       cargarAgendasCombinadas();
-      $(document).on("click", ".submenu-item", function (e) { e.stopPropagation(); });
-      $(document).on("click", ".toggle-submenu", function () {
-        const $submenu = $(this).closest("li").find("ul");
-        if (!$submenu.is(":visible")) {
-          $(".toggle-submenu").not(this).closest("li").find("ul").slideUp();
-          $submenu.slideDown();
-        } else {
-          $submenu.slideUp();
-        }
+      
+      $(document).on("click", ".match-card", function () {
+        const $this = $(this);
+        const $submenu = $this.find(".channels-container");
+        
+        $(".match-card").not($this).removeClass("active").find(".channels-container").slideUp(300);
+        
+        $this.toggleClass("active");
+        $submenu.slideToggle(300);
       });
+
+      $(document).on("click", ".channel-btn", function (e) {
+        e.stopPropagation();
+      });
+
       setInterval(cargarAgendasCombinadas, 60000);
     });
 
@@ -133,7 +324,7 @@
       const [y, m, d] = (dateStr || "").split("-").map(Number);
       if (!y || !m || !d) return null;
       const dt = new Date(y, m - 1, d);
-      return dt.toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
+      return dt.toLocaleDateString("es-ES", { weekday: 'long', year: "numeric", month: "long", day: "numeric" });
     }
 
     function extraerFechaMasComun(todosEventos) {
@@ -156,66 +347,92 @@
           return params.get("r");
         }
       } catch (e) {
-        console.warn("Error extrayendo parámetro r:", urlRelativa);
+        console.warn("Error params:", urlRelativa);
       }
       return null;
     }
 
     async function cargarAgendasCombinadas() {
       const menu = document.getElementById("menu");
-      menu.innerHTML = '<li><div class="loading">Cargando agenda combinada...</div></li>';
-
-      let todosEventos = [];
-      for (const fuente of FUENTES) {
-        try {
-          const res = await fetch(fuente.url + "?t=" + Date.now());
-          const result = await res.json();
-          if (result?.data?.length) {
-            result.data.forEach(item => {
-              // Añadir metadatos de la fuente para imágenes y enlaces
-              item._imgBase = fuente.imgBase;
-              item._siteBase = fuente.siteBase;
-              todosEventos.push(item);
-            });
-          }
-        } catch (e) {
-          console.error(`Error en fuente ${fuente.url}:`, e);
-        }
+      if (menu.innerHTML.trim() === "") {
+        menu.innerHTML = `
+          <div class="loading-container">
+            <div class="spinner"></div>
+            <p>Buscando eventos en vivo...</p>
+          </div>
+        `;
       }
 
+      let todosEventos = [];
+      
+      const promesas = FUENTES.map(fuente => 
+        fetch(fuente.url + "?t=" + Date.now())
+          .then(res => res.json())
+          .then(result => {
+            if (result?.data?.length) {
+              return result.data.map(item => ({
+                ...item,
+                _imgBase: fuente.imgBase,
+                _siteBase: fuente.siteBase
+              }));
+            }
+            return [];
+          })
+          .catch(e => {
+            console.error("Error fetching source:", e);
+            return [];
+          })
+      );
+
+      const resultados = await Promise.all(promesas);
+      todosEventos = resultados.flat();
+
       if (todosEventos.length === 0) {
-        menu.innerHTML = '<li><div class="loading" style="color:red;">No se encontraron eventos.</div></li>';
-        document.getElementById("title-agenda").textContent = "Agenda - Sin datos";
+        menu.innerHTML = '<div class="no-events"><i class="fas fa-exclamation-circle"></i> No hay eventos programados por ahora.</div>';
+        document.getElementById("title-agenda").textContent = "SIN EVENTOS";
         return;
       }
 
-      // Ordenar por hora
+      const unicos = [];
+      const keysVistas = new Set();
+      todosEventos.forEach(ev => {
+        const key = (ev.attributes?.diary_description || "") + "|" + (ev.attributes?.diary_hour || "");
+        if (!keysVistas.has(key)) {
+            keysVistas.add(key);
+            unicos.push(ev);
+        }
+      });
+      todosEventos = unicos;
+
       todosEventos.sort((a, b) => {
-        const A = (a.attributes?.date_diary || "") + (a.attributes?.diary_hour || "");
-        const B = (b.attributes?.date_diary || "") + (b.attributes?.diary_hour || "");
+        const A = (a.attributes?.date_diary || "");
+        const B = (b.attributes?.date_diary || "");
         return A.localeCompare(B);
       });
 
-      // Título único
       const fechaTitulo = extraerFechaMasComun(todosEventos);
-      const titulo = formatDateSpanish(fechaTitulo) || new Date().toLocaleDateString("es-ES");
-      document.getElementById("title-agenda").textContent = "Agenda - " + titulo;
+      const titulo = formatDateSpanish(fechaTitulo) || "Agenda Deportiva";
+      document.getElementById("title-agenda").textContent = titulo;
 
-      // Renderizar todos los eventos juntos
       let html = "";
-      todosEventos.forEach(item => {
+      
+      todosEventos.forEach((item, index) => {
         const attr = item.attributes || {};
         const hora = convertToUserTimeZone(attr.diary_hour);
-        const nombre = attr.diary_description || "Evento sin título";
-        const flagUrl = attr.country?.data?.attributes?.image?.data?.attributes?.url;
-        const imageUrl = flagUrl ? item._imgBase + flagUrl : item._imgBase + "/uploads/sin_imagen_d36205f0e8.png";
+        const nombre = attr.diary_description || "Evento Disponible";
+        let flagUrl = item._imgBase + "/uploads/sin_imagen_d36205f0e8.png";
 
-        let canalesHtml = '<ul style="display:none;">';
+        if (attr.country?.data?.attributes?.image?.data?.attributes?.url) {
+            flagUrl = item._imgBase + attr.country.data.attributes.image.data.attributes.url;
+        }
+
+        let botonesHtml = "";
         const embeds = attr.embeds?.data || [];
+        
         if (embeds.length > 0) {
           embeds.forEach(embed => {
             if (!embed?.attributes) return;
-            const nombreCanal = embed.attributes.embed_name || "Ver enlace";
+            const nombreCanal = embed.attributes.embed_name || "Ver Opción";
             const urlRelativa = (embed.attributes.embed_iframe || "").trim();
             let urlFinal = "#";
 
@@ -228,26 +445,34 @@
               urlFinal = urlRelativa;
             }
 
-            canalesHtml += `
-              <li class="submenu">
-                <a href="${urlFinal}" class="submenu-item" target="_blank">
-                  <i class="fa fa-play-circle"></i> ${nombreCanal}
+            botonesHtml += `
+              <li>
+                <a href="${urlFinal}" class="channel-btn" target="_blank">
+                  <i class="fas fa-play"></i> ${nombreCanal}
                 </a>
               </li>`;
           });
         } else {
-          canalesHtml += `<li class="submenu"><span class="submenu-item" style="color:#666;">Próximamente...</span></li>`;
+          botonesHtml = `<li><span class="channel-btn" style="opacity:0.6; cursor:default;">Próximamente...</span></li>`;
         }
-        canalesHtml += '</ul>';
 
+        const delay = index * 0.05; 
+        
         html += `
-          <li class="toggle-submenu">
-            <div>
-              <time>${hora}</time>
-              <img class="flag" src="${imageUrl}" alt="Bandera">
-              <span class="match">${nombre}</span>
+          <li class="match-card" style="animation-delay: ${delay}s">
+            <div class="card-header">
+              <div class="time-badge">${hora}</div>
+              <div class="match-info">
+                <img class="league-flag" src="${flagUrl}" onerror="this.src='https://via.placeholder.com/32?text=TV'" alt="League">
+                <span class="match-title">${nombre}</span>
+              </div>
+              <i class="fas fa-chevron-down toggle-icon"></i>
             </div>
-            ${canalesHtml}
+            <div class="channels-container">
+              <ul class="channels-list">
+                ${botonesHtml}
+              </ul>
+            </div>
           </li>`;
       });
 
