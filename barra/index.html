@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>XLVIII Regional Decembrino - Barra de tecoanapa</title>
+  <title>XLVIII Regional Decembrino - Barra de Tecoanapa</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -95,103 +95,6 @@
       padding: 15px;
       color: #aaa;
     }
-
-    /* Estilos para el bracket de eliminatorias */
-    .bracket-container {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 20px;
-      border-radius: 10px;
-      margin: 25px 0;
-    }
-    .bracket-title {
-      text-align: center;
-      color: #ffd700;
-      margin-bottom: 20px;
-      font-size: 1.5em;
-    }
-    .bracket {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      gap: 20px;
-      padding: 15px;
-    }
-    .semifinal {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      width: 250px;
-    }
-    .partido {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255,255,255,0.1);
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid #555;
-    }
-    .equipo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: bold;
-      min-width: 120px;
-    }
-    .vs {
-      color: #ccc;
-      font-weight: bold;
-    }
-    .goles {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .final {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      margin-top: 30px;
-    }
-    .tercer-lugar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      margin-top: 20px;
-      font-size: 0.9em;
-      color: #ccc;
-    }
-    .linea {
-      position: relative;
-      width: 100%;
-      height: 2px;
-      background: #ccc;
-      margin: 10px 0;
-    }
-    .linea::before {
-      content: "";
-      position: absolute;
-      top: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 10px;
-      height: 10px;
-      background: #ccc;
-      border-radius: 50%;
-    }
-    .linea::after {
-      content: "";
-      position: absolute;
-      bottom: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 10px;
-      height: 10px;
-      background: #ccc;
-      border-radius: 50%;
-    }
   </style>
 </head>
 <body>
@@ -200,7 +103,8 @@
   <h1>XLVIII REGIONAL DECEMBRINO DE FÚTBOL</h1>
   <div class="subtitulo">
     Costa Chica de Guerrero, México<br>
-    <strong>Fase de Grupos: 20 al 28 de diciembre 2025</strong>
+    <strong>Fase de Grupos: 20 al 28 de diciembre 2025</strong><br>
+    <em>Organizado por: Barra de Tecoanapa</em>
   </div>
 
   <!-- Patrocinadores -->
@@ -216,53 +120,13 @@
     <a href="https://palapalasirenita.lol/" target="_blank">🍤 Palapa La Sirenita</a>
   </div>
 
-  <!-- Bracket de Eliminatorias (arriba) -->
-  <div id="bracket-container" class="bracket-container" style="display:none;">
-    <div class="bracket-title">🏆 ELIMINATORIAS - CUARTOS DE FINAL</div>
-    <div class="bracket">
-      <div class="semifinal" id="sf1">
-        <div class="partido">
-          <div class="equipo" id="sf1-local">GANADOR GRUPO A</div>
-          <span class="vs">VS</span>
-          <div class="equipo" id="sf1-visita">GANADOR GRUPO C</div>
-          <div class="goles" id="sf1-goles">-</div>
-        </div>
-      </div>
-      <div class="semifinal" id="sf2">
-        <div class="partido">
-          <div class="equipo" id="sf2-local">GANADOR GRUPO B</div>
-          <span class="vs">VS</span>
-          <div class="equipo" id="sf2-visita">GANADOR GRUPO D</div>
-          <div class="goles" id="sf2-goles">-</div>
-        </div>
-      </div>
-    </div>
-    <div class="linea"></div>
-    <div class="final">
-      <div class="partido" id="final">
-        <div class="equipo" id="final-local">GANADOR SF1</div>
-        <span class="vs">VS</span>
-        <div class="equipo" id="final-visita">GANADOR SF2</div>
-        <div class="goles" id="final-goles">-</div>
-      </div>
-    </div>
-    <div class="tercer-lugar">
-      <div class="partido" id="tercer-lugar">
-        <div class="equipo" id="tl-local">PERDEDOR SF1</div>
-        <span class="vs">VS</span>
-        <div class="equipo" id="tl-visita">PERDEDOR SF2</div>
-        <div class="goles" id="tl-goles">-</div>
-      </div>
-    </div>
-  </div>
-
   <!-- Grupos -->
   <div id="grupos-container">
     <!-- Se llenará con JavaScript -->
   </div>
 
   <div class="nota">
-    ✅ Actualización en tiempo real • Datos gestionados en Palapa la sirenita
+    ✅ Actualización en tiempo real • Datos gestionados por Barra de Tecoanapa
   </div>
 </div>
 
@@ -346,83 +210,6 @@
         </table>
       `;
       container.appendChild(grupoDiv);
-    }
-
-    // Renderizar bracket si hay datos de eliminatorias
-    renderizarBracket(equipos);
-  }
-
-  function renderizarBracket(equipos) {
-    const bracketContainer = document.getElementById('bracket-container');
-    const sf1Local = document.getElementById('sf1-local');
-    const sf1Visita = document.getElementById('sf1-visita');
-    const sf1Goles = document.getElementById('sf1-goles');
-    const sf2Local = document.getElementById('sf2-local');
-    const sf2Visita = document.getElementById('sf2-visita');
-    const sf2Goles = document.getElementById('sf2-goles');
-    const finalLocal = document.getElementById('final-local');
-    const finalVisita = document.getElementById('final-visita');
-    const finalGoles = document.getElementById('final-goles');
-    const tlLocal = document.getElementById('tl-local');
-    const tlVisita = document.getElementById('tl-visita');
-    const tlGoles = document.getElementById('tl-goles');
-
-    // Obtener los equipos clasificados (1º y 2º de cada grupo)
-    const clasificados = {};
-    for (const [letra, listaEquipos] of Object.entries(GRUPOS)) {
-      const equiposGrupo = listaEquipos.map(nombre => {
-        const datos = equipos[nombre] || { pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0 };
-        const pts = (datos.pg || 0) * 3 + (datos.pe || 0);
-        const dif = (datos.gf || 0) - (datos.gc || 0);
-        return { nombre, ...datos, pts, dif };
-      }).sort((a, b) => 
-        b.pts - a.pts || 
-        b.dif - a.dif || 
-        b.gf - a.gf || 
-        a.nombre.localeCompare(b.nombre)
-      );
-
-      if (equiposGrupo.length >= 2) {
-        clasificados[letra] = {
-          primero: equiposGrupo[0].nombre,
-          segundo: equiposGrupo[1].nombre
-        };
-      }
-    }
-
-    // Si hay clasificados, mostrar el bracket
-    if (Object.keys(clasificados).length === 4) {
-      bracketContainer.style.display = 'block';
-
-      // Semifinales
-      sf1Local.textContent = clasificados.A?.primero || "GANADOR GRUPO A";
-      sf1Visita.textContent = clasificados.C?.primero || "GANADOR GRUPO C";
-      sf2Local.textContent = clasificados.B?.primero || "GANADOR GRUPO B";
-      sf2Visita.textContent = clasificados.D?.primero || "GANADOR GRUPO D";
-
-      // Final y tercer lugar (si hay resultados)
-      const sf1Result = equipos["GANADOR GRUPO A"] && equipos["GANADOR GRUPO C"] ? 
-        `${equipos["GANADOR GRUPO A"].gf || 0} - ${equipos["GANADOR GRUPO C"].gc || 0}` : "-";
-      const sf2Result = equipos["GANADOR GRUPO B"] && equipos["GANADOR GRUPO D"] ? 
-        `${equipos["GANADOR GRUPO B"].gf || 0} - ${equipos["GANADOR GRUPO D"].gc || 0}` : "-";
-
-      sf1Goles.textContent = sf1Result;
-      sf2Goles.textContent = sf2Result;
-
-      // Final
-      finalLocal.textContent = "GANADOR SF1"; // Aquí podrías poner el ganador real si lo guardas
-      finalVisita.textContent = "GANADOR SF2";
-      finalGoles.textContent = equipos["GANADOR SF1"] && equipos["GANADOR SF2"] ? 
-        `${equipos["GANADOR SF1"].gf || 0} - ${equipos["GANADOR SF2"].gc || 0}` : "-";
-
-      // Tercer lugar
-      tlLocal.textContent = "PERDEDOR SF1";
-      tlVisita.textContent = "PERDEDOR SF2";
-      tlGoles.textContent = equipos["PERDEDOR SF1"] && equipos["PERDEDOR SF2"] ? 
-        `${equipos["PERDEDOR SF1"].gf || 0} - ${equipos["PERDEDOR SF2"].gc || 0}` : "-";
-
-    } else {
-      bracketContainer.style.display = 'none';
     }
   }
 
