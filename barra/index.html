@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>XLVIII Regional Decembrino - Costa Chica</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #f0f4f8;
+      padding: 15px;
+      color: #222;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #c00;
+      font-size: 1.6em;
+      margin-bottom: 5px;
+    }
+    .subtitulo {
+      text-align: center;
+      color: #555;
+      font-size: 1.1em;
+      margin-bottom: 20px;
+    }
+    .dia {
+      margin: 20px 0;
+      padding: 15px;
+      background: #eef7ff;
+      border-left: 5px solid #007bff;
+      border-radius: 8px;
+    }
+    .partido {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      background: white;
+      margin: 5px 0;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+    .equipo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: bold;
+    }
+    .vs {
+      margin: 0 10px;
+      color: #666;
+    }
+    .gpo {
+      background: #eee;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    .hora {
+      font-weight: bold;
+      color: #007bff;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ccc;
+    }
+    th {
+      background-color: #c00;
+      color: white;
+    }
+    .nota {
+      font-size: 0.9em;
+      color: #666;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .logo {
+      height: 60px;
+      margin-right: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <img src="https://via.placeholder.com/60?text=LOGO" alt="Logo" class="logo"> <!-- Reemplaza con tu logo real -->
+    <div>
+      <h1>XLVIII REGIONAL DECEMBRINO DE FÚTBOL</h1>
+      <div class="subtitulo">Costa Chica de Guerrero, México<br>
+        <strong>Rol de Juegos Fase Grupos: 20 al 28 de diciembre 2025</strong>
+      </div>
+    </div>
+    <img src="https://via.placeholder.com/60?text=CD" alt="CD Logo" class="logo"> <!-- Reemplaza con tu logo real -->
+  </div>
+
+  <!-- Rol de Juegos -->
+  <h2>ROL DE JUEGOS | FASE GRUPOS</h2>
+
+  <!-- Día 20 -->
+  <div class="dia">
+    <h3>📅 20 DICIEMBRE 2025</h3>
+    <div class="partido">
+      <span class="hora">08:30</span>
+      <span>DESFILE | ACTO INAUGURAL</span>
+    </div>
+    <div class="partido">
+      <span class="hora">12:00</span>
+      <div class="equipo">BARRA DE TECOANAPA</div>
+      <span class="vs">VS</span>
+      <div class="equipo">PLAYA AZUL</div>
+      <span class="gpo">A</span>
+      <button onclick="registrarResultado('BARRA DE TECOANAPA', 'PLAYA AZUL', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">14:00</span>
+      <div class="equipo">OMETEPEC FC</div>
+      <span class="vs">VS</span>
+      <div class="equipo">LA YEGUADA</div>
+      <span class="gpo">B</span>
+      <button onclick="registrarResultado('OMETEPEC FC', 'LA YEGUADA', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">16:00</span>
+      <div class="equipo">CD JUCHITAN</div>
+      <span class="vs">VS</span>
+      <div class="equipo">SAN NICOLAS</div>
+      <span class="gpo">C</span>
+      <button onclick="registrarResultado('CD JUCHITAN', 'SAN NICOLAS', this)">✅ Registrar</button>
+    </div>
+  </div>
+
+  <!-- Día 21 -->
+  <div class="dia">
+    <h3>📅 21 DICIEMBRE 2025</h3>
+    <div class="partido">
+      <span class="hora">08:00</span>
+      <div class="equipo">CD COPALA</div>
+      <span class="vs">VS</span>
+      <div class="equipo">MACHINE POWER</div>
+      <span class="gpo">D</span>
+      <button onclick="registrarResultado('CD COPALA', 'MACHINE POWER', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">10:00</span>
+      <div class="equipo">CD POZAHUALCO</div>
+      <span class="vs">VS</span>
+      <div class="equipo">LA GUADALUPE</div>
+      <span class="gpo">A</span>
+      <button onclick="registrarResultado('CD POZAHUALCO', 'LA GUADALUPE', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">12:00</span>
+      <div class="equipo">CD POLYMAR</div>
+      <span class="vs">VS</span>
+      <div class="equipo">JUVENTUS</div>
+      <span class="gpo">B</span>
+      <button onclick="registrarResultado('CD POLYMAR', 'JUVENTUS', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">14:00</span>
+      <div class="equipo">UNION MARQUELIA</div>
+      <span class="vs">VS</span>
+      <div class="equipo">UNION SLAGRO</div>
+      <span class="gpo">C</span>
+      <button onclick="registrarResultado('UNION MARQUELIA', 'UNION SLAGRO', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">16:00</span>
+      <div class="equipo">CDM</div>
+      <span class="vs">VS</span>
+      <div class="equipo">CD ISLALTEPEC</div>
+      <span class="gpo">D</span>
+      <button onclick="registrarResultado('CDM', 'CD ISLALTEPEC', this)">✅ Registrar</button>
+    </div>
+  </div>
+
+  <!-- Día 22 -->
+  <div class="dia">
+    <h3>📅 22 DICIEMBRE 2025</h3>
+    <div class="partido">
+      <span class="hora">08:00</span>
+      <div class="equipo">PLAYA AZUL</div>
+      <span class="vs">VS</span>
+      <div class="equipo">CD POZAHUALCO</div>
+      <span class="gpo">A</span>
+      <button onclick="registrarResultado('PLAYA AZUL', 'CD POZAHUALCO', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">10:00</span>
+      <div class="equipo">BACHILLERES FC</div>
+      <span class="vs">VS</span>
+      <div class="equipo">SAN NICOLAS</div>
+      <span class="gpo">C</span>
+      <button onclick="registrarResultado('BACHILLERES FC', 'SAN NICOLAS', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">12:00</span>
+      <div class="equipo">CD INDEPENDIENTE</div>
+      <span class="vs">VS</span>
+      <div class="equipo">CD ISLALTEPEC</div>
+      <span class="gpo">D</span>
+      <button onclick="registrarResultado('CD INDEPENDIENTE', 'CD ISLALTEPEC', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">14:00</span>
+      <div class="equipo">OMETEPEC FC</div>
+      <span class="vs">VS</span>
+      <div class="equipo">AGUA ZARCA</div>
+      <span class="gpo">B</span>
+      <button onclick="registrarResultado('OMETEPEC FC', 'AGUA ZARCA', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">16:00</span>
+      <div class="equipo">BARRA DE TECOANAPA</div>
+      <span class="vs">VS</span>
+      <div class="equipo">LA GUADALUPE</div>
+      <span class="gpo">A</span>
+      <button onclick="registrarResultado('BARRA DE TECOANAPA', 'LA GUADALUPE', this)">✅ Registrar</button>
+    </div>
+  </div>
+
+  <!-- Día 23 -->
+  <div class="dia">
+    <h3>📅 23 DICIEMBRE 2025</h3>
+    <div class="partido">
+      <span class="hora">08:00</span>
+      <div class="equipo">UNION MARQUELIA</div>
+      <span class="vs">VS</span>
+      <div class="equipo">BACHILLERES FC</div>
+      <span class="gpo">C</span>
+      <button onclick="registrarResultado('UNION MARQUELIA', 'BACHILLERES FC', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">10:00</span>
+      <div class="equipo">CD COPALA</div>
+      <span class="vs">VS</span>
+      <div class="equipo">CD ISLALTEPEC</div>
+      <span class="gpo">D</span>
+      <button onclick="registrarResultado('CD COPALA', 'CD ISLALTEPEC', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">12:00</span>
+      <div class="equipo">MACHINE POWER</div>
+      <span class="vs">VS</span>
+      <div class="equipo">CDM</div>
+      <span class="gpo">D</span>
+      <button onclick="registrarResultado('MACHINE POWER', 'CDM', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">14:00</span>
+      <div class="equipo">CD POLYMAR</div>
+      <span class="vs">VS</span>
+      <div class="equipo">AGUA ZARCA</div>
+      <span class="gpo">B</span>
+      <button onclick="registrarResultado('CD POLYMAR', 'AGUA ZARCA', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">16:00</span>
+      <div class="equipo">CD JUCHITAN</div>
+      <span class="vs">VS</span>
+      <div class="equipo">UNION SLAGRO</div>
+      <span class="gpo">C</span>
+      <button onclick="registrarResultado('CD JUCHITAN', 'UNION SLAGRO', this)">✅ Registrar</button>
+    </div>
+  </div>
+
+  <!-- Día 24 -->
+  <div class="dia">
+    <h3>📅 24 DICIEMBRE 2025</h3>
+    <div class="partido">
+      <span class="hora">10:00</span>
+      <div class="equipo">LA YEGUADA</div>
+      <span class="vs">VS</span>
+      <div class="equipo">CD POLYMAR</div>
+      <span class="gpo">B</span>
+      <button onclick="registrarResultado('LA YEGUADA', 'CD POLYMAR', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">12:00</span>
+      <div class="equipo">CD COPALA</div>
+      <span class="vs">VS</span>
+      <div class="equipo">CDM</div>
+      <span class="gpo">D</span>
+      <button onclick="registrarResultado('CD COPALA', 'CDM', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">14:00</span>
+      <div class="equipo">SAN NICOLAS</div>
+      <span class="vs">VS</span>
+      <div class="equipo">UNION MARQUELIA</div>
+      <span class="gpo">C</span>
+      <button onclick="registrarResultado('SAN NICOLAS', 'UNION MARQUELIA', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">16:00</span>
+      <div class="equipo">CD JUCHITAN</div>
+      <span class="vs">VS</span>
+      <div class="equipo">BACHILLERES FC</div>
+      <span class="gpo">C</span>
+      <button onclick="registrarResultado('CD JUCHITAN', 'BACHILLERES FC', this)">✅ Registrar</button>
+    </div>
+  </div>
+
+  <!-- Día 26 -->
+  <div class="dia">
+    <h3>📅 26 DICIEMBRE 2025</h3>
+    <div class="partido">
+      <span class="hora">12:00</span>
+      <div class="equipo">CD COPALA</div>
+      <span class="vs">VS</span>
+      <div class="equipo">CD INDEPENDIENTE</div>
+      <span class="gpo">D</span>
+      <button onclick="registrarResultado('CD COPALA', 'CD INDEPENDIENTE', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">14:00</span>
+      <div class="equipo">LA YEGUADA</div>
+      <span class="vs">VS</span>
+      <div class="equipo">AGUA ZARCA</div>
+      <span class="gpo">B</span>
+      <button onclick="registrarResultado('LA YEGUADA', 'AGUA ZARCA', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">16:00</span>
+      <div class="equipo">OMETEPEC FC</div>
+      <span class="vs">VS</span>
+      <div class="equipo">JUVENTUS</div>
+      <span class="gpo">B</span>
+      <button onclick="registrarResultado('OMETEPEC FC', 'JUVENTUS', this)">✅ Registrar</button>
+    </div>
+  </div>
+
+  <!-- Día 27 -->
+  <div class="dia">
+    <h3>📅 27 DICIEMBRE 2025</h3>
+    <div class="partido">
+      <span class="hora">10:00</span>
+      <div class="equipo">LA YEGUADA</div>
+      <span class="vs">VS</span>
+      <div class="equipo">CD POLYMAR</div>
+      <span class="gpo">B</span>
+      <button onclick="registrarResultado('LA YEGUADA', 'CD POLYMAR', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">12:00</span>
+      <div class="equipo">CD COPALA</div>
+      <span class="vs">VS</span>
+      <div class="equipo">CDM</div>
+      <span class="gpo">D</span>
+      <button onclick="registrarResultado('CD COPALA', 'CDM', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">14:00</span>
+      <div class="equipo">SAN NICOLAS</div>
+      <span class="vs">VS</span>
+      <div class="equipo">UNION MARQUELIA</div>
+      <span class="gpo">C</span>
+      <button onclick="registrarResultado('SAN NICOLAS', 'UNION MARQUELIA', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">16:00</span>
+      <div class="equipo">CD JUCHITAN</div>
+      <span class="vs">VS</span>
+      <div class="equipo">BACHILLERES FC</div>
+      <span class="gpo">C</span>
+      <button onclick="registrarResultado('CD JUCHITAN', 'BACHILLERES FC', this)">✅ Registrar</button>
+    </div>
+  </div>
+
+  <!-- Día 28 -->
+  <div class="dia">
+    <h3>📅 28 DICIEMBRE 2025</h3>
+    <div class="partido">
+      <span class="hora">08:00</span>
+      <div class="equipo">SAN NICOLAS</div>
+      <span class="vs">VS</span>
+      <div class="equipo">UNION SLAGRO</div>
+      <span class="gpo">C</span>
+      <button onclick="registrarResultado('SAN NICOLAS', 'UNION SLAGRO', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">10:00</span>
+      <div class="equipo">OMETEPEC FC</div>
+      <span class="vs">VS</span>
+      <div class="equipo">JUVENTUS</div>
+      <span class="gpo">B</span>
+      <button onclick="registrarResultado('OMETEPEC FC', 'JUVENTUS', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">12:00</span>
+      <div class="equipo">LA YEGUADA</div>
+      <span class="vs">VS</span>
+      <div class="equipo">AGUA ZARCA</div>
+      <span class="gpo">B</span>
+      <button onclick="registrarResultado('LA YEGUADA', 'AGUA ZARCA', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">14:00</span>
+      <div class="equipo">MACHINE POWER</div>
+      <span class="vs">VS</span>
+      <div class="equipo">CD INDEPENDIENTE</div>
+      <span class="gpo">D</span>
+      <button onclick="registrarResultado('MACHINE POWER', 'CD INDEPENDIENTE', this)">✅ Registrar</button>
+    </div>
+    <div class="partido">
+      <span class="hora">16:00</span>
+      <div class="equipo">BARRA DE TECOANAPA</div>
+      <span class="vs">VS</span>
+      <div class="equipo">CD POZAHUALCO</div>
+      <span class="gpo">A</span>
+      <button onclick="registrarResultado('BARRA DE TECOANAPA', 'CD POZAHUALCO', this)">✅ Registrar</button>
+    </div>
+  </div>
+
+  <!-- Tabla de posiciones -->
+  <h2>Tabla de Posiciones</h2>
+  <table id="tablaPosiciones">
+    <thead>
+      <tr>
+        <th>Equipo</th>
+        <th>PJ</th>
+        <th>PG</th>
+        <th>PE</th>
+        <th>PP</th>
+        <th>GF</th>
+        <th>GC</th>
+        <th>Dif</th>
+        <th>Pts</th>
+      </tr>
+    </thead>
+    <tbody id="cuerpoTabla"></tbody>
+  </table>
+
+  <div class="nota">
+    Los datos se guardan automáticamente en tu dispositivo. Solo tú los ves a menos que se suba a un servidor.
+  </div>
+</div>
+
+<script>
+  // Equipos oficiales del torneo (19 equipos)
+  const EQUIPOS_OFICIALES = [
+    "CD COPALA",
+    "MACHINE POWER",
+    "CD POZAHUALCO",
+    "LA GUADALUPE",
+    "BARRA DE TECOANAPA",
+    "PLAYA AZUL",
+    "CD POLYMAR",
+    "JUVENTUS",
+    "OMETEPEC FC",
+    "LA YEGUADA",
+    "UNION MARQUELIA",
+    "UNION SLAGRO",
+    "CD JUCHITAN",
+    "SAN NICOLAS",
+    "CDM",
+    "CD ISLALTEPEC",
+    "CD INDEPENDIENTE",
+    "BACHILLERES FC",
+    "AGUA ZARCA"
+  ];
+
+  // Cargar o inicializar equipos
+  let equipos = JSON.parse(localStorage.getItem('equipos_torneo_xlviii')) || {};
+
+  // Inicializar todos los equipos si no existen
+  let hayCambios = false;
+  EQUIPOS_OFICIALES.forEach(nombre => {
+    if (!equipos[nombre]) {
+      equipos[nombre] = { pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0 };
+      hayCambios = true;
+    }
+  });
+
+  if (hayCambios) {
+    guardarEquipos();
+  }
+
+  function guardarEquipos() {
+    localStorage.setItem('equipos_torneo_xlviii', JSON.stringify(equipos));
+    renderizarTabla();
+  }
+
+  function renderizarTabla() {
+    const cuerpo = document.getElementById('cuerpoTabla');
+    cuerpo.innerHTML = '';
+
+    const lista = Object.entries(equipos).map(([nombre, datos]) => {
+      const pts = datos.pg * 3 + datos.pe;
+      const dif = datos.gf - datos.gc;
+      return { nombre, ...datos, pts, dif };
+    }).sort((a, b) => 
+      b.pts - a.pts || 
+      b.dif - a.dif || 
+      b.gf - a.gf || 
+      a.nombre.localeCompare(b.nombre)
+    );
+
+    lista.forEach(e => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${e.nombre}</td>
+        <td>${e.pj}</td>
+        <td>${e.pg}</td>
+        <td>${e.pe}</td>
+        <td>${e.pp}</td>
+        <td>${e.gf}</td>
+        <td>${e.gc}</td>
+        <td>${e.dif}</td>
+        <td>${e.pts}</td>
+      `;
+      cuerpo.appendChild(row);
+    });
+  }
+
+  // Función para registrar resultado desde el botón
+  function registrarResultado(local, visita, btn) {
+    // Mostrar inputs para goles
+    const inputLocal = prompt(`Goles de ${local}:`, "0");
+    const inputVisita = prompt(`Goles de ${visita}:`, "0");
+
+    if (inputLocal === null || inputVisita === null) return;
+
+    const golesL = parseInt(inputLocal);
+    const golesV = parseInt(inputVisita);
+
+    if (isNaN(golesL) || isNaN(golesV)) {
+      alert("Por favor, ingresa números válidos.");
+      return;
+    }
+
+    // Actualizar estadísticas
+    equipos[local].pj++; 
+    equipos[local].gf += golesL; 
+    equipos[local].gc += golesV;
+
+    equipos[visita].pj++; 
+    equipos[visita].gf += golesV; 
+    equipos[visita].gc += golesL;
+
+    if (golesL > golesV) {
+      equipos[local].pg++;
+      equipos[visita].pp++;
+    } else if (golesL < golesV) {
+      equipos[visita].pg++;
+      equipos[local].pp++;
+    } else {
+      equipos[local].pe++;
+      equipos[visita].pe++;
+    }
+
+    guardarEquipos();
+
+    // Cambiar botón a "Registrado"
+    btn.textContent = "✅ Registrado";
+    btn.disabled = true;
+    btn.style.backgroundColor = "#28a745";
+  }
+
+  // Inicializar tabla al cargar
+  renderizarTabla();
+</script>
+
+</body>
+</html>
