@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin - JJFUTBOL</title>
+  <style>
+    body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+    .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+    h2 { color: #c00; }
+    input, select, button { padding: 8px; margin: 5px; }
+    button { background: #c00; color: white; border: none; cursor: pointer; }
+    button:hover { background: #a00; }
+    table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+    th, td { padding: 8px; text-align: center; border: 1px solid #ccc; }
+    th { background: #eee; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>🔐 Acceso al Panel de Admin</h2>
+  <input type="password" id="clave" placeholder="Contraseña" />
+  <button onclick="acceder()">Entrar</button>
+
+  <div id="panel" style="display:none; margin-top:20px;">
+    <h2>Registrar Resultado de Partido</h2>
+    <form id="formPartido">
+      <select id="equipoLocal" required></select>
+      <input type="number" id="golesLocal" placeholder="Goles local" min="0" required />
+      <input type="number" id="golesVisita" placeholder="Goles visita" min="0" required />
+      <select id="equipoVisita" required></select>
+      <button type="submit">Guardar Resultado</button>
+    </form>
+
+    <h3>Tabla de Posiciones (solo vista)</h3>
+    <table id="tablaResumen">
+      <thead><tr><th>Equipo</th><th>PJ</th><th>Pts</th></tr></thead>
+      <tbody id="resumenCuerpo"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+
+<script>
+  const CONTRASEÑA = "1234"; // ← Cambia esto si quieres otra
+
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+  const db = firebase.database();
+  const equiposRef = db.ref('equipos');
+
+  const EQUIPOS_OFICIALES = [
+    "CD COPALA", "MACHINE POWER", "CD POZAHUALCO", "LA GUADALUPE",
+    "BARRA DE TECOANAPA", "PLAYA AZUL", "CD POLYMAR", "JUVENTUS",
+    "OMETEPEC FC", "LA YEGUADA", "UNION MARQUELIA", "UNION SLAGRO",
+    "CD JUCHITAN", "SAN NICOLAS", "CDM", "CD ISLALTEPEC",
+    "CD INDEPENDIENTE", "BACHILLERES FC", "AGUA ZARCA"
+  ];
+
+  function acceder() {
+    if (document.getElementById('clave').value === CONTRASEÑA) {
+      document.getElementById('panel').style.display = 'block';
+      cargarEquipos();
+      actualizarSelects();
+    } else {
+      alert("❌ Contraseña incorrecta");
+    }
+  }
+
+  function actualizarSelects() {
+    ['equipoLocal', 'equipoVisita'].forEach(id => {
+      const sel = document.getElementById(id);
+      sel.innerHTML = '';
+      EQUIPOS_OFICIALES.forEach(eq => {
+        const opt = document.createElement('option');
+        opt.value = eq;
+        opt.textContent = eq;
+        sel.appendChild(opt);
+      });
+    });
+  }
+
+  function cargarEquipos() {
+    equiposRef.on('value', snapshot => {
+      const data = snapshot.val() || {};
+      // Asegurar que todos los equipos existan
+      let hayCambio = false;
+      EQUIPOS_OFICIALES.forEach(eq => {
+        if (!data[eq]) {
+          data[eq] = { pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0 };
+          hayCambio = true;
+        }
+      });
+      if (hayCambio) {
+        equiposRef.set(data);
+      }
+      // Actualizar vista resumen
+      const cuerpo = document.getElementById('resumenCuerpo');
+      cuerpo.innerHTML = Object.entries(data).map(([eq, d]) => 
+        `<tr><td>${eq}</td><td>${d.pj || 0}</td><td>${(d.pg||0)*3 + (d.pe||0)}</td></tr>`
+      ).join('');
+    });
+  }
+
+  document.getElementById('formPartido').addEventListener('submit', e => {
+    e.preventDefault();
+    const local = document.getElementById('equipoLocal').value;
+    const visita = document.getElementById('equipoVisita').value;
+    const gl = parseInt(document.getElementById('golesLocal').value);
+    const gv = parseInt(document.getElementById('golesVisita').value);
+
+    if (local === visita) {
+      alert("El equipo local y visitante no pueden ser iguales.");
+      return;
+    }
+
+    equiposRef.once('value').then(snapshot => {
+      const data = snapshot.val() || {};
+      if (!data[local]) data[local] = { pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 };
+      if (!data[visita]) data[visita] = { pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 };
+
+      data[local].pj++; data[local].gf += gl; data[local].gc += gv;
+      data[visita].pj++; data[visita].gf += gv; data[visita].gc += gl;
+
+      if (gl > gv) { data[local].pg++; data[visita].pp++; }
+      else if (gl < gv) { data[visita].pg++; data[local].pp++; }
+      else { data[local].pe++; data[visita].pe++; }
+
+      equiposRef.set(data).then(() => {
+        alert("✅ Resultado guardado");
+        document.getElementById('formPartido').reset();
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
