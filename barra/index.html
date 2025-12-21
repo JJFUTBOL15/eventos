@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>XLVIII Regional Decembrino - Barra de tecoanapa 2025</title>
+  <title>XLVIII Regional Decembrino - JJFUTBOL</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -11,7 +11,7 @@
       background: url('https://i.ibb.co/SwZN1y0H/5059953714075994908.jpg') center/cover fixed;
       color: #fff;
       min-height: 100vh;
-      padding: 20px;
+      padding: 15px;
     }
     .container {
       max-width: 1100px;
@@ -23,7 +23,7 @@
     }
     h1 {
       text-align: center;
-      margin: 15px 0;
+      margin: 10px 0 15px;
       font-size: 1.8em;
       color: #ffd700;
       text-shadow: 0 0 6px #000;
@@ -32,25 +32,35 @@
       text-align: center;
       margin-bottom: 20px;
       color: #ccc;
+      font-size: 1.1em;
+    }
+    .grupo {
+      margin: 25px 0;
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .grupo h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      color: #ffd700;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 20px 0;
+      margin: 10px 0;
     }
     th, td {
-      padding: 12px;
+      padding: 10px;
       text-align: center;
       border: 1px solid #555;
     }
     th {
       background: #c00;
       color: white;
-      position: sticky;
-      top: 0;
     }
     tr:nth-child(even) {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.08);
     }
     tr:hover {
       background: rgba(255,215,0,0.15);
@@ -80,10 +90,10 @@
       font-size: 0.9em;
       color: #aaa;
     }
-    .cargando {
+    .sin-datos {
       text-align: center;
-      padding: 20px;
-      font-style: italic;
+      padding: 15px;
+      color: #aaa;
     }
   </style>
 </head>
@@ -91,9 +101,9 @@
 
 <div class="container">
   <h1>XLVIII REGIONAL DECEMBRINO DE FÚTBOL</h1>
-  <div class="subtitulo">Costa Chica de Guerrero, México<br>
-    <strong>Rol de Juegos Fase Grupos: 20 al 28 de diciembre 2025</strong><br>
-    <em>Eliminatorias: 29 al 31 de diciembre</em>
+  <div class="subtitulo">
+    Costa Chica de Guerrero, México<br>
+    <strong>Fase de Grupos: 20 al 28 de diciembre 2025</strong>
   </div>
 
   <!-- Patrocinadores -->
@@ -109,29 +119,13 @@
     <a href="https://palapalasirenita.lol/" target="_blank">🍤 Palapa La Sirenita</a>
   </div>
 
-  <!-- Tabla de posiciones -->
-  <table id="tablaPosiciones">
-    <thead>
-      <tr>
-        <th>Pos</th>
-        <th>Equipo</th>
-        <th>PJ</th>
-        <th>PG</th>
-        <th>PE</th>
-        <th>PP</th>
-        <th>GF</th>
-        <th>GC</th>
-        <th>Dif</th>
-        <th>Pts</th>
-      </tr>
-    </thead>
-    <tbody id="cuerpoTabla">
-      <tr><td colspan="10" class="cargando">Cargando tabla de posiciones...</td></tr>
-    </tbody>
-  </table>
+  <!-- Grupos -->
+  <div id="grupos-container">
+    <!-- Se llenará con JavaScript -->
+  </div>
 
   <div class="nota">
-    ✅ Actualización en tiempo real • Datos gestionados en Palapa la sirenita
+    ✅ Actualización en tiempo real • Datos gestionados en JJFUTBOL
   </div>
 </div>
 
@@ -141,61 +135,85 @@
 <script src="firebase-config.js"></script>
 
 <script>
+  // Definición de grupos
+  const GRUPOS = {
+    A: ["BARRA DE TECOANAPA", "PLAYA AZUL", "CD POZAHUALCO", "LA GUADALUPE"],
+    B: ["OMETEPEC FC", "LA YEGUADA", "CD POLYMAR", "JUVENTUS", "AGUA ZARCA"],
+    C: ["CD JUCHITAN", "SAN NICOLAS", "UNION MARQUELIA", "UNION SLAGRO", "BACHILLERES FC"],
+    D: ["CD COPALA", "MACHINE POWER", "CDM", "CD ISLALTEPEC", "CD INDEPENDIENTE"]
+  };
+
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
   const db = firebase.database();
   const equiposRef = db.ref('equipos');
 
-  function renderizarTabla(equipos) {
-    const cuerpo = document.getElementById('cuerpoTabla');
-    if (!equipos || Object.keys(equipos).length === 0) {
-      cuerpo.innerHTML = `<tr><td colspan="10" class="cargando">Sin partidos registrados aún</td></tr>`;
-      return;
+  function renderizarGrupos(equipos) {
+    const container = document.getElementById('grupos-container');
+    container.innerHTML = '';
+
+    for (const [letra, listaEquipos] of Object.entries(GRUPOS)) {
+      // Filtrar y ordenar equipos del grupo
+      const equiposGrupo = listaEquipos.map(nombre => {
+        const datos = equipos[nombre] || { pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0 };
+        const pts = (datos.pg || 0) * 3 + (datos.pe || 0);
+        const dif = (datos.gf || 0) - (datos.gc || 0);
+        return { nombre, ...datos, pts, dif };
+      }).sort((a, b) => 
+        b.pts - a.pts || 
+        b.dif - a.dif || 
+        b.gf - a.gf || 
+        a.nombre.localeCompare(b.nombre)
+      );
+
+      // Crear sección del grupo
+      const grupoDiv = document.createElement('div');
+      grupoDiv.className = 'grupo';
+      grupoDiv.innerHTML = `
+        <h2>🏆 GRUPO ${letra}</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Pos</th>
+              <th>Equipo</th>
+              <th>PJ</th>
+              <th>PG</th>
+              <th>PE</th>
+              <th>PP</th>
+              <th>GF</th>
+              <th>GC</th>
+              <th>Dif</th>
+              <th>Pts</th>
+            </tr>
+          </thead>
+          <tbody id="grupo-${letra}">
+            ${equiposGrupo.length === 0 || equiposGrupo.every(e => e.pj === 0) 
+              ? `<tr><td colspan="10" class="sin-datos">Sin partidos jugados</td></tr>`
+              : equiposGrupo.map((e, i) => `
+                <tr>
+                  <td>${i + 1}</td>
+                  <td>${e.nombre}</td>
+                  <td>${e.pj || 0}</td>
+                  <td>${e.pg || 0}</td>
+                  <td>${e.pe || 0}</td>
+                  <td>${e.pp || 0}</td>
+                  <td>${e.gf || 0}</td>
+                  <td>${e.gc || 0}</td>
+                  <td>${e.dif}</td>
+                  <td>${e.pts}</td>
+                </tr>
+              `).join('')
+            }
+          </tbody>
+        </table>
+      `;
+      container.appendChild(grupoDiv);
     }
-
-    // Filtrar equipos reales (excluir genéricos si no han jugado)
-    const equiposReales = {};
-    for (const [nombre, datos] of Object.entries(equipos)) {
-      if (datos.pj > 0) {
-        equiposReales[nombre] = datos;
-      }
-    }
-
-    if (Object.keys(equiposReales).length === 0) {
-      cuerpo.innerHTML = `<tr><td colspan="10" class="cargando">Sin partidos registrados aún</td></tr>`;
-      return;
-    }
-
-    const lista = Object.entries(equiposReales).map(([nombre, datos]) => {
-      const pts = (datos.pg || 0) * 3 + (datos.pe || 0);
-      const dif = (datos.gf || 0) - (datos.gc || 0);
-      return { nombre, ...datos, pts, dif };
-    }).sort((a, b) => 
-      b.pts - a.pts || 
-      b.dif - a.dif || 
-      b.gf - a.gf || 
-      a.nombre.localeCompare(b.nombre)
-    );
-
-    cuerpo.innerHTML = lista.map((e, i) => `
-      <tr>
-        <td>${i + 1}</td>
-        <td>${e.nombre}</td>
-        <td>${e.pj || 0}</td>
-        <td>${e.pg || 0}</td>
-        <td>${e.pe || 0}</td>
-        <td>${e.pp || 0}</td>
-        <td>${e.gf || 0}</td>
-        <td>${e.gc || 0}</td>
-        <td>${e.dif}</td>
-        <td>${e.pts}</td>
-      </tr>
-    `).join('');
   }
 
   equiposRef.on('value', snapshot => {
-    renderizarTabla(snapshot.val() || {});
+    renderizarGrupos(snapshot.val() || {});
   });
 </script>
 
