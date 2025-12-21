@@ -60,6 +60,16 @@
     }
     .guardar:hover { background: #218838; }
     .estado { margin-left: 10px; font-size: 0.9em; color: #666; }
+    .eliminatorias {
+      background: #fffbe6;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    .eliminatorias h3 {
+      color: #c00;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
@@ -466,6 +476,65 @@
         <span class="estado"></span>
       </div>
     </div>
+
+    <!-- ELIMINATORIAS -->
+    <div class="eliminatorias">
+      <h3>🏆 PARTIDOS ELIMINATORIOS</h3>
+      <p><em>Actualiza estos partidos después de que termine la fase de grupos.</em></p>
+
+      <div class="partido" data-local="GANADOR GRUPO A" data-visita="GANADOR GRUPO C">
+        <span class="equipo">GANADOR GRUPO A</span>
+        <span class="vs">VS</span>
+        <span class="equipo">GANADOR GRUPO C</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="GANADOR GRUPO B" data-visita="GANADOR GRUPO D">
+        <span class="equipo">GANADOR GRUPO B</span>
+        <span class="vs">VS</span>
+        <span class="equipo">GANADOR GRUPO D</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+
+      <h3>🥇 FINAL</h3>
+      <div class="partido" data-local="GANADOR SF1" data-visita="GANADOR SF2">
+        <span class="equipo">GANADOR SF1</span>
+        <span class="vs">VS</span>
+        <span class="equipo">GANADOR SF2</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+
+      <h3>🥈 TERCER LUGAR</h3>
+      <div class="partido" data-local="PERDEDOR SF1" data-visita="PERDEDOR SF2">
+        <span class="equipo">PERDEDOR SF1</span>
+        <span class="vs">VS</span>
+        <span class="equipo">PERDEDOR SF2</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -527,9 +596,6 @@
       // Inicializar si no existen
       if (!current[local]) current[local] = { pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 };
       if (!current[visita]) current[visita] = { pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 };
-
-      // Si ya tenía datos previos de este partido, deshacerlos (opcional: mejora futura)
-      // Por simplicidad, asumimos que se guarda una vez.
 
       // Actualizar
       current[local].pj++; current[local].gf += gl; current[local].gc += gv;
