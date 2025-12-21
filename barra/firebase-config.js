@@ -9,9 +9,6 @@ const firebaseConfig = {
   appId: "1:99569181408:web:807cd92e9cea82c19a2685"
 };
 
-if (typeof firebase === 'undefined') {
-  console.log("⚠️ Firebase no cargado aún");
-} else if (!firebase.apps.length) {
+if (typeof firebase !== 'undefined' && !firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
-  console.log("✅ Firebase inicializado");
 }
