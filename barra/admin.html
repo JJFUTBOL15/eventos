@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin - Partidos | JJFUTBOL</title>
+  <title>Admin - XLVIII Regional Decembrino | JJFUTBOL</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -23,12 +23,29 @@
       color: #c00;
       text-align: center;
     }
-    .dia { margin: 25px 0; }
+    .dia {
+      margin: 25px 0;
+      padding: 15px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
     .dia h3 {
       background: #eef7ff;
       padding: 8px 12px;
       border-left: 4px solid #007bff;
       margin-bottom: 12px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .dia h3::after {
+      content: "+";
+      font-weight: bold;
+    }
+    .dia.open h3::after {
+      content: "−";
     }
     .partido {
       display: flex;
@@ -49,33 +66,46 @@
       border: 1px solid #ccc;
       border-radius: 4px;
     }
-    .guardar {
+    .guardar, .editar {
       margin-left: 10px;
       padding: 4px 10px;
-      background: #28a745;
-      color: white;
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      font-size: 0.9em;
     }
-    .guardar:hover { background: #218838; }
+    .guardar { background: #28a745; color: white; }
+    .editar { background: #ffc107; color: black; }
     .estado { margin-left: 10px; font-size: 0.9em; color: #666; }
-    .eliminatorias {
-      background: #fffbe6;
+    .acciones-admin {
+      text-align: center;
+      margin: 25px 0;
       padding: 15px;
+      background: #ffebee;
       border-radius: 8px;
-      margin-top: 20px;
     }
-    .eliminatorias h3 {
-      color: #c00;
-      margin-bottom: 10px;
+    .acciones-admin input {
+      padding: 6px;
+      margin: 0 10px;
+    }
+    .link-tabla {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 15px;
+      background: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .link-tabla:hover {
+      background: #0056b3;
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>🔐 Panel de Admin - Resultados</h2>
+  <h2>🔐 Panel de Admin - Resultados del Torneo</h2>
   <input type="password" id="pass" placeholder="Contraseña" style="padding:8px; margin-bottom:15px;" />
   <button onclick="verificarPass()">Entrar</button>
 
@@ -83,8 +113,8 @@
     <p style="text-align:center; color:#c00; font-weight:bold;">Ingresa los goles y guarda cada partido</p>
 
     <!-- Día 20 -->
-    <div class="dia">
-      <h3>📅 20 DICIEMBRE 2025</h3>
+    <div class="dia" id="dia20">
+      <h3 onclick="toggleDia('dia20')">📅 20 DICIEMBRE 2025</h3>
       <div class="partido" data-local="BARRA DE TECOANAPA" data-visita="PLAYA AZUL">
         <span class="equipo">BARRA DE TECOANAPA</span>
         <span class="vs">VS</span>
@@ -95,6 +125,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="OMETEPEC FC" data-visita="LA YEGUADA">
@@ -107,6 +138,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="CD JUCHITAN" data-visita="SAN NICOLAS">
@@ -119,13 +151,14 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
     </div>
 
     <!-- Día 21 -->
-    <div class="dia">
-      <h3>📅 21 DICIEMBRE 2025</h3>
+    <div class="dia" id="dia21">
+      <h3 onclick="toggleDia('dia21')">📅 21 DICIEMBRE 2025</h3>
       <div class="partido" data-local="CD COPALA" data-visita="MACHINE POWER">
         <span class="equipo">CD COPALA</span>
         <span class="vs">VS</span>
@@ -136,6 +169,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="CD POZAHUALCO" data-visita="LA GUADALUPE">
@@ -148,6 +182,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="CD POLYMAR" data-visita="JUVENTUS">
@@ -160,6 +195,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="UNION MARQUELIA" data-visita="UNION SLAGRO">
@@ -172,6 +208,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="CDM" data-visita="CD ISLALTEPEC">
@@ -184,13 +221,14 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
     </div>
 
     <!-- Día 22 -->
-    <div class="dia">
-      <h3>📅 22 DICIEMBRE 2025</h3>
+    <div class="dia" id="dia22">
+      <h3 onclick="toggleDia('dia22')">📅 22 DICIEMBRE 2025</h3>
       <div class="partido" data-local="PLAYA AZUL" data-visita="CD POZAHUALCO">
         <span class="equipo">PLAYA AZUL</span>
         <span class="vs">VS</span>
@@ -201,6 +239,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="BACHILLERES FC" data-visita="SAN NICOLAS">
@@ -213,6 +252,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="CD INDEPENDIENTE" data-visita="CD ISLALTEPEC">
@@ -225,6 +265,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="OMETEPEC FC" data-visita="AGUA ZARCA">
@@ -237,6 +278,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="BARRA DE TECOANAPA" data-visita="LA GUADALUPE">
@@ -249,13 +291,14 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
     </div>
 
     <!-- Día 23 -->
-    <div class="dia">
-      <h3>📅 23 DICIEMBRE 2025</h3>
+    <div class="dia" id="dia23">
+      <h3 onclick="toggleDia('dia23')">📅 23 DICIEMBRE 2025</h3>
       <div class="partido" data-local="UNION MARQUELIA" data-visita="BACHILLERES FC">
         <span class="equipo">UNION MARQUELIA</span>
         <span class="vs">VS</span>
@@ -266,6 +309,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="CD COPALA" data-visita="CD ISLALTEPEC">
@@ -278,6 +322,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="MACHINE POWER" data-visita="CDM">
@@ -290,6 +335,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="CD POLYMAR" data-visita="AGUA ZARCA">
@@ -302,6 +348,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="CD JUCHITAN" data-visita="UNION SLAGRO">
@@ -314,13 +361,14 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
     </div>
 
     <!-- Día 24 -->
-    <div class="dia">
-      <h3>📅 24 DICIEMBRE 2025</h3>
+    <div class="dia" id="dia24">
+      <h3 onclick="toggleDia('dia24')">📅 24 DICIEMBRE 2025</h3>
       <div class="partido" data-local="LA YEGUADA" data-visita="CD POLYMAR">
         <span class="equipo">LA YEGUADA</span>
         <span class="vs">VS</span>
@@ -331,6 +379,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="CD COPALA" data-visita="CDM">
@@ -343,6 +392,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="SAN NICOLAS" data-visita="UNION MARQUELIA">
@@ -355,6 +405,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="CD JUCHITAN" data-visita="BACHILLERES FC">
@@ -367,13 +418,14 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
     </div>
 
     <!-- Día 26 -->
-    <div class="dia">
-      <h3>📅 26 DICIEMBRE 2025</h3>
+    <div class="dia" id="dia26">
+      <h3 onclick="toggleDia('dia26')">📅 26 DICIEMBRE 2025</h3>
       <div class="partido" data-local="CD COPALA" data-visita="CD INDEPENDIENTE">
         <span class="equipo">CD COPALA</span>
         <span class="vs">VS</span>
@@ -384,6 +436,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="LA YEGUADA" data-visita="AGUA ZARCA">
@@ -396,6 +449,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="OMETEPEC FC" data-visita="JUVENTUS">
@@ -408,13 +462,14 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
     </div>
 
     <!-- Día 28 -->
-    <div class="dia">
-      <h3>📅 28 DICIEMBRE 2025</h3>
+    <div class="dia" id="dia28">
+      <h3 onclick="toggleDia('dia28')">📅 28 DICIEMBRE 2025</h3>
       <div class="partido" data-local="SAN NICOLAS" data-visita="UNION SLAGRO">
         <span class="equipo">SAN NICOLAS</span>
         <span class="vs">VS</span>
@@ -425,6 +480,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="OMETEPEC FC" data-visita="JUVENTUS">
@@ -437,6 +493,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="LA YEGUADA" data-visita="AGUA ZARCA">
@@ -449,6 +506,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="MACHINE POWER" data-visita="CD INDEPENDIENTE">
@@ -461,6 +519,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="BARRA DE TECOANAPA" data-visita="CD POZAHUALCO">
@@ -473,15 +532,14 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
     </div>
 
-    <!-- ELIMINATORIAS -->
-    <div class="eliminatorias">
-      <h3>🏆 PARTIDOS ELIMINATORIOS</h3>
-      <p><em>Actualiza estos partidos después de que termine la fase de grupos.</em></p>
-
+    <!-- ELIMINATORIAS: 29, 30, 31 -->
+    <div class="dia" id="dia29">
+      <h3 onclick="toggleDia('dia29')">🏆 SEMIFINALES - 29 DICIEMBRE 2025</h3>
       <div class="partido" data-local="GANADOR GRUPO A" data-visita="GANADOR GRUPO C">
         <span class="equipo">GANADOR GRUPO A</span>
         <span class="vs">VS</span>
@@ -492,6 +550,7 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
       <div class="partido" data-local="GANADOR GRUPO B" data-visita="GANADOR GRUPO D">
@@ -504,10 +563,13 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
+    </div>
 
-      <h3>🥇 FINAL</h3>
+    <div class="dia" id="dia30">
+      <h3 onclick="toggleDia('dia30')">🥇 FINAL - 30 DICIEMBRE 2025</h3>
       <div class="partido" data-local="GANADOR SF1" data-visita="GANADOR SF2">
         <span class="equipo">GANADOR SF1</span>
         <span class="vs">VS</span>
@@ -518,10 +580,13 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
+    </div>
 
-      <h3>🥈 TERCER LUGAR</h3>
+    <div class="dia" id="dia31">
+      <h3 onclick="toggleDia('dia31')">🥈 TERCER LUGAR - 31 DICIEMBRE 2025</h3>
       <div class="partido" data-local="PERDEDOR SF1" data-visita="PERDEDOR SF2">
         <span class="equipo">PERDEDOR SF1</span>
         <span class="vs">VS</span>
@@ -532,8 +597,20 @@
           <input type="number" min="0" value="0" class="gv">
         </span>
         <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <button class="editar" onclick="editarResultado(this)">Editar</button>
         <span class="estado"></span>
       </div>
+    </div>
+
+    <!-- ACCIONES ADMIN -->
+    <div class="acciones-admin">
+      <h3>🛠️ Acciones de Administrador</h3>
+      <input type="password" id="passAccion" placeholder="Contraseña para confirmar" style="width:200px;" />
+      <button class="reiniciar" onclick="reiniciarTabla()">🗑️ Reiniciar TODOS los datos</button>
+      <p style="margin-top:10px; font-size:0.9em; color:#555;">
+        ⚠️ Esto borrará todos los resultados y reiniciará la tabla de posiciones.
+      </p>
+      <a href="https://jjfutbol.lat/barra/" class="link-tabla" target="_blank">👁️ Ver Tabla Pública</a>
     </div>
   </div>
 </div>
@@ -560,27 +637,7 @@
   const db = firebase.database();
   const equiposRef = db.ref('equipos');
 
-  // Inicializar todos los equipos si no existen
-  const todosEquipos = new Set();
-  document.querySelectorAll('.partido').forEach(p => {
-    todosEquipos.add(p.dataset.local);
-    todosEquipos.add(p.dataset.visita);
-  });
-
-  equiposRef.once('value').then(snapshot => {
-    const data = snapshot.val() || {};
-    let needsUpdate = false;
-    todosEquipos.forEach(eq => {
-      if (!data[eq]) {
-        data[eq] = { pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0 };
-        needsUpdate = true;
-      }
-    });
-    if (needsUpdate) {
-      equiposRef.set(data);
-    }
-  });
-
+  // === Función para guardar ===
   function guardarResultado(btn) {
     const partido = btn.closest('.partido');
     const local = partido.dataset.local;
@@ -592,12 +649,9 @@
 
     equiposRef.transaction(current => {
       if (!current) current = {};
-
-      // Inicializar si no existen
       if (!current[local]) current[local] = { pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 };
       if (!current[visita]) current[visita] = { pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 };
 
-      // Actualizar
       current[local].pj++; current[local].gf += gl; current[local].gc += gv;
       current[visita].pj++; current[visita].gf += gv; current[visita].gc += gl;
 
@@ -612,6 +666,91 @@
       estado.style.color = "green";
       setTimeout(() => estado.textContent = "", 2000);
     });
+  }
+
+  // === Función para EDITAR ===
+  function editarResultado(btn) {
+    const partido = btn.closest('.partido');
+    const local = partido.dataset.local;
+    const visita = partido.dataset.visita;
+    const gl = parseInt(partido.querySelector('.gl').value) || 0;
+    const gv = parseInt(partido.querySelector('.gv').value) || 0;
+
+    if (isNaN(gl) || isNaN(gv)) {
+      alert("Ingresa goles válidos");
+      return;
+    }
+
+    equiposRef.once('value').then(snapshot => {
+      const data = snapshot.val() || {};
+      const eqLocal = data[local] || { pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 };
+      const eqVisita = data[visita] || { pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 };
+
+      // Revertir el partido anterior (solo si ya se había jugado)
+      if (eqLocal.pj > 0) {
+        // Reiniciar ambos equipos a 0 partidos
+        eqLocal.pj = 0; eqLocal.pg = 0; eqLocal.pe = 0; eqLocal.pp = 0; eqLocal.gf = 0; eqLocal.gc = 0;
+        eqVisita.pj = 0; eqVisita.pg = 0; eqVisita.pe = 0; eqVisita.pp = 0; eqVisita.gf = 0; eqVisita.gc = 0;
+      }
+
+      // Aplicar nuevo resultado
+      eqLocal.pj = 1; eqLocal.gf = gl; eqLocal.gc = gv;
+      eqVisita.pj = 1; eqVisita.gf = gv; eqVisita.gc = gl;
+
+      if (gl > gv) { eqLocal.pg = 1; eqVisita.pp = 1; }
+      else if (gl < gv) { eqVisita.pg = 1; eqLocal.pp = 1; }
+      else { eqLocal.pe = 1; eqVisita.pe = 1; }
+
+      data[local] = eqLocal;
+      data[visita] = eqVisita;
+
+      equiposRef.set(data).then(() => {
+        const estado = partido.querySelector('.estado');
+        estado.textContent = "✏️ Editado";
+        estado.style.color = "#856404";
+        setTimeout(() => estado.textContent = "", 2000);
+      });
+    });
+  }
+
+  // === Función para REINICIAR toda la tabla ===
+  function reiniciarTabla() {
+    const pass = document.getElementById('passAccion').value;
+    if (pass !== PASSWORD) {
+      alert("❌ Contraseña incorrecta para reiniciar");
+      return;
+    }
+
+    if (!confirm("⚠️ ¿Estás seguro? Se borrarán todos los resultados.")) return;
+
+    // Crear estructura limpia con todos los equipos a 0
+    const equiposOficiales = [
+      "CD COPALA", "MACHINE POWER", "CD POZAHUALCO", "LA GUADALUPE",
+      "BARRA DE TECOANAPA", "PLAYA AZUL", "CD POLYMAR", "JUVENTUS",
+      "OMETEPEC FC", "LA YEGUADA", "UNION MARQUELIA", "UNION SLAGRO",
+      "CD JUCHITAN", "SAN NICOLAS", "CDM", "CD ISLALTEPEC",
+      "CD INDEPENDIENTE", "BACHILLERES FC", "AGUA ZARCA",
+      "GANADOR GRUPO A", "GANADOR GRUPO B", "GANADOR GRUPO C", "GANADOR GRUPO D",
+      "GANADOR SF1", "GANADOR SF2", "PERDEDOR SF1", "PERDEDOR SF2"
+    ];
+
+    const nuevaTabla = {};
+    equiposOficiales.forEach(eq => {
+      nuevaTabla[eq] = { pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0 };
+    });
+
+    equiposRef.set(nuevaTabla).then(() => {
+      alert("✅ Tabla reiniciada exitosamente");
+      // Reiniciar campos de goles
+      document.querySelectorAll('.gl, .gv').forEach(input => input.value = 0);
+      document.querySelectorAll('.estado').forEach(span => span.textContent = "");
+    });
+  }
+
+  // === Función para mostrar/ocultar días ===
+  function toggleDia(id) {
+    const dia = document.getElementById(id);
+    dia.classList.toggle('open');
   }
 </script>
 
