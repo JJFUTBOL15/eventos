@@ -80,6 +80,11 @@
       font-size: 0.9em;
       color: #aaa;
     }
+    .cargando {
+      text-align: center;
+      padding: 20px;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -87,7 +92,8 @@
 <div class="container">
   <h1>XLVIII REGIONAL DECEMBRINO DE FÚTBOL</h1>
   <div class="subtitulo">Costa Chica de Guerrero, México<br>
-    <strong>Rol de Juegos Fase Grupos: 20 al 28 de diciembre 2025</strong>
+    <strong>Rol de Juegos Fase Grupos: 20 al 28 de diciembre 2025</strong><br>
+    <em>Eliminatorias: 29 al 31 de diciembre</em>
   </div>
 
   <!-- Patrocinadores -->
@@ -120,81 +126,77 @@
       </tr>
     </thead>
     <tbody id="cuerpoTabla">
-      <tr><td colspan="10" style="text-align:center;">Cargando tabla de posiciones...</td></tr>
+      <tr><td colspan="10" class="cargando">Cargando tabla de posiciones...</td></tr>
     </tbody>
   </table>
 
   <div class="nota">
-    Actualización en tiempo real • Datos gestionados en JJFUTBOL
+    ✅ Actualización en tiempo real • Datos gestionados en JJFUTBOL
   </div>
 </div>
 
-<!-- Firebase SDK (versión compat para sitios estáticos) -->
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
-<!-- Tu configuración -->
 <script src="firebase-config.js"></script>
 
 <script>
-  console.log("🚀 Iniciando conexión con Firebase...");
-
-  // Inicializar Firebase si no lo está
-  if (typeof firebase === 'undefined') {
-    console.error("❌ Firebase no está cargado. Verifica los scripts.");
-  } else {
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-      console.log("✅ Firebase inicializado");
-    }
-
-    const db = firebase.database();
-    const equiposRef = db.ref('equipos');
-
-    function renderizarTabla(equipos) {
-      console.log("📊 Datos recibidos:", equipos);
-
-      const cuerpo = document.getElementById('cuerpoTabla');
-      if (!equipos || Object.keys(equipos).length === 0) {
-        cuerpo.innerHTML = `<tr><td colspan="10" style="text-align:center;">Sin datos aún</td></tr>`;
-        return;
-      }
-
-      const lista = Object.entries(equipos).map(([nombre, datos]) => {
-        const pts = (datos.pg || 0) * 3 + (datos.pe || 0);
-        const dif = (datos.gf || 0) - (datos.gc || 0);
-        return { nombre, ...datos, pts, dif };
-      }).sort((a, b) => 
-        b.pts - a.pts || 
-        b.dif - a.dif || 
-        b.gf - a.gf || 
-        a.nombre.localeCompare(b.nombre)
-      );
-
-      cuerpo.innerHTML = lista.map((e, i) => `
-        <tr>
-          <td>${i + 1}</td>
-          <td>${e.nombre}</td>
-          <td>${e.pj || 0}</td>
-          <td>${e.pg || 0}</td>
-          <td>${e.pe || 0}</td>
-          <td>${e.pp || 0}</td>
-          <td>${e.gf || 0}</td>
-          <td>${e.gc || 0}</td>
-          <td>${e.dif}</td>
-          <td>${e.pts}</td>
-        </tr>
-      `).join('');
-
-      console.log(`✅ Tabla renderizada con ${lista.length} equipos`);
-    }
-
-    // Escuchar cambios en tiempo real
-    equiposRef.on('value', snapshot => {
-      console.log("📡 Cambio detectado en Firebase");
-      renderizarTabla(snapshot.val() || {});
-    });
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
   }
+  const db = firebase.database();
+  const equiposRef = db.ref('equipos');
+
+  function renderizarTabla(equipos) {
+    const cuerpo = document.getElementById('cuerpoTabla');
+    if (!equipos || Object.keys(equipos).length === 0) {
+      cuerpo.innerHTML = `<tr><td colspan="10" class="cargando">Sin partidos registrados aún</td></tr>`;
+      return;
+    }
+
+    // Filtrar equipos reales (excluir genéricos si no han jugado)
+    const equiposReales = {};
+    for (const [nombre, datos] of Object.entries(equipos)) {
+      if (datos.pj > 0) {
+        equiposReales[nombre] = datos;
+      }
+    }
+
+    if (Object.keys(equiposReales).length === 0) {
+      cuerpo.innerHTML = `<tr><td colspan="10" class="cargando">Sin partidos registrados aún</td></tr>`;
+      return;
+    }
+
+    const lista = Object.entries(equiposReales).map(([nombre, datos]) => {
+      const pts = (datos.pg || 0) * 3 + (datos.pe || 0);
+      const dif = (datos.gf || 0) - (datos.gc || 0);
+      return { nombre, ...datos, pts, dif };
+    }).sort((a, b) => 
+      b.pts - a.pts || 
+      b.dif - a.dif || 
+      b.gf - a.gf || 
+      a.nombre.localeCompare(b.nombre)
+    );
+
+    cuerpo.innerHTML = lista.map((e, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${e.nombre}</td>
+        <td>${e.pj || 0}</td>
+        <td>${e.pg || 0}</td>
+        <td>${e.pe || 0}</td>
+        <td>${e.pp || 0}</td>
+        <td>${e.gf || 0}</td>
+        <td>${e.gc || 0}</td>
+        <td>${e.dif}</td>
+        <td>${e.pts}</td>
+      </tr>
+    `).join('');
+  }
+
+  equiposRef.on('value', snapshot => {
+    renderizarTabla(snapshot.val() || {});
+  });
 </script>
 
 </body>
