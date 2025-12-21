@@ -3,51 +3,487 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin - JJFUTBOL</title>
+  <title>Admin - Partidos | JJFUTBOL</title>
   <style>
-    body { font-family: Arial; background: #f4f4f4; padding: 20px; }
-    .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
-    h2 { color: #c00; }
-    input, select, button { padding: 8px; margin: 5px; }
-    button { background: #c00; color: white; border: none; cursor: pointer; }
-    button:hover { background: #a00; }
-    table { width: 100%; margin-top: 20px; border-collapse: collapse; }
-    th, td { padding: 8px; text-align: center; border: 1px solid #ccc; }
-    th { background: #eee; }
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #f0f4f8;
+      padding: 20px;
+      color: #222;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #c00;
+      text-align: center;
+    }
+    .dia { margin: 25px 0; }
+    .dia h3 {
+      background: #eef7ff;
+      padding: 8px 12px;
+      border-left: 4px solid #007bff;
+      margin-bottom: 12px;
+    }
+    .partido {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background: #fafafa;
+      margin: 6px 0;
+      border-radius: 6px;
+      border: 1px solid #eee;
+    }
+    .equipo { font-weight: bold; }
+    .vs { margin: 0 10px; color: #666; }
+    .goles input {
+      width: 50px;
+      padding: 4px;
+      text-align: center;
+      margin: 0 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .guardar {
+      margin-left: 10px;
+      padding: 4px 10px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .guardar:hover { background: #218838; }
+    .estado { margin-left: 10px; font-size: 0.9em; color: #666; }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>🔐 Acceso al Panel de Admin</h2>
-  <input type="password" id="clave" placeholder="Contraseña" />
-  <button onclick="acceder()">Entrar</button>
+  <h2>🔐 Panel de Admin - Resultados</h2>
+  <input type="password" id="pass" placeholder="Contraseña" style="padding:8px; margin-bottom:15px;" />
+  <button onclick="verificarPass()">Entrar</button>
 
   <div id="panel" style="display:none; margin-top:20px;">
-    <h2>Registrar Resultado de Partido</h2>
-    <form id="formPartido">
-      <select id="equipoLocal" required></select>
-      <input type="number" id="golesLocal" placeholder="Goles local" min="0" required />
-      <input type="number" id="golesVisita" placeholder="Goles visita" min="0" required />
-      <select id="equipoVisita" required></select>
-      <button type="submit">Guardar Resultado</button>
-    </form>
+    <p style="text-align:center; color:#c00; font-weight:bold;">Ingresa los goles y guarda cada partido</p>
 
-    <h3>Tabla de Posiciones (solo vista)</h3>
-    <table id="tablaResumen">
-      <thead><tr><th>Equipo</th><th>PJ</th><th>Pts</th></tr></thead>
-      <tbody id="resumenCuerpo"></tbody>
-    </table>
+    <!-- Día 20 -->
+    <div class="dia">
+      <h3>📅 20 DICIEMBRE 2025</h3>
+      <div class="partido" data-local="BARRA DE TECOANAPA" data-visita="PLAYA AZUL">
+        <span class="equipo">BARRA DE TECOANAPA</span>
+        <span class="vs">VS</span>
+        <span class="equipo">PLAYA AZUL</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="OMETEPEC FC" data-visita="LA YEGUADA">
+        <span class="equipo">OMETEPEC FC</span>
+        <span class="vs">VS</span>
+        <span class="equipo">LA YEGUADA</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="CD JUCHITAN" data-visita="SAN NICOLAS">
+        <span class="equipo">CD JUCHITAN</span>
+        <span class="vs">VS</span>
+        <span class="equipo">SAN NICOLAS</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+    </div>
+
+    <!-- Día 21 -->
+    <div class="dia">
+      <h3>📅 21 DICIEMBRE 2025</h3>
+      <div class="partido" data-local="CD COPALA" data-visita="MACHINE POWER">
+        <span class="equipo">CD COPALA</span>
+        <span class="vs">VS</span>
+        <span class="equipo">MACHINE POWER</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="CD POZAHUALCO" data-visita="LA GUADALUPE">
+        <span class="equipo">CD POZAHUALCO</span>
+        <span class="vs">VS</span>
+        <span class="equipo">LA GUADALUPE</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="CD POLYMAR" data-visita="JUVENTUS">
+        <span class="equipo">CD POLYMAR</span>
+        <span class="vs">VS</span>
+        <span class="equipo">JUVENTUS</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="UNION MARQUELIA" data-visita="UNION SLAGRO">
+        <span class="equipo">UNION MARQUELIA</span>
+        <span class="vs">VS</span>
+        <span class="equipo">UNION SLAGRO</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="CDM" data-visita="CD ISLALTEPEC">
+        <span class="equipo">CDM</span>
+        <span class="vs">VS</span>
+        <span class="equipo">CD ISLALTEPEC</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+    </div>
+
+    <!-- Día 22 -->
+    <div class="dia">
+      <h3>📅 22 DICIEMBRE 2025</h3>
+      <div class="partido" data-local="PLAYA AZUL" data-visita="CD POZAHUALCO">
+        <span class="equipo">PLAYA AZUL</span>
+        <span class="vs">VS</span>
+        <span class="equipo">CD POZAHUALCO</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="BACHILLERES FC" data-visita="SAN NICOLAS">
+        <span class="equipo">BACHILLERES FC</span>
+        <span class="vs">VS</span>
+        <span class="equipo">SAN NICOLAS</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="CD INDEPENDIENTE" data-visita="CD ISLALTEPEC">
+        <span class="equipo">CD INDEPENDIENTE</span>
+        <span class="vs">VS</span>
+        <span class="equipo">CD ISLALTEPEC</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="OMETEPEC FC" data-visita="AGUA ZARCA">
+        <span class="equipo">OMETEPEC FC</span>
+        <span class="vs">VS</span>
+        <span class="equipo">AGUA ZARCA</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="BARRA DE TECOANAPA" data-visita="LA GUADALUPE">
+        <span class="equipo">BARRA DE TECOANAPA</span>
+        <span class="vs">VS</span>
+        <span class="equipo">LA GUADALUPE</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+    </div>
+
+    <!-- Día 23 -->
+    <div class="dia">
+      <h3>📅 23 DICIEMBRE 2025</h3>
+      <div class="partido" data-local="UNION MARQUELIA" data-visita="BACHILLERES FC">
+        <span class="equipo">UNION MARQUELIA</span>
+        <span class="vs">VS</span>
+        <span class="equipo">BACHILLERES FC</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="CD COPALA" data-visita="CD ISLALTEPEC">
+        <span class="equipo">CD COPALA</span>
+        <span class="vs">VS</span>
+        <span class="equipo">CD ISLALTEPEC</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="MACHINE POWER" data-visita="CDM">
+        <span class="equipo">MACHINE POWER</span>
+        <span class="vs">VS</span>
+        <span class="equipo">CDM</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="CD POLYMAR" data-visita="AGUA ZARCA">
+        <span class="equipo">CD POLYMAR</span>
+        <span class="vs">VS</span>
+        <span class="equipo">AGUA ZARCA</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="CD JUCHITAN" data-visita="UNION SLAGRO">
+        <span class="equipo">CD JUCHITAN</span>
+        <span class="vs">VS</span>
+        <span class="equipo">UNION SLAGRO</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+    </div>
+
+    <!-- Día 24 -->
+    <div class="dia">
+      <h3>📅 24 DICIEMBRE 2025</h3>
+      <div class="partido" data-local="LA YEGUADA" data-visita="CD POLYMAR">
+        <span class="equipo">LA YEGUADA</span>
+        <span class="vs">VS</span>
+        <span class="equipo">CD POLYMAR</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="CD COPALA" data-visita="CDM">
+        <span class="equipo">CD COPALA</span>
+        <span class="vs">VS</span>
+        <span class="equipo">CDM</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="SAN NICOLAS" data-visita="UNION MARQUELIA">
+        <span class="equipo">SAN NICOLAS</span>
+        <span class="vs">VS</span>
+        <span class="equipo">UNION MARQUELIA</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="CD JUCHITAN" data-visita="BACHILLERES FC">
+        <span class="equipo">CD JUCHITAN</span>
+        <span class="vs">VS</span>
+        <span class="equipo">BACHILLERES FC</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+    </div>
+
+    <!-- Día 26 -->
+    <div class="dia">
+      <h3>📅 26 DICIEMBRE 2025</h3>
+      <div class="partido" data-local="CD COPALA" data-visita="CD INDEPENDIENTE">
+        <span class="equipo">CD COPALA</span>
+        <span class="vs">VS</span>
+        <span class="equipo">CD INDEPENDIENTE</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="LA YEGUADA" data-visita="AGUA ZARCA">
+        <span class="equipo">LA YEGUADA</span>
+        <span class="vs">VS</span>
+        <span class="equipo">AGUA ZARCA</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="OMETEPEC FC" data-visita="JUVENTUS">
+        <span class="equipo">OMETEPEC FC</span>
+        <span class="vs">VS</span>
+        <span class="equipo">JUVENTUS</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+    </div>
+
+    <!-- Día 28 -->
+    <div class="dia">
+      <h3>📅 28 DICIEMBRE 2025</h3>
+      <div class="partido" data-local="SAN NICOLAS" data-visita="UNION SLAGRO">
+        <span class="equipo">SAN NICOLAS</span>
+        <span class="vs">VS</span>
+        <span class="equipo">UNION SLAGRO</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="OMETEPEC FC" data-visita="JUVENTUS">
+        <span class="equipo">OMETEPEC FC</span>
+        <span class="vs">VS</span>
+        <span class="equipo">JUVENTUS</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="LA YEGUADA" data-visita="AGUA ZARCA">
+        <span class="equipo">LA YEGUADA</span>
+        <span class="vs">VS</span>
+        <span class="equipo">AGUA ZARCA</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="MACHINE POWER" data-visita="CD INDEPENDIENTE">
+        <span class="equipo">MACHINE POWER</span>
+        <span class="vs">VS</span>
+        <span class="equipo">CD INDEPENDIENTE</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+      <div class="partido" data-local="BARRA DE TECOANAPA" data-visita="CD POZAHUALCO">
+        <span class="equipo">BARRA DE TECOANAPA</span>
+        <span class="vs">VS</span>
+        <span class="equipo">CD POZAHUALCO</span>
+        <span class="goles">
+          <input type="number" min="0" value="0" class="gl">
+          -
+          <input type="number" min="0" value="0" class="gv">
+        </span>
+        <button class="guardar" onclick="guardarResultado(this)">Guardar</button>
+        <span class="estado"></span>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- Firebase SDK -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="firebase-config.js"></script>
 
 <script>
-  const CONTRASEÑA = "1234"; // ← Cambia esto si quieres otra
+  const PASSWORD = "1234"; // ← Cambia esto si quieres otra
+
+  function verificarPass() {
+    if (document.getElementById('pass').value === PASSWORD) {
+      document.getElementById('panel').style.display = 'block';
+    } else {
+      alert("❌ Contraseña incorrecta");
+    }
+  }
 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -55,89 +491,62 @@
   const db = firebase.database();
   const equiposRef = db.ref('equipos');
 
-  const EQUIPOS_OFICIALES = [
-    "CD COPALA", "MACHINE POWER", "CD POZAHUALCO", "LA GUADALUPE",
-    "BARRA DE TECOANAPA", "PLAYA AZUL", "CD POLYMAR", "JUVENTUS",
-    "OMETEPEC FC", "LA YEGUADA", "UNION MARQUELIA", "UNION SLAGRO",
-    "CD JUCHITAN", "SAN NICOLAS", "CDM", "CD ISLALTEPEC",
-    "CD INDEPENDIENTE", "BACHILLERES FC", "AGUA ZARCA"
-  ];
-
-  function acceder() {
-    if (document.getElementById('clave').value === CONTRASEÑA) {
-      document.getElementById('panel').style.display = 'block';
-      cargarEquipos();
-      actualizarSelects();
-    } else {
-      alert("❌ Contraseña incorrecta");
-    }
-  }
-
-  function actualizarSelects() {
-    ['equipoLocal', 'equipoVisita'].forEach(id => {
-      const sel = document.getElementById(id);
-      sel.innerHTML = '';
-      EQUIPOS_OFICIALES.forEach(eq => {
-        const opt = document.createElement('option');
-        opt.value = eq;
-        opt.textContent = eq;
-        sel.appendChild(opt);
-      });
-    });
-  }
-
-  function cargarEquipos() {
-    equiposRef.on('value', snapshot => {
-      const data = snapshot.val() || {};
-      // Asegurar que todos los equipos existan
-      let hayCambio = false;
-      EQUIPOS_OFICIALES.forEach(eq => {
-        if (!data[eq]) {
-          data[eq] = { pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0 };
-          hayCambio = true;
-        }
-      });
-      if (hayCambio) {
-        equiposRef.set(data);
-      }
-      // Actualizar vista resumen
-      const cuerpo = document.getElementById('resumenCuerpo');
-      cuerpo.innerHTML = Object.entries(data).map(([eq, d]) => 
-        `<tr><td>${eq}</td><td>${d.pj || 0}</td><td>${(d.pg||0)*3 + (d.pe||0)}</td></tr>`
-      ).join('');
-    });
-  }
-
-  document.getElementById('formPartido').addEventListener('submit', e => {
-    e.preventDefault();
-    const local = document.getElementById('equipoLocal').value;
-    const visita = document.getElementById('equipoVisita').value;
-    const gl = parseInt(document.getElementById('golesLocal').value);
-    const gv = parseInt(document.getElementById('golesVisita').value);
-
-    if (local === visita) {
-      alert("El equipo local y visitante no pueden ser iguales.");
-      return;
-    }
-
-    equiposRef.once('value').then(snapshot => {
-      const data = snapshot.val() || {};
-      if (!data[local]) data[local] = { pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 };
-      if (!data[visita]) data[visita] = { pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 };
-
-      data[local].pj++; data[local].gf += gl; data[local].gc += gv;
-      data[visita].pj++; data[visita].gf += gv; data[visita].gc += gl;
-
-      if (gl > gv) { data[local].pg++; data[visita].pp++; }
-      else if (gl < gv) { data[visita].pg++; data[local].pp++; }
-      else { data[local].pe++; data[visita].pe++; }
-
-      equiposRef.set(data).then(() => {
-        alert("✅ Resultado guardado");
-        document.getElementById('formPartido').reset();
-      });
-    });
+  // Inicializar todos los equipos si no existen
+  const todosEquipos = new Set();
+  document.querySelectorAll('.partido').forEach(p => {
+    todosEquipos.add(p.dataset.local);
+    todosEquipos.add(p.dataset.visita);
   });
+
+  equiposRef.once('value').then(snapshot => {
+    const data = snapshot.val() || {};
+    let needsUpdate = false;
+    todosEquipos.forEach(eq => {
+      if (!data[eq]) {
+        data[eq] = { pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0 };
+        needsUpdate = true;
+      }
+    });
+    if (needsUpdate) {
+      equiposRef.set(data);
+    }
+  });
+
+  function guardarResultado(btn) {
+    const partido = btn.closest('.partido');
+    const local = partido.dataset.local;
+    const visita = partido.dataset.visita;
+    const gl = parseInt(partido.querySelector('.gl').value) || 0;
+    const gv = parseInt(partido.querySelector('.gv').value) || 0;
+
+    if (isNaN(gl) || isNaN(gv)) return;
+
+    equiposRef.transaction(current => {
+      if (!current) current = {};
+
+      // Inicializar si no existen
+      if (!current[local]) current[local] = { pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 };
+      if (!current[visita]) current[visita] = { pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 };
+
+      // Si ya tenía datos previos de este partido, deshacerlos (opcional: mejora futura)
+      // Por simplicidad, asumimos que se guarda una vez.
+
+      // Actualizar
+      current[local].pj++; current[local].gf += gl; current[local].gc += gv;
+      current[visita].pj++; current[visita].gf += gv; current[visita].gc += gl;
+
+      if (gl > gv) { current[local].pg++; current[visita].pp++; }
+      else if (gl < gv) { current[visita].pg++; current[local].pp++; }
+      else { current[local].pe++; current[visita].pe++; }
+
+      return current;
+    }).then(() => {
+      const estado = partido.querySelector('.estado');
+      estado.textContent = "✅ Guardado";
+      estado.style.color = "green";
+      setTimeout(() => estado.textContent = "", 2000);
+    });
+  }
 </script>
 
 </body>
