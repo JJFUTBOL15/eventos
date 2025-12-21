@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>XLVIII Regional Decembrino - Palapa la sirenita</title>
+  <title>XLVIII Regional Decembrino - JJFUTBOL</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -125,7 +125,7 @@
   </table>
 
   <div class="nota">
-    Actualización en tiempo real • Datos gestionados Por Palapa la sirenita
+    Actualización en tiempo real • Datos gestionados en JJFUTBOL
   </div>
 </div>
 
@@ -137,15 +137,20 @@
 <script src="firebase-config.js"></script>
 
 <script>
+  console.log("🚀 Iniciando conexión con Firebase...");
+
   // Inicializar Firebase si no lo está
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
+    console.log("✅ Firebase inicializado");
   }
 
   const db = firebase.database();
   const equiposRef = db.ref('equipos');
 
   function renderizarTabla(equipos) {
+    console.log("📊 Datos recibidos:", equipos);
+
     const cuerpo = document.getElementById('cuerpoTabla');
     if (!equipos || Object.keys(equipos).length === 0) {
       cuerpo.innerHTML = `<tr><td colspan="10" style="text-align:center;">Sin datos aún</td></tr>`;
@@ -177,10 +182,13 @@
         <td>${e.pts}</td>
       </tr>
     `).join('');
+
+    console.log(`✅ Tabla renderizada con ${lista.length} equipos`);
   }
 
   // Escuchar cambios en tiempo real
   equiposRef.on('value', snapshot => {
+    console.log("📡 Cambio detectado en Firebase");
     renderizarTabla(snapshot.val() || {});
   });
 </script>
