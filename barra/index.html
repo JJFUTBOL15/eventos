@@ -140,57 +140,61 @@
   console.log("🚀 Iniciando conexión con Firebase...");
 
   // Inicializar Firebase si no lo está
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-    console.log("✅ Firebase inicializado");
-  }
-
-  const db = firebase.database();
-  const equiposRef = db.ref('equipos');
-
-  function renderizarTabla(equipos) {
-    console.log("📊 Datos recibidos:", equipos);
-
-    const cuerpo = document.getElementById('cuerpoTabla');
-    if (!equipos || Object.keys(equipos).length === 0) {
-      cuerpo.innerHTML = `<tr><td colspan="10" style="text-align:center;">Sin datos aún</td></tr>`;
-      return;
+  if (typeof firebase === 'undefined') {
+    console.error("❌ Firebase no está cargado. Verifica los scripts.");
+  } else {
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+      console.log("✅ Firebase inicializado");
     }
 
-    const lista = Object.entries(equipos).map(([nombre, datos]) => {
-      const pts = (datos.pg || 0) * 3 + (datos.pe || 0);
-      const dif = (datos.gf || 0) - (datos.gc || 0);
-      return { nombre, ...datos, pts, dif };
-    }).sort((a, b) => 
-      b.pts - a.pts || 
-      b.dif - a.dif || 
-      b.gf - a.gf || 
-      a.nombre.localeCompare(b.nombre)
-    );
+    const db = firebase.database();
+    const equiposRef = db.ref('equipos');
 
-    cuerpo.innerHTML = lista.map((e, i) => `
-      <tr>
-        <td>${i + 1}</td>
-        <td>${e.nombre}</td>
-        <td>${e.pj || 0}</td>
-        <td>${e.pg || 0}</td>
-        <td>${e.pe || 0}</td>
-        <td>${e.pp || 0}</td>
-        <td>${e.gf || 0}</td>
-        <td>${e.gc || 0}</td>
-        <td>${e.dif}</td>
-        <td>${e.pts}</td>
-      </tr>
-    `).join('');
+    function renderizarTabla(equipos) {
+      console.log("📊 Datos recibidos:", equipos);
 
-    console.log(`✅ Tabla renderizada con ${lista.length} equipos`);
+      const cuerpo = document.getElementById('cuerpoTabla');
+      if (!equipos || Object.keys(equipos).length === 0) {
+        cuerpo.innerHTML = `<tr><td colspan="10" style="text-align:center;">Sin datos aún</td></tr>`;
+        return;
+      }
+
+      const lista = Object.entries(equipos).map(([nombre, datos]) => {
+        const pts = (datos.pg || 0) * 3 + (datos.pe || 0);
+        const dif = (datos.gf || 0) - (datos.gc || 0);
+        return { nombre, ...datos, pts, dif };
+      }).sort((a, b) => 
+        b.pts - a.pts || 
+        b.dif - a.dif || 
+        b.gf - a.gf || 
+        a.nombre.localeCompare(b.nombre)
+      );
+
+      cuerpo.innerHTML = lista.map((e, i) => `
+        <tr>
+          <td>${i + 1}</td>
+          <td>${e.nombre}</td>
+          <td>${e.pj || 0}</td>
+          <td>${e.pg || 0}</td>
+          <td>${e.pe || 0}</td>
+          <td>${e.pp || 0}</td>
+          <td>${e.gf || 0}</td>
+          <td>${e.gc || 0}</td>
+          <td>${e.dif}</td>
+          <td>${e.pts}</td>
+        </tr>
+      `).join('');
+
+      console.log(`✅ Tabla renderizada con ${lista.length} equipos`);
+    }
+
+    // Escuchar cambios en tiempo real
+    equiposRef.on('value', snapshot => {
+      console.log("📡 Cambio detectado en Firebase");
+      renderizarTabla(snapshot.val() || {});
+    });
   }
-
-  // Escuchar cambios en tiempo real
-  equiposRef.on('value', snapshot => {
-    console.log("📡 Cambio detectado en Firebase");
-    renderizarTabla(snapshot.val() || {});
-  });
 </script>
 
 </body>
