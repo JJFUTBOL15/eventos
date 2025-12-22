@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Barra de Tecoanapa vs La Guadalupe</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      padding: 20px;
+    }
+
+    .match-card {
+      max-width: 600px;
+      margin: 30px auto;
+      background: rgba(0, 0, 0, 0.75);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      border: 2px solid #ffd700;
+    }
+
+    .match-header {
+      text-align: center;
+      padding: 20px 10px;
+      background: rgba(0, 0, 0, 0.6);
+      border-bottom: 2px solid #ffd700;
+    }
+
+    .match-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #ffd700;
+      text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    }
+
+    .vs-divider {
+      margin: 16px 0;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .teams {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+    }
+
+    .team {
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: white;
+      padding: 0 12px;
+    }
+
+    .video-wrapper {
+      padding: 10px;
+      background: #000;
+    }
+
+    .video-wrapper iframe {
+      width: 100%;
+      height: auto;
+      min-height: 314px;
+      border: none;
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      .match-title {
+        font-size: 1.3rem;
+      }
+      .team {
+        font-size: 1.1rem;
+      }
+      .vs-divider {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="match-card">
+    <div class="match-header">
+      <div class="match-title">Torneo Regional – Barra de Tecoanapa</div>
+    </div>
+
+    <div class="teams">
+      <div class="team">Barra de Tecoanapa</div>
+      <div class="vs-divider">VS</div>
+      <div class="team">La Guadalupe</div>
+    </div>
+
+    <div class="video-wrapper">
+      <iframe 
+        src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2F100075719086720%2Fvideos%2F1370096444900346%2F&show_text=false&width=560&t=0" 
+        width="560" 
+        height="314" 
+        scrolling="no" 
+        frameborder="0" 
+        allowfullscreen="true" 
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+      </iframe>
+    </div>
+  </div>
+
+</body>
+</html>
