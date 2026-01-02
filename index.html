@@ -814,5 +814,74 @@
     setInterval(showNext, 6000);
     renderCarousel();
   </script>
+  <script>
+  (function() {
+    // Mensaje personalizado en inglés y español
+    const mensaje = 
+      "🇺🇸 What are you trying to do, little hacker?\n" +
+      "🥷 This is just a football agenda... go play outside!\n\n" +
+      "🇪🇸 ¿Qué intentas hacer, pequeño hacker?\n" +
+      "🥷 Esto es solo una agenda de fútbol... ¡ve a jugar afuera!";
+
+    // URL a la que redirigiremos (tu archivo secreto)
+    const redirectUrl = "https://jjfutbol.lat/undpiuqbcrpu9b389838983nmnnjd.txt";
+
+    // Función que redirige y "bloquea" mínimamente
+    function triggerRedirect() {
+      try {
+        alert(mensaje);
+      } catch (e) {
+        // Si alert() está bloqueado, igual redirigimos
+      }
+      window.location.replace(redirectUrl);
+      // Intentar detener la carga (poco efectivo, pero simbólico)
+      setTimeout(() => {
+        window.stop && window.stop();
+        document.execCommand && document.execCommand('Stop');
+      }, 50);
+    }
+
+    // 1. Detectar teclas de inspección
+    document.addEventListener('keydown', (e) => {
+      // F12
+      if (e.key === 'F12') return triggerRedirect();
+      // Ctrl+Shift+I / Ctrl+Shift+J / Ctrl+U
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) return triggerRedirect();
+      if (e.ctrlKey && e.key === 'u') return triggerRedirect();
+      // Cmd en Mac
+      if (e.metaKey && e.altKey && e.key === 'I') return triggerRedirect(); // Cmd+Option+I
+    });
+
+    // 2. Detectar cambios en el tamaño (DevTools abierto lateralmente)
+    let devtools = false;
+    const threshold = 160; // px de diferencia
+    setInterval(() => {
+      if (window.outerWidth - window.innerWidth > threshold || 
+          window.outerHeight - window.innerHeight > threshold) {
+        if (!devtools) {
+          devtools = true;
+          triggerRedirect();
+        }
+      } else {
+        devtools = false;
+      }
+    }, 500);
+
+    // 3. Intentar detectar "copiar" desde el menú contextual (opcional)
+    document.addEventListener('contextmenu', (e) => {
+      // Esto no es inspección, pero muchos lo usan para ver código
+      // Puedes quitarlo si no quieres bloquear el menú derecho
+      // triggerRedirect(); // ← descomenta si quieres
+    });
+
+    // 4. Intentar detectar console.log o uso de consola (limitado)
+    let consoleLog = console.log;
+    console.log = function() {
+      triggerRedirect();
+      console.log = consoleLog; // restaurar para no bucle infinito
+      return consoleLog.apply(console, arguments);
+    };
+  })();
+</script>
 </body>
 </html>
