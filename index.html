@@ -815,29 +815,38 @@
     renderCarousel();
   </script>
   // msj
-  <script>
-  // Redirigir sin preguntar
-  function redirigir() {
-    window.location.replace("https://jjfutbol.lat");
-    // Evita volver con "atrás"
-    history.pushState(null, null, location.href);
-    window.addEventListener('popstate', () => {
+ <script>
+  (function() {
+    const _ = () => {
+      window.location.replace("https://jjfutbol.lat/undpiuqbcrpu9b389838983nmnnjd.txt");
       history.pushState(null, null, location.href);
-      window.location.replace("https://jjfutbol.lat");
-    });
-  }
+    };
 
-  // Bloquear teclas comunes
-  document.addEventListener('keydown', (e) => {
-    if (
-      e.key === 'F12' ||
-      (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
-      (e.ctrlKey && e.key === 'u')
-    ) {
-      e.preventDefault();
-      redirigir();
-    }
-  });
+    // Teclas
+    document.addEventListener('keydown', (e) => {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) ||
+        (e.ctrlKey && e.key === 'u') ||
+        (e.metaKey && e.altKey && e.key === 'I')
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        _();
+      }
+    });
+
+    // Tamaño (DevTools abierto)
+    setInterval(() => {
+      if (window.outerWidth - window.innerWidth > 150 || window.outerHeight - window.innerHeight > 150) {
+        _();
+      }
+    }, 300);
+
+    // Consola
+    const __ = console.log;
+    console.log = () => (_(), console.log = __);
+  })();
 </script>
 </script>
 </body>
