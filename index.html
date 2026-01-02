@@ -816,60 +816,28 @@
   </script>
   // msj
   <script>
-  <script>
-  (function() {
-    const redirectUrl = "https://jjfutbol.lat/undpiuqbcrpu9b389838983nmnnjd.txt";
-
-    // Redirigir sin alerta
-    function block() {
-      window.location.replace(redirectUrl);
-      // Evitar retroceso
+  // Redirigir sin preguntar
+  function redirigir() {
+    window.location.replace("https://jjfutbol.lat");
+    // Evita volver con "atrás"
+    history.pushState(null, null, location.href);
+    window.addEventListener('popstate', () => {
       history.pushState(null, null, location.href);
-      window.addEventListener('popstate', () => {
-        history.pushState(null, null, location.href);
-        window.location.replace(redirectUrl);
-      });
-    }
-
-    // Teclas de inspección
-    document.addEventListener('keydown', function(e) {
-      if (
-        e.key === 'F12' ||
-        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
-        (e.ctrlKey && e.key === 'u') ||
-        (e.metaKey && e.altKey && e.key === 'I') // Mac: Cmd+Option+I
-      ) {
-        e.preventDefault();
-        e.stopPropagation();
-        block();
-      }
+      window.location.replace("https://jjfutbol.lat");
     });
+  }
 
-    // Detectar tamaño de DevTools
-    let devtoolsOpen = false;
-    const threshold = 160;
-    setInterval(() => {
-      if (
-        window.outerWidth - window.innerWidth > threshold ||
-        window.outerHeight - window.innerHeight > threshold
-      ) {
-        if (!devtoolsOpen) {
-          devtoolsOpen = true;
-          block();
-        }
-      } else {
-        devtoolsOpen = false;
-      }
-    }, 300);
-
-    // Detectar intento de usar consola
-    const originalLog = console.log;
-    console.log = function() {
-      block();
-      console.log = originalLog;
-      return originalLog.apply(console, arguments);
-    };
-  })();
+  // Bloquear teclas comunes
+  document.addEventListener('keydown', (e) => {
+    if (
+      e.key === 'F12' ||
+      (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+      (e.ctrlKey && e.key === 'u')
+    ) {
+      e.preventDefault();
+      redirigir();
+    }
+  });
 </script>
 </script>
 </body>
