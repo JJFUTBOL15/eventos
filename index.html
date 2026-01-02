@@ -814,74 +814,63 @@
     setInterval(showNext, 6000);
     renderCarousel();
   </script>
+  // msj
+  <script>
   <script>
   (function() {
-    // Mensaje personalizado en inglés y español
-    const mensaje = 
-      "🇺🇸 What are you trying to do, little hacker?\n" +
-      "🥷 This is just a football agenda... go play outside!\n\n" +
-      "🇪🇸 ¿Qué intentas hacer, pequeño hacker?\n" +
-      "🥷 Esto es solo una agenda de fútbol... ¡ve a jugar afuera!";
-
-    // URL a la que redirigiremos (tu archivo secreto)
     const redirectUrl = "https://jjfutbol.lat/undpiuqbcrpu9b389838983nmnnjd.txt";
 
-    // Función que redirige y "bloquea" mínimamente
-    function triggerRedirect() {
-      try {
-        alert(mensaje);
-      } catch (e) {
-        // Si alert() está bloqueado, igual redirigimos
-      }
+    // Redirigir sin alerta
+    function block() {
       window.location.replace(redirectUrl);
-      // Intentar detener la carga (poco efectivo, pero simbólico)
-      setTimeout(() => {
-        window.stop && window.stop();
-        document.execCommand && document.execCommand('Stop');
-      }, 50);
+      // Evitar retroceso
+      history.pushState(null, null, location.href);
+      window.addEventListener('popstate', () => {
+        history.pushState(null, null, location.href);
+        window.location.replace(redirectUrl);
+      });
     }
 
-    // 1. Detectar teclas de inspección
-    document.addEventListener('keydown', (e) => {
-      // F12
-      if (e.key === 'F12') return triggerRedirect();
-      // Ctrl+Shift+I / Ctrl+Shift+J / Ctrl+U
-      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) return triggerRedirect();
-      if (e.ctrlKey && e.key === 'u') return triggerRedirect();
-      // Cmd en Mac
-      if (e.metaKey && e.altKey && e.key === 'I') return triggerRedirect(); // Cmd+Option+I
+    // Teclas de inspección
+    document.addEventListener('keydown', function(e) {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+        (e.ctrlKey && e.key === 'u') ||
+        (e.metaKey && e.altKey && e.key === 'I') // Mac: Cmd+Option+I
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        block();
+      }
     });
 
-    // 2. Detectar cambios en el tamaño (DevTools abierto lateralmente)
-    let devtools = false;
-    const threshold = 160; // px de diferencia
+    // Detectar tamaño de DevTools
+    let devtoolsOpen = false;
+    const threshold = 160;
     setInterval(() => {
-      if (window.outerWidth - window.innerWidth > threshold || 
-          window.outerHeight - window.innerHeight > threshold) {
-        if (!devtools) {
-          devtools = true;
-          triggerRedirect();
+      if (
+        window.outerWidth - window.innerWidth > threshold ||
+        window.outerHeight - window.innerHeight > threshold
+      ) {
+        if (!devtoolsOpen) {
+          devtoolsOpen = true;
+          block();
         }
       } else {
-        devtools = false;
+        devtoolsOpen = false;
       }
-    }, 500);
+    }, 300);
 
-    // 3. Intentar detectar "copiar" desde el menú contextual (opcional)
-    document.addEventListener('contextmenu', (e) => {
-      // Esto no es inspección, pero muchos lo usan para ver código
-      // Puedes quitarlo si no quieres bloquear el menú derecho
-      // triggerRedirect(); // ← descomenta si quieres
-    });
-
-    // 4. Intentar detectar console.log o uso de consola (limitado)
-    let consoleLog = console.log;
+    // Detectar intento de usar consola
+    const originalLog = console.log;
     console.log = function() {
-      triggerRedirect();
-      console.log = consoleLog; // restaurar para no bucle infinito
-      return consoleLog.apply(console, arguments);
+      block();
+      console.log = originalLog;
+      return originalLog.apply(console, arguments);
     };
   })();
+</script>
 </script>
 </body>
 </html>
